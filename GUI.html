@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Process Flow Editor</title>
+<style>
+/* ─── RESET & TOKENS ──────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0b0c10;
+  --panel:#111318;
+  --panel2:#171921;
+  --border:#22262f;
+  --border2:#2e3342;
+  --text:#dde3f0;
+  --dim:#556;
+  --r:7px;
+  --sh:0 6px 28px rgba(0,0,0,.55);
+
+  --delay:#fbbf24;
+  --linear_ramp:#00d4aa;
+  --direct_jump:#f43f5e;
+  --chirp:#a78bfa;
+  --sinusoid:#e879f9;
+  --AWG:#ff6b35;
+}
+body{
+  font-family:'Courier New',monospace;
+  background:var(--bg);
+  color:var(--text);
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  user-select:none;
+}
+
+/* ─── HEADER ──────────────────────────────────────────────────── */
+header{
+  height:46px;
+  background:var(--panel);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 14px;
+  gap:12px;
+  flex-shrink:0;
+  z-index:200;
+}
+header h1{
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#4f8ef7;
+  white-space:nowrap;
+}
+.hsep{width:1px;height:22px;background:var(--border2);}
+.htip{font-size:10px;color:var(--dim);letter-spacing:.06em;}
+.hright{margin-left:auto;display:flex;gap:7px;}
+.hbtn{
+  font-family:'Courier New',monospace;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 11px;border-radius:4px;
+  border:1px solid var(--border2);background:var(--panel2);
+  color:var(--dim);cursor:pointer;transition:all .13s;
+}
+.hbtn:hover{border-color:#4f8ef7;color:#4f8ef7;}
+.hbtn.green:hover{border-color:#00d4aa;color:#00d4aa;}
+.hbtn.red:hover{border-color:#f43f5e;color:#f43f5e;}
+
+/* ─── LAYOUT ──────────────────────────────────────────────────── */
+.workspace{display:flex;flex:1;overflow:hidden;}
+
+/* ─── SIDEBAR ─────────────────────────────────────────────────── */
+aside{
+  width:160px;
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  padding:10px 8px;
+  display:flex;flex-direction:column;gap:5px;
+  overflow-y:auto;flex-shrink:0;
+}
+aside h2{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:3px;padding-left:3px;}
+.pnode{
+  padding:8px 10px;border-radius:var(--r);
+  font-size:11px;font-weight:700;letter-spacing:.07em;
+  cursor:grab;border:2px solid;
+  position:relative;transition:transform .1s,filter .1s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.pnode::after{content:'';position:absolute;inset:0;background:currentColor;opacity:.08;border-radius:5px;}
+.pnode:hover{filter:brightness(1.2);transform:translateX(3px);}
+.pnode:active{cursor:grabbing;}
+.pnode[data-type=delay]       {color:var(--delay);       border-color:var(--delay);}
+.pnode[data-type=linear_ramp] {color:var(--linear_ramp); border-color:var(--linear_ramp);}
+.pnode[data-type=direct_jump] {color:var(--direct_jump); border-color:var(--direct_jump);}
+.pnode[data-type=chirp]       {color:var(--chirp);       border-color:var(--chirp);}
+.pnode[data-type=sinusoid]    {color:var(--sinusoid);    border-color:var(--sinusoid);}
+.pnode[data-type=AWG]         {color:var(--AWG);         border-color:var(--AWG);}
+
+/* ─── CANVAS ──────────────────────────────────────────────────── */
+#canvas{
+  flex:1;position:relative;overflow:hidden;
+  background-color:var(--bg);
+  background-image:
+    linear-gradient(rgba(79,142,247,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,142,247,.035) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+#svgl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+.edge{stroke:#4f8ef7;stroke-width:2;fill:none;opacity:.65;filter:drop-shadow(0 0 3px rgba(79,142,247,.35));}
+.edge.sel{stroke:#f43f5e;opacity:1;filter:drop-shadow(0 0 5px rgba(244,63,94,.5));}
+.edge.hov{opacity:1;stroke-width:2.5;cursor:pointer;pointer-events:stroke;}
+#ghost{stroke:#4f8ef7;stroke-width:1.8;fill:none;stroke-dasharray:5 4;opacity:.45;display:none;}
+
+/* ─── NODES ───────────────────────────────────────────────────── */
+.node{
+  position:absolute;width:170px;
+  border-radius:var(--r);border:2px solid;
+  background:var(--panel2);cursor:grab;
+  z-index:10;transition:box-shadow .13s;
+}
+.node:active{cursor:grabbing;}
+.node.sel{z-index:20;}
+
+.nhead{
+  padding:7px 9px 6px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;
+  border-radius:5px 5px 0 0;
+}
+.nhead::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.nseq{
+  margin-left:auto;
+  font-size:9px;font-weight:400;
+  background:rgba(0,0,0,.35);
+  border-radius:10px;padding:1px 6px;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.05em;
+}
+
+.nparams{
+  padding:7px 9px 9px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;flex-direction:column;gap:5px;
+}
+.param-row{display:flex;align-items:center;gap:5px;}
+.param-label{
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim);width:44px;flex-shrink:0;
+}
+.param-input{
+  flex:1;background:rgba(0,0,0,.3);
+  border:1px solid var(--border2);border-radius:4px;
+  color:var(--text);font-family:'Courier New',monospace;
+  font-size:11px;padding:3px 6px;
+  transition:border-color .13s;
+  min-width:0;
+}
+.param-input:focus{outline:none;border-color:currentColor;}
+
+/* ports */
+.port{
+  position:absolute;width:11px;height:11px;
+  border-radius:50%;background:var(--panel);
+  border:2px solid #4f8ef7;cursor:crosshair;z-index:30;
+  transition:transform .1s,background .1s;
+}
+.port:hover{transform:scale(1.5);background:#4f8ef7;}
+.port.in {left:-6px; top:18px;}
+.port.out{right:-6px;top:18px;}
+
+/* del btn */
+.ndel{
+  position:absolute;top:-7px;right:-7px;
+  width:16px;height:16px;border-radius:50%;
+  background:#f43f5e;color:#fff;
+  font-size:10px;line-height:16px;text-align:center;
+  cursor:pointer;display:none;z-index:40;font-weight:900;
+}
+.node.sel .ndel{display:block;}
+.ndel:hover{background:#ff1a44;}
+
+/* node accent colors */
+.node[data-type=delay]       {border-color:var(--delay);}
+.node[data-type=linear_ramp] {border-color:var(--linear_ramp);}
+.node[data-type=direct_jump] {border-color:var(--direct_jump);}
+.node[data-type=chirp]       {border-color:var(--chirp);}
+.node[data-type=sinusoid]    {border-color:var(--sinusoid);}
+.node[data-type=AWG]         {border-color:var(--AWG);}
+
+.node[data-type=delay]        .nhead{color:var(--delay);}
+.node[data-type=linear_ramp]  .nhead{color:var(--linear_ramp);}
+.node[data-type=direct_jump]  .nhead{color:var(--direct_jump);}
+.node[data-type=chirp]        .nhead{color:var(--chirp);}
+.node[data-type=sinusoid]     .nhead{color:var(--sinusoid);}
+.node[data-type=AWG]          .nhead{color:var(--AWG);}
+
+.node[data-type=delay].sel        {box-shadow:0 0 0 3px var(--delay),0 8px 28px rgba(0,0,0,.6);}
+.node[data-type=linear_ramp].sel  {box-shadow:0 0 0 3px var(--linear_ramp),0 8px 28px rgba(0,0,0,.6);}
+.node[data-type=direct_jump].sel  {box-shadow:0 0 0 3px var(--direct_jump),0 8px 28px rgba(0,0,0,.6);}
+.node[data-type=chirp].sel        {box-shadow:0 0 0 3px var(--chirp),0 8px 28px rgba(0,0,0,.6);}
+.node[data-type=sinusoid].sel     {box-shadow:0 0 0 3px var(--sinusoid),0 8px 28px rgba(0,0,0,.6);}
+.node[data-type=AWG].sel          {box-shadow:0 0 0 3px var(--AWG),0 8px 28px rgba(0,0,0,.6);}
+
+.param-input[data-type=delay]:focus        {border-color:var(--delay);}
+.param-input[data-type=linear_ramp]:focus  {border-color:var(--linear_ramp);}
+.param-input[data-type=direct_jump]:focus  {border-color:var(--direct_jump);}
+.param-input[data-type=chirp]:focus        {border-color:var(--chirp);}
+.param-input[data-type=sinusoid]:focus     {border-color:var(--sinusoid);}
+
+/* ─── AWG FILE UPLOAD WIDGET ──────────────────────────────────── */
+.awg-upload{
+  padding:7px 9px 9px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;flex-direction:column;gap:5px;
+}
+.awg-drop{
+  border:1px dashed var(--AWG);
+  border-radius:5px;
+  padding:8px 6px;
+  text-align:center;
+  font-size:10px;
+  color:var(--AWG);
+  letter-spacing:.07em;
+  cursor:pointer;
+  transition:background .13s, opacity .13s;
+  opacity:.7;
+  position:relative;
+  overflow:hidden;
+}
+.awg-drop:hover{background:rgba(255,107,53,.08);opacity:1;}
+.awg-drop.has-file{opacity:1;border-style:solid;}
+.awg-drop input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.awg-fname{
+  font-size:9px;color:var(--AWG);letter-spacing:.05em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  text-align:center;display:none;
+}
+.awg-lines{
+  font-size:9px;color:var(--dim);letter-spacing:.05em;text-align:center;display:none;
+}
+.awg-clear{
+  font-size:9px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--dim);cursor:pointer;text-align:center;display:none;
+  padding:2px 0;
+}
+.awg-clear:hover{color:#f43f5e;}
+
+/* ─── RIGHT PANEL — SEQUENCE ──────────────────────────────────── */
+#rpanel{
+  width:270px;
+  background:var(--panel);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  flex-shrink:0;
+  z-index:50;
+}
+#rpanel h2{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);padding:12px 14px 8px;
+  border-bottom:1px solid var(--border);
+}
+#seq-list{
+  flex:1;overflow-y:auto;padding:8px 10px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.seq-item{
+  border-radius:5px;border:1px solid var(--border2);
+  padding:7px 9px;background:var(--panel2);
+  display:flex;flex-direction:column;gap:3px;
+  cursor:pointer;transition:border-color .12s;
+}
+.seq-item:hover{border-color:var(--border2);}
+.seq-item.active{border-color:#4f8ef7;}
+.seq-top{display:flex;align-items:center;gap:7px;}
+.seq-num{
+  font-size:9px;background:rgba(0,0,0,.4);
+  border-radius:10px;padding:1px 6px;color:var(--dim);
+}
+.seq-type{font-size:11px;font-weight:700;letter-spacing:.08em;}
+.seq-params{font-size:10px;color:var(--dim);margin-left:26px;letter-spacing:.04em;line-height:1.5;}
+.seq-hex{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.04em;font-family:'Courier New',monospace;}
+.seq-bin{font-size:9px;color:#3a4055;letter-spacing:.03em;margin-left:26px;font-family:'Courier New',monospace;margin-top:1px;}
+.seq-empty{font-size:11px;color:var(--dim);text-align:center;margin-top:40px;letter-spacing:.06em;line-height:1.8;}
+
+#rpanel-footer{
+  border-top:1px solid var(--border);
+  padding:10px;display:flex;flex-direction:column;gap:7px;
+}
+#json-out{
+  background:rgba(0,0,0,.4);
+  border:1px solid var(--border2);
+  border-radius:5px;
+  padding:8px;
+  font-size:9px;
+  font-family:'Courier New',monospace;
+  color:#4f8ef7;
+  height:110px;
+  overflow-y:auto;
+  resize:none;
+  white-space:pre;
+  letter-spacing:.02em;
+  line-height:1.5;
+}
+.copy-btn{
+  font-family:'Courier New',monospace;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:6px;border-radius:4px;
+  border:1px solid var(--border2);background:var(--panel2);
+  color:var(--dim);cursor:pointer;transition:all .13s;text-align:center;
+}
+.copy-btn:hover{border-color:#00d4aa;color:#00d4aa;}
+
+/* ─── FOOTER ──────────────────────────────────────────────────── */
+footer{
+  height:26px;background:var(--panel);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;padding:0 14px;gap:18px;
+  font-size:10px;color:var(--dim);letter-spacing:.07em;flex-shrink:0;
+}
+footer span b{color:var(--text);}
+
+/* ─── SCROLLBAR ───────────────────────────────────────────────── */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⬡ FLOW SEQUENCER</h1>
+  <div class="hsep"></div>
+  <span class="htip">Click palette → drag to place &nbsp;|&nbsp; OUT port → IN port to connect &nbsp;|&nbsp; Del to remove selected</span>
+  <div class="hright">
+    <button class="hbtn" id="btn-autoarrange">Auto-Arrange</button>
+    <button class="hbtn green" id="btn-export">Export HEX</button>
+    <button class="hbtn red" id="btn-clearall">Clear All</button>
+  </div>
+</header>
+
+<div class="workspace">
+
+  <!-- PALETTE -->
+  <aside>
+    <h2>Blocks</h2>
+    <div class="pnode" data-type="delay">delay</div>
+    <div class="pnode" data-type="linear_ramp">linear_ramp</div>
+    <div class="pnode" data-type="direct_jump">direct_jump</div>
+    <div class="pnode" data-type="chirp">chirp</div>
+    <div class="pnode" data-type="sinusoid">sinusoid</div>
+    <div class="pnode" data-type="AWG">AWG</div>
+  </aside>
+
+  <!-- CANVAS -->
+  <div id="canvas">
+    <svg id="svgl">
+      <defs>
+        <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#4f8ef7"/>
+        </marker>
+        <marker id="arr-sel" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#f43f5e"/>
+        </marker>
+      </defs>
+      <g id="edgesg"></g>
+      <path id="ghost" d=""/>
+    </svg>
+  </div>
+
+  <!-- SEQUENCE PANEL -->
+  <div id="rpanel">
+    <h2>▶ Instruction Sequence</h2>
+    <div id="seq-list">
+      <div class="seq-empty">Connect nodes to build<br>an instruction sequence.</div>
+    </div>
+    <div id="rpanel-footer">
+      <div id="json-out"></div>
+      <div class="copy-btn" id="copy-btn">⎘ Copy HEX to Clipboard</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Nodes: <b id="s-nodes">0</b></span>
+  <span>Edges: <b id="s-edges">0</b></span>
+  <span>Steps: <b id="s-steps">0</b></span>
+  <span id="s-mode">Mode: <b>idle</b></span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+// ── BLOCK DEFINITIONS ───────────────────────────────────────────
+// type 0 (delay):       hold_voltage  [duration excluded from params]
+// type 1 (linear_ramp): v_start, step_size  [duration excluded]
+// type 2 (direct_jump): target_voltage  [duration excluded]
+// type 3 (chirp):       a, b, rate, raterate  [duration excluded]
+// type 4 (sinusoid):    v_mid, v_amp, v_min_cut, v_max_cut, phase_inc  [duration excluded]
+const BLOCKS = {
+  delay:       { opcode:0b000, params:['hold_voltage'] },
+  linear_ramp: { opcode:0b001, params:['v_start','step_size'] },
+  direct_jump: { opcode:0b010, params:['target_voltage'] },
+  chirp:       { opcode:0b011, params:['a','b','rate','raterate'] },
+  sinusoid:    { opcode:0b100, params:['v_mid','v_amp','v_min_cut','v_max_cut','phase_inc'] },
+  AWG:         { opcode:0b101, params:[], awgFile:true },
+};
+
+// ── REFS ────────────────────────────────────────────────────────
+const canvas   = document.getElementById('canvas');
+const svgl     = document.getElementById('svgl');
+const edgesg   = document.getElementById('edgesg');
+const ghost    = document.getElementById('ghost');
+const seqList  = document.getElementById('seq-list');
+const jsonOut  = document.getElementById('json-out');
+const sNodes   = document.getElementById('s-nodes');
+const sEdges   = document.getElementById('s-edges');
+const sSteps   = document.getElementById('s-steps');
+const sMode    = document.getElementById('s-mode');
+
+// ── STATE ───────────────────────────────────────────────────────
+let nid=0, eid=0;
+const nodes={}, edges={};
+let dragging=null, connecting=null, selNode=null, selEdge=null;
+
+// ── UTILS ────────────────────────────────────────────────────────
+const setMode = m => { sMode.innerHTML=`Mode: <b>${m}</b>`; };
+const cvPos = e => {
+  const r=canvas.getBoundingClientRect();
+  return {x:e.clientX-r.left, y:e.clientY-r.top};
+};
+function updateStats(){
+  sNodes.textContent=Object.keys(nodes).length;
+  sEdges.textContent=Object.keys(edges).length;
+}
+
+// ── CREATE NODE ─────────────────────────────────────────────────
+function createNode(type, x, y){
+  const id=++nid;
+  const def=BLOCKS[type]||{params:[]};
+
+  const el=document.createElement('div');
+  el.className='node';
+  el.dataset.type=type;
+  el.dataset.id=id;
+  el.style.left=x+'px';
+  el.style.top=y+'px';
+
+  // header
+  let html=`<div class="port in" data-node="${id}" data-port="in"></div>`;
+  html+=`<div class="nhead">${type}<span class="nseq" id="seq-badge-${id}">-</span></div>`;
+
+  // params
+  if(def.params.length){
+    html+=`<div class="nparams">`;
+    def.params.forEach(p=>{
+      html+=`<div class="param-row">
+        <span class="param-label">${p}</span>
+        <input class="param-input" data-type="${type}" data-param="${p}" placeholder="0" type="text">
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+
+  // AWG file upload widget
+  if(def.awgFile){
+    html+=`<div class="awg-upload">
+      <div class="awg-drop" id="awg-drop-${id}" title="Click or drag a .txt waveform file">
+        <input type="file" accept=".txt" id="awg-input-${id}">
+        ⬆ Upload .txt waveform
+      </div>
+      <div class="awg-fname" id="awg-fname-${id}"></div>
+      <div class="awg-lines" id="awg-lines-${id}"></div>
+      <div class="awg-clear" id="awg-clear-${id}">✕ clear file</div>
+    </div>`;
+  }
+
+  html+=`<div class="port out" data-node="${id}" data-port="out"></div>`;
+  html+=`<div class="ndel" data-node="${id}">✕</div>`;
+
+  el.innerHTML=html;
+  canvas.appendChild(el);
+  nodes[id]={el,type,x,y,params:{}};
+
+  // param input listeners
+  el.querySelectorAll('.param-input').forEach(inp=>{
+    inp.addEventListener('mousedown',e=>e.stopPropagation());
+    inp.addEventListener('input',()=>{ collectParams(id); refreshSeq(); });
+  });
+
+  // AWG file upload listeners
+  if(def.awgFile){
+    const fileInput = el.querySelector(`#awg-input-${id}`);
+    const dropZone  = el.querySelector(`#awg-drop-${id}`);
+    const fnameEl   = el.querySelector(`#awg-fname-${id}`);
+    const linesEl   = el.querySelector(`#awg-lines-${id}`);
+    const clearEl   = el.querySelector(`#awg-clear-${id}`);
+
+    function loadFile(file){
+      if(!file || !file.name.endsWith('.txt')) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const text = e.target.result;
+        const lines = text.trim().split('\n').filter(l=>l.trim()!=='');
+        nodes[id].params['_awgFileName'] = file.name;
+        nodes[id].params['_awgData']     = text;
+        nodes[id].params['_awgLines']    = lines.length;
+        fnameEl.textContent = file.name;
+        linesEl.textContent = lines.length + ' samples';
+        dropZone.innerHTML  = '✓ ' + file.name;
+        dropZone.classList.add('has-file');
+        // re-add file input (innerHTML wipe)
+        const ni = document.createElement('input');
+        ni.type='file'; ni.accept='.txt'; ni.id=`awg-input-${id}`;
+        ni.style.cssText='position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;';
+        ni.addEventListener('change', ev=>{ if(ev.target.files[0]) loadFile(ev.target.files[0]); });
+        ni.addEventListener('mousedown',ev=>ev.stopPropagation());
+        dropZone.appendChild(ni);
+        fnameEl.style.display='none'; // name now shown in drop zone
+        linesEl.style.display='block';
+        clearEl.style.display='block';
+        refreshSeq();
+      };
+      reader.readAsText(file);
+    }
+
+    fileInput.addEventListener('mousedown',e=>e.stopPropagation());
+    fileInput.addEventListener('change',e=>{ if(e.target.files[0]) loadFile(e.target.files[0]); });
+
+    // drag-and-drop onto drop zone
+    dropZone.addEventListener('dragover',e=>{ e.preventDefault(); e.stopPropagation(); dropZone.style.background='rgba(255,107,53,.14)'; });
+    dropZone.addEventListener('dragleave',e=>{ e.stopPropagation(); dropZone.style.background=''; });
+    dropZone.addEventListener('drop',e=>{
+      e.preventDefault(); e.stopPropagation();
+      dropZone.style.background='';
+      if(e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+    });
+
+    clearEl.addEventListener('mousedown',e=>e.stopPropagation());
+    clearEl.addEventListener('click',e=>{
+      e.stopPropagation();
+      nodes[id].params['_awgFileName'] = '';
+      nodes[id].params['_awgData']     = '';
+      nodes[id].params['_awgLines']    = 0;
+      dropZone.innerHTML = '<input type="file" accept=".txt" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;">⬆ Upload .txt waveform';
+      dropZone.querySelector('input').addEventListener('change',ev=>{ if(ev.target.files[0]) loadFile(ev.target.files[0]); });
+      dropZone.querySelector('input').addEventListener('mousedown',ev=>ev.stopPropagation());
+      dropZone.classList.remove('has-file');
+      linesEl.style.display='none';
+      clearEl.style.display='none';
+      refreshSeq();
+    });
+  }
+
+  // drag node
+  el.addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('port')) return;
+    if(e.target.classList.contains('ndel')) return;
+    if(e.target.classList.contains('param-input')) return;
+    if(e.target.classList.contains('awg-drop')) return;
+    if(e.target.classList.contains('awg-clear')) return;
+    if(e.target.tagName==='INPUT') return;
+    e.stopPropagation();
+    if(e.button!==0) return;
+    selectNode(id); deselectEdge();
+    const r=el.getBoundingClientRect();
+    dragging={id, ox:e.clientX-r.left, oy:e.clientY-r.top};
+    setMode('dragging');
+  });
+
+  // OUT port → start connect
+  el.querySelector('.port.out').addEventListener('mousedown',e=>{
+    e.stopPropagation(); e.preventDefault();
+    connecting={nodeId:id};
+    ghost.style.display='block';
+    setMode('connecting');
+  });
+
+  // IN port → finish connect
+  el.querySelector('.port.in').addEventListener('mouseup',e=>{
+    if(!connecting) return;
+    e.stopPropagation();
+    if(connecting.nodeId!==id) createEdge(connecting.nodeId,id);
+    endConnect();
+  });
+
+  // del btn
+  el.querySelector('.ndel').addEventListener('mousedown',e=>e.stopPropagation());
+  el.querySelector('.ndel').addEventListener('click',e=>{e.stopPropagation();deleteNode(id);});
+
+  updateStats(); refreshSeq();
+  return id;
+}
+
+function collectParams(id){
+  const n=nodes[id]; if(!n) return;
+  n.el.querySelectorAll('.param-input').forEach(inp=>{
+    n.params[inp.dataset.param]=inp.value;
+  });
+}
+
+// ── SELECT / DESELECT ────────────────────────────────────────────
+function selectNode(id){
+  if(selNode!==null&&nodes[selNode]) nodes[selNode].el.classList.remove('sel');
+  selNode=id;
+  if(id!==null&&nodes[id]) nodes[id].el.classList.add('sel');
+}
+function deselectEdge(){
+  if(selEdge!==null&&edges[selEdge]){
+    edges[selEdge].el.classList.remove('sel');
+    edges[selEdge].el.setAttribute('marker-end','url(#arr)');
+  }
+  selEdge=null;
+}
+function selectEdge(id){
+  deselectEdge(); selEdge=id;
+  if(id!==null&&edges[id]){
+    edges[id].el.classList.add('sel');
+    edges[id].el.setAttribute('marker-end','url(#arr-sel)');
+  }
+}
+
+// ── DELETE ───────────────────────────────────────────────────────
+function deleteNode(id){
+  Object.keys(edges).forEach(eid=>{ if(edges[eid].from===id||edges[eid].to===id) deleteEdge(eid); });
+  if(nodes[id]){nodes[id].el.remove();delete nodes[id];}
+  if(selNode===id) selNode=null;
+  updateStats(); refreshSeq();
+}
+function deleteEdge(id){
+  if(edges[id]){edges[id].el.remove();delete edges[id];}
+  if(selEdge===id) selEdge=null;
+  updateStats(); refreshSeq();
+}
+
+// ── EDGES ────────────────────────────────────────────────────────
+function createEdge(from,to){
+  if(Object.values(edges).some(e=>e.from===from&&e.to===to)) return;
+  const id=++eid;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.classList.add('edge');
+  path.setAttribute('marker-end','url(#arr)');
+  path.dataset.id=id;
+  path.style.pointerEvents='stroke';
+  path.addEventListener('click',e=>{e.stopPropagation();selectNode(null);selectEdge(id);});
+  edgesg.appendChild(path);
+  edges[id]={el:path,from,to};
+  updateEdge(id); updateStats(); refreshSeq();
+}
+function portCenter(nodeId,port){
+  const n=nodes[nodeId]; if(!n) return{x:0,y:0};
+  const p=n.el.querySelector('.port.'+port);
+  const cr=canvas.getBoundingClientRect();
+  const pr=p.getBoundingClientRect();
+  return{x:pr.left-cr.left+pr.width/2, y:pr.top-cr.top+pr.height/2};
+}
+function cubic(x1,y1,x2,y2){
+  const d=Math.max(Math.abs(x2-x1)*0.5,40);
+  return `M${x1},${y1} C${x1+d},${y1} ${x2-d},${y2} ${x2},${y2}`;
+}
+function updateEdge(id){
+  const e=edges[id];
+  const a=portCenter(e.from,'out'), b=portCenter(e.to,'in');
+  e.el.setAttribute('d',cubic(a.x,a.y,b.x,b.y));
+}
+function updateAllEdges(){ Object.keys(edges).forEach(updateEdge); }
+
+// ── GHOST ────────────────────────────────────────────────────────
+function updateGhost(mx,my){
+  if(!connecting) return;
+  const a=portCenter(connecting.nodeId,'out');
+  ghost.setAttribute('d',cubic(a.x,a.y,mx,my));
+}
+function endConnect(){
+  connecting=null; ghost.style.display='none'; ghost.setAttribute('d','');
+  setMode('idle');
+}
+
+// ── WINDOW EVENTS ────────────────────────────────────────────────
+window.addEventListener('mousemove',e=>{
+  if(dragging){
+    const r=canvas.getBoundingClientRect();
+    const nx=e.clientX-r.left-dragging.ox;
+    const ny=e.clientY-r.top-dragging.oy;
+    const n=nodes[dragging.id];
+    n.el.style.left=nx+'px'; n.el.style.top=ny+'px';
+    n.x=nx; n.y=ny;
+    updateAllEdges();
+  }
+  if(connecting){ const{x,y}=cvPos(e); updateGhost(x,y); }
+});
+window.addEventListener('mouseup',e=>{
+  if(dragging){dragging=null;setMode('idle');}
+  if(connecting) endConnect();
+});
+canvas.addEventListener('mousedown',e=>{
+  if(e.target===canvas||e.target===svgl){
+    selectNode(null); deselectEdge();
+  }
+});
+window.addEventListener('keydown',e=>{
+  if(e.key==='Delete'||e.key==='Backspace'){
+    if(document.activeElement&&document.activeElement.tagName==='INPUT') return;
+    if(selNode!==null) deleteNode(selNode);
+    else if(selEdge!==null) deleteEdge(selEdge);
+  }
+  if(e.key==='Escape') endConnect();
+});
+
+// ── PALETTE ──────────────────────────────────────────────────────
+document.querySelectorAll('.pnode').forEach(p=>{
+  p.addEventListener('mousedown',e=>{
+    e.preventDefault();
+    const type=p.dataset.type;
+    const r=canvas.getBoundingClientRect();
+    const cx=r.width/2-85+(Math.random()-.5)*60;
+    const cy=r.height/2-40+(Math.random()-.5)*60;
+    const id=createNode(type,cx,cy);
+    selectNode(id);
+    const n=nodes[id];
+    const nr=n.el.getBoundingClientRect();
+    dragging={id,ox:nr.width/2,oy:nr.height/2};
+    setMode('dragging');
+  });
+});
+
+// ── SEQUENCE BUILDER ─────────────────────────────────────────────
+// Topological sort: walk the edge graph from sources
+function buildSequence(){
+  const ids=Object.keys(nodes).map(Number);
+  if(!ids.length) return [];
+
+  // in-degree map
+  const inDeg={}, succs={};
+  ids.forEach(id=>{ inDeg[id]=0; succs[id]=[]; });
+  Object.values(edges).forEach(e=>{
+    if(nodes[e.from]&&nodes[e.to]){
+      inDeg[e.to]=(inDeg[e.to]||0)+1;
+      (succs[e.from]=succs[e.from]||[]).push(e.to);
+    }
+  });
+
+  // Kahn's algo (stable order by creation id)
+  const queue=ids.filter(id=>inDeg[id]===0).sort((a,b)=>a-b);
+  const result=[];
+  while(queue.length){
+    const cur=queue.shift();
+    result.push(cur);
+    (succs[cur]||[]).sort((a,b)=>a-b).forEach(nxt=>{
+      inDeg[nxt]--;
+      if(inDeg[nxt]===0) queue.push(nxt);
+    });
+  }
+  // append any cycles not reached
+  ids.forEach(id=>{ if(!result.includes(id)) result.push(id); });
+  return result;
+}
+
+// ── HEX ENCODER ──────────────────────────────────────────────────
+// Word layout (39 bits, zero-padded to 40 = 10 hex digits):
+//   [38:36] opcode   (3 bits)
+//   [35:28] f2       (8 bits)  — rate / phase_inc / 0
+//   [27:14] f0       (14 bits) — primary param
+//   [13:0]  f1       (14 bits) — secondary param
+// duration param is NOT encoded in the word (separate field in HW)
+function encodeHex(type, params){
+  const def=BLOCKS[type]||{opcode:0,params:[]};
+  const clamp=(v,bits)=>{ const m=(1<<bits)-1; return Math.max(0,Math.min(m,parseInt(v)||0)); };
+
+  let f0=0, f1=0, f2=0;
+
+  switch(type){
+    case 'delay':
+      f0 = clamp(params['hold_voltage'], 14);
+      break;
+    case 'linear_ramp':
+      f0 = clamp(params['v_start'],   14);
+      f1 = clamp(params['step_size'], 14);
+      break;
+    case 'direct_jump':
+      f0 = clamp(params['target_voltage'], 14);
+      break;
+    case 'chirp':
+      f0 = clamp(params['a'],        14);
+      f1 = clamp(params['b'],        14);
+      f2 = clamp(params['rate'],      8);
+      break;
+    case 'sinusoid':
+      f0 = clamp(params['v_mid'],    14);
+      f1 = clamp(params['v_amp'],    14);
+      f2 = clamp(params['phase_inc'], 8);
+      break;
+    case 'AWG':
+      // No numeric params — waveform data carried externally; opcode only
+      break;
+    default:
+      break;
+  }
+
+  // Build 39-bit word as BigInt to avoid JS 32-bit shift limits
+  const word = (BigInt(def.opcode) << 36n)
+             | (BigInt(f2)         << 28n)
+             | (BigInt(f0)         << 14n)
+             | BigInt(f1);
+
+  // Pad to 10 hex digits (40 bits)
+  return '0x' + word.toString(16).toUpperCase().padStart(10,'0');
+}
+
+function encodeBin(type, params){
+  const hex = encodeHex(type, params);
+  return BigInt(hex).toString(2).padStart(39,'0');
+}
+
+function refreshSeq(){
+  Object.keys(nodes).forEach(id=>collectParams(Number(id)));
+
+  const seq=buildSequence();
+  sSteps.textContent=seq.length;
+
+  seq.forEach((id,i)=>{
+    const badge=document.getElementById('seq-badge-'+id);
+    if(badge) badge.textContent='#'+(i+1);
+  });
+
+  if(!seq.length){
+    seqList.innerHTML='<div class="seq-empty">Connect nodes to build<br>an instruction sequence.</div>';
+    jsonOut.textContent='';
+    return;
+  }
+
+  const hexLines=[];
+  let html='';
+
+  seq.forEach((id,i)=>{
+    const n=nodes[id]; if(!n) return;
+    const def=BLOCKS[n.type]||{params:[]};
+    const color=getComputedStyle(document.documentElement).getPropertyValue('--'+n.type).trim()||'#4f8ef7';
+    const hexWord = encodeHex(n.type, n.params);
+    const binStr  = encodeBin(n.type, n.params);
+
+    // Annotated binary: OPC|DUR|FROM|TO
+    const binAnnotated = binStr.slice(0,3)+'|'+binStr.slice(3,11)+'|'+binStr.slice(11,25)+'|'+binStr.slice(25);
+
+    const paramStr = n.type==='AWG'
+      ? (n.params['_awgFileName'] ? `file=${n.params['_awgFileName']} (${n.params['_awgLines']} samples)` : 'no file loaded')
+      : def.params.map(p=>`${p}=${n.params[p]||'0'}`).join(' ');
+
+    html+=`<div class="seq-item" style="border-color:${color}33" data-node="${id}">
+      <div class="seq-top">
+        <span class="seq-num">#${i+1}</span>
+        <span class="seq-type" style="color:${color}">${n.type}</span>
+        <span class="seq-hex" style="color:${color}">${hexWord}</span>
+      </div>
+      <div class="seq-bin">${binAnnotated}</div>`;
+    if(paramStr){
+      html+=`<div class="seq-params">${paramStr}</div>`;
+    }
+    html+=`</div>`;
+
+    hexLines.push(`// Step ${i+1}: ${n.type}${paramStr?' ('+paramStr+')':''}`);
+    hexLines.push(hexWord);
+  });
+
+  seqList.innerHTML=html;
+
+  seqList.querySelectorAll('.seq-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      const nid=Number(item.dataset.node);
+      selectNode(nid);
+    });
+  });
+
+  jsonOut.textContent=hexLines.join('\n');
+}
+
+// ── COPY HEX ─────────────────────────────────────────────────────
+document.getElementById('copy-btn').addEventListener('click',()=>{
+  const txt=jsonOut.textContent;
+  if(!txt) return;
+  navigator.clipboard&&navigator.clipboard.writeText(txt).then(()=>{
+    const b=document.getElementById('copy-btn');
+    b.textContent='✓ Copied!';
+    setTimeout(()=>b.textContent='⎘ Copy HEX to Clipboard',1500);
+  });
+});
+
+// ── EXPORT HEX FILE ───────────────────────────────────────────────
+document.getElementById('btn-export').addEventListener('click',()=>{
+  const txt=jsonOut.textContent; if(!txt) return;
+  const blob=new Blob([txt],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='sequence.hex';
+  a.click();
+});
+
+// ── AUTO-ARRANGE ──────────────────────────────────────────────────
+document.getElementById('btn-autoarrange').addEventListener('click',()=>{
+  const seq=buildSequence();
+  const r=canvas.getBoundingClientRect();
+  const startX=60, stepX=210, startY=r.height/2-50;
+  seq.forEach((id,i)=>{
+    const n=nodes[id]; if(!n) return;
+    n.x=startX+i*stepX; n.y=startY;
+    n.el.style.left=n.x+'px';
+    n.el.style.top=n.y+'px';
+  });
+  updateAllEdges();
+});
+
+// ── CLEAR ALL ─────────────────────────────────────────────────────
+document.getElementById('btn-clearall').addEventListener('click',()=>{
+  [...Object.keys(nodes)].forEach(deleteNode);
+  [...Object.keys(edges)].forEach(deleteEdge);
+});
+
+setMode('idle'); updateStats(); refreshSeq();
+})();
+</script>
+</body>
+</html>
