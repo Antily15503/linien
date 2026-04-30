@@ -102,7 +102,9 @@ class AcquisitionService(Service):
             try:
                 seq_active = self.sequence_relock.is_sequence_active()
             except KeyError:
-                # regfile_adapter_status not in csrmap yet (gateware not rebuilt)
+                # logic_sequence_status missing from csrmap — gateware/csrmap
+                # mismatch (e.g. stale csrmap.py vs flashed gateware.bin).
+                # falling-edge detection is disabled until that's resolved.
                 seq_active = False
 
             if seq_active:

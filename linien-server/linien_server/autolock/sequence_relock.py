@@ -21,7 +21,7 @@ class SequenceRelock:
 
     def is_sequence_active(self):
         """check if a sequence is currently running."""
-        status = self.csr.get("regfile_adapter_status")
+        status = self.csr.get("logic_sequence_status")
         return bool(status & STATUS_ACTIVE)
 
     def is_locked(self):
