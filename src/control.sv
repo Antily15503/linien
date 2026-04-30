@@ -6,10 +6,22 @@
 // loads them into the active functional block via a shared param bus,
 // then starts the block and waits for the duration to elapse (via internal counter).
 //
+// relative voltage semantics (v_lock):
+//   every block's v_drive output is treated as a SIGNED OFFSET from v_lock,
+//   not an absolute DAC count. v_lock is the linien DAC value snapshotted by
+//   ttl_handler at TTL trigger time, arriving here on i_init_v_drive. the FSM's
+//   final v_drive output is sat14(block_offset + v_lock).
+//
+//   consequence: PS-side parameters (target voltages, ramp endpoints, AWG
+//   samples, sinusoid v_mid, etc.) must be programmed as signed offsets from
+//   v_lock. specifying an offset of 0 holds the laser at v_lock.
+//
 // integration notes:
 //   - i_num_blocks is the INDEX of the last block (0 = one block, 15 = sixteen).
 //     the PS writes this convention via regfile_adapter.num_blocks.
-//   - i_init_v_drive comes from ttl_handler.o_saved_dac_out (DAC_WIDTH).
+//   - i_init_v_drive comes from ttl_handler.o_saved_dac_out (DAC_WIDTH) and
+//     stays stable for the duration of a sequence (ttl_handler is gated against
+//     re-arming while o_active is high).
 //   - o_active is high from FETCH_TYPE through CAPTURE_VDRIVE. it drops in DONE.
 //     the DAC mux should use ttl_handler.o_active (which stays high until seq_done
 //     is acknowledged) to avoid a 1-cycle glitch.
@@ -36,7 +48,7 @@ module control #(
     // top level control inputs
     input wire                         i_start,          // one cycle pulse from ttl_handler
     input wire [BLOCK_IDX_WIDTH-1:0]   i_num_blocks,     // last block index (0 = one block)
-    input wire [13:0]                  i_init_v_drive,   // ttl snapshot starting voltage
+    input wire [13:0]                  i_init_v_drive,   // v_lock: ttl snapshot of linien DAC (added to every block offset at output)
 
     // reg_file read port
     output logic [REGFILE_ADDR_WIDTH-1:0] o_regfile_addr,
@@ -172,7 +184,9 @@ module control #(
           if (i_start) begin
             block_idx    <= '0;
             param_idx    <= '0;
-            prev_v_drive <= i_init_v_drive;
+            // relative semantics: prev_v_drive holds the inter-block hold OFFSET.
+            // 0 means "stay at v_lock" between sequence start and first block drive.
+            prev_v_drive <= '0;
             count        <= '0;
           end
         end
@@ -233,13 +247,33 @@ module control #(
   end
 
   // ========================= Output Logic ==============================
+
+  // v_lock add: 14-bit signed offset (block or held) + 14-bit signed v_lock,
+  // saturated back to 14-bit signed [-8192, 8191]. 15-bit intermediate prevents
+  // wrap during the add.
+  logic signed [14:0] block_plus_lock;
+  logic signed [14:0] held_plus_lock;
+  assign block_plus_lock = $signed({active_block_drive[13], active_block_drive})
+                         + $signed({i_init_v_drive[13],     i_init_v_drive});
+  assign held_plus_lock  = $signed({prev_v_drive[13],       prev_v_drive})
+                         + $signed({i_init_v_drive[13],     i_init_v_drive});
+
+  logic [13:0] block_drive_sat;
+  logic [13:0] held_drive_sat;
+  assign block_drive_sat = (block_plus_lock > 15'sd8191)  ? 14'sd8191  :
+                           (block_plus_lock < -15'sd8192) ? -14'sd8192 :
+                                                            block_plus_lock[13:0];
+  assign held_drive_sat  = (held_plus_lock  > 15'sd8191)  ? 14'sd8191  :
+                           (held_plus_lock  < -15'sd8192) ? -14'sd8192 :
+                                                            held_plus_lock[13:0];
+
   always_comb begin
     // defaults
     o_param_data  = '0;
     o_param_addr  = '0;
     o_block_en    = '0;
     o_block_active = '0;
-    v_drive       = prev_v_drive;
+    v_drive       = held_drive_sat;
     o_seq_done    = 1'b0;
     o_active      = 1'b0;
 
@@ -269,20 +303,20 @@ module control #(
         o_active      = 1'b1;
         o_block_en    = '0;
         o_block_active = type_onehot;
-        v_drive       = active_block_drive;
+        v_drive       = block_drive_sat;
       end
 
       WAIT_DONE: begin
         o_active   = 1'b1;
         o_block_en = '0;
         o_block_active = type_onehot;
-        v_drive    = active_block_drive;
+        v_drive    = block_drive_sat;
       end
 
       CAPTURE_VDRIVE: begin
         o_active   = 1'b1;
         o_block_active = type_onehot;
-        v_drive    = active_block_drive;
+        v_drive    = block_drive_sat;
       end
 
       DONE: begin
