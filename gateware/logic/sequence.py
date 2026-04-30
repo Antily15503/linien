@@ -118,7 +118,9 @@ class SequenceExecutor(Module, AutoCSR):
             i_i_awg_reg_w_en=self.awg_reg_wen.storage,
             # config
             i_i_num_blocks=self.num_blocks.storage,
-            # from ttl handler
+            # from ttl handler. o_saved_dac_out is v_lock — the FSM adds it to
+            # every block's drive at output, so block params are SIGNED OFFSETS
+            # from v_lock, not absolute DAC counts.
             i_i_start=ttl.o_fsm_start,
             i_i_init_v=ttl.o_saved_dac_out,
             # outputs
