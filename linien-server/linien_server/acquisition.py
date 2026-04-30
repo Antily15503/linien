@@ -110,7 +110,7 @@ class AcquisitionService(Service):
 
             if self._sequence_was_active and not seq_active:
                 self._sequence_was_active = False
-                logger.info("sequence finished, attempting relock")
+                logger.debug("sequence finished, attempting relock")
                 success = self.sequence_relock.handle_sequence_done()
                 if not success:
                     logger.error("sequence relock failed: PID did not recover lock")
@@ -332,7 +332,7 @@ class AcquisitionService(Service):
 
 def flash_fpga():
     filepath = Path(__file__).resolve().parent / "gateware.bin"
-    logger.info("Using fpgautil to deploy gateware.")
+    logger.debug("Using fpgautil to deploy gateware.")
     subprocess.Popen(["/opt/redpitaya/bin/fpgautil", "-b", str(filepath)]).wait()
 
 
@@ -347,5 +347,5 @@ def stop_nginx():
 
 if __name__ == "__main__":
     threaded_server = ThreadedServer(AcquisitionService(), port=ACQUISITION_PORT)
-    logger.info(f"Starting AcquisitionService on port {ACQUISITION_PORT}")
+    logger.debug(f"Starting AcquisitionService on port {ACQUISITION_PORT}")
     threaded_server.start()

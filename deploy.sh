@@ -20,6 +20,7 @@ ssh $PITAYA "linien-server stop"
 echo "Copying Files ..."
 scp linien-server/linien_server/gateware.bin $PITAYA:$REMOTE/
 scp linien-server/linien_server/autolock/sequence_relock.py $PITAYA:$REMOTE/autolock/
+scp linien-server/linien_server/acquisition.py $PITAYA:$REMOTE/
 scp linien-server/linien_server/csrmap.py $PITAYA:$REMOTE/
 scp linien-server/linien_server/server.py $PITAYA:$REMOTE/
 scp linien-server/linien_server/registers.py $PITAYA:$REMOTE/

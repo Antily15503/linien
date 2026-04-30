@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 # ttl_handler status register bits
 STATUS_ACTIVE = 0b01  # bit 0: sequence running
-STATUS_ARMED  = 0b10  # bit 1: enabled and waiting for trigger
+STATUS_ARMED = 0b10  # bit 1: enabled and waiting for trigger
 
 
 class SequenceRelock:
@@ -41,8 +41,8 @@ class SequenceRelock:
         time.sleep(self.settle_time)
 
         if self.is_locked():
-            logger.info("lock held after sequence (PID resumed on its own)")
+            logger.debug("lock held after sequence (PID resumed on its own)")
             return True
 
-        logger.error("relock failed: PID did not recover lock after sequence")
+        logger.debug("relock failed: PID did not recover lock after sequence")
         return False
