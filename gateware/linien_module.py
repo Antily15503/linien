@@ -442,7 +442,8 @@ class LinienModule(Module, AutoCSR):
             self.logic.sequence.linien_pid_out.eq(pid_out),
             self.logic.sequence.linien_integrator.eq(self.logic.pid.int_out),
             self.logic.sequence.linien_sweep_pos.eq(self.logic.sweep.y),
-            self.logic.sequence.linien_dac_out.eq(self.logic.limit_fast1.y),
+            # NOTE: WE SWAPPED THE CHANNELS EARLIER, SO NEED TO SWAP THE VALUES BEIGN SAVED!!!
+            self.logic.sequence.linien_dac_out.eq(self.logic.limit_fast2.y),
         ]
 
 

@@ -123,7 +123,7 @@ module control #(
   always_comb begin
     case (cur_type)
       6'd0:    num_params = 3'd2; //delay
-      6'd1:    num_params = 3'd4; //linear jump
+      6'd1:    num_params = 3'd4; //linear ramp
       6'd2:    num_params = 3'd2; //direct jump
       6'd3:    num_params = 3'd5; //chirp
       6'd4:    num_params = 3'd6; // sinusoid
@@ -260,6 +260,7 @@ module control #(
 
   logic [13:0] block_drive_sat;
   logic [13:0] held_drive_sat;
+  // TODO: USE 551 LOGIC, i.e msb inspection for over/underflow or sm shi 
   assign block_drive_sat = (block_plus_lock > 15'sd8191)  ? 14'sd8191  :
                            (block_plus_lock < -15'sd8192) ? -14'sd8192 :
                                                             block_plus_lock[13:0];

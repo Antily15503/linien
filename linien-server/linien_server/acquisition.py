@@ -97,12 +97,12 @@ class AcquisitionService(Service):
             while self.csr_iir_queue:
                 name, b, a = self.csr_iir_queue.pop(0)
                 self.csr.set_iir(name, b, a)
-            
+
             # --- sequence relock: detect falling edge of o_active ---
             try:
                 seq_active = self.sequence_relock.is_sequence_active()
             except KeyError:
-            # regfile_adapter_status not in csrmap yet (gateware not rebuilt)
+                # regfile_adapter_status not in csrmap yet (gateware not rebuilt)
                 seq_active = False
 
             if seq_active:
@@ -261,7 +261,9 @@ class AcquisitionService(Service):
 
         self.red_pitaya.scope.rearm(trigger_source=TriggerSource.ext_posedge)
 
-    def exposed_return_data(self, last_hash: Optional[float]) -> tuple[
+    def exposed_return_data(
+        self, last_hash: Optional[float]
+    ) -> tuple[
         bool,
         float | None,
         bool | None,

@@ -224,7 +224,7 @@ class Registers:
             fast_b_invert=int(self.parameters.invert_b.value),
             # trigger on sweep
             scopegen_external_trigger=1,
-            gpio_p_oes=0b11111111,
+            gpio_p_oes=0b11111110,
             gpio_n_oes=0b11111111,
             gpio_p_outs=self.parameters.gpio_p_out.value,
             gpio_n_outs=self.parameters.gpio_n_out.value,
