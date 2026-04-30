@@ -113,7 +113,7 @@ class AcquisitionService(Service):
                 logger.info("sequence finished, attempting relock")
                 success = self.sequence_relock.handle_sequence_done()
                 if not success:
-                    logger.error("sequence relock failed after all retries")
+                    logger.error("sequence relock failed: PID did not recover lock")
                 # skip next data — PID is settling, don't send garbage to GUI
                 skip_next_data_event.set()
                 continue
