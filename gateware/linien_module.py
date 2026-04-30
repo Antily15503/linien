@@ -422,11 +422,11 @@ class LinienModule(Module, AutoCSR):
             ),
             If(
                 self.logic.sequence.active,
-                self.analog.dac_a.eq(self.logic.sequence.dac_out),
+                self.analog.dac_b.eq(self.logic.sequence.dac_out),
             ).Else(
-                self.analog.dac_a.eq(self.logic.limit_fast1.y),
+                self.analog.dac_b.eq(self.logic.limit_fast2.y),
             ),
-            self.analog.dac_b.eq(self.logic.limit_fast2.y),
+            self.analog.dac_a.eq(self.logic.limit_fast1.y),
         ]
 
         # Having this in a comb statement caused errors. See PR #251.

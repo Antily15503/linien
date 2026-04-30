@@ -230,6 +230,7 @@ class SequencePanel(QtWidgets.QWidget):
         main_layout.addLayout(io_row)
 
     def on_connection_established(self, app):
+        print(">>>>> on connection established, adding sequence panel")
         self.app = app
         self.control = app.control
         self.parameters = app.parameters
