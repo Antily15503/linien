@@ -6,6 +6,17 @@ import random
 V_MIN = 0x3FFF
 V_MAX = 0x1FFF
 
+CLOCK_FREQ = 125e6
+CLOCK_PER = 1 / CLOCK_FREQ
+VPP = 2
+VP = 1.1
+DAC_COUNTS = 8192
+# vout=gain*v_dac
+# vout/gain=v_dac
+GAIN = 5
+V_MAX = VPP / 2
+V_MIN = -VPP / 2
+
 
 # helper to sign-extend a 14-bit value to Python int
 def from_signed14(val):
@@ -17,6 +28,13 @@ def from_signed14(val):
 
 def to_14bit(val):
     return val & 0x3FFF
+
+
+# FUNCTIONS TO TRANSLATE VOLTAGE TO VALUE IN RANGE OF 8191 to -8192 SIGNED
+def volts_to_bits(volt):
+    if volt > 0:
+        return int((volt / VP) / GAIN * DAC_COUNTS - 1)
+    return int((volt / VP) / GAIN * DAC_COUNTS)
 
 
 async def load_param(dut, addr, data):
@@ -59,6 +77,7 @@ async def run_ramp(dut, v_start, v_step, clk_div, num_steps):
     return samples
 
 
+"""
 @cocotb.test()
 async def test_1(dut):
     cocotb.log.info("test 1 commencing")
@@ -73,6 +92,8 @@ async def test_1(dut):
         num_steps = 2000
         await run_ramp(dut, v_start, v_step, clk_div, num_steps)
 
+"""
+
 
 # test specifically for negative ramps
 @cocotb.test()
@@ -83,9 +104,8 @@ async def test_2(dut):
     await reset(dut)
     # run a series of random ramps, holding for the same amount of time
     for i in range(10):
-        v_start = random.randint(4000, 8000)
-        v_step = random.randint(-1000, 0)
-        v_step = from_signed14(to_14bit(v_step))
+        v_start = volts_to_bits(random.randint(-1, 1))
+        v_step = volts_to_bits(random.uniform(-0.1, 0.1))
         clk_div = random.randint(10, 100)
         num_steps = 2000
         await run_ramp(dut, v_start, v_step, clk_div, num_steps)

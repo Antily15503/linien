@@ -35,6 +35,9 @@ def volts_to_bits(volt):
     return int((volt / VP) / GAIN * DAC_COUNTS)
 
 
+print(bin(volts_to_bits(-1)))
+
+
 device = Device(host="rp-f0ed21.local", username="root", password="root")
 client = LinienClient(device)
 client.connect(autostart_server=False, use_parameter_cache=False)
