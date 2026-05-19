@@ -67,7 +67,7 @@ into the AWG to be used. **STILL IN TESTING**
 #### Instruction write format
 
      type 0 (delay):       2  (hold_voltage, duration)
-     type 1 (linear_ramp): 3  (v_start,clk_div, step_size, duration)
+     type 1 (linear_ramp): 3  (v_start,step_size, clk_div, duration)
      type 2 (direct_jump): 2  (target_voltage, duration)
      type 3 (chirp):       5  (a, b, rate, raterate, duration)
      type 4 (sinusoid):    6  (v_mid, v_amp, v_min_cut, v_max_cut, phase_inc, duration)
