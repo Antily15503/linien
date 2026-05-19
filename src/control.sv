@@ -34,7 +34,12 @@ module control #(
 
     parameter NUM_BLOCK_TYPES = 6,
     parameter MAX_BLOCK_PARAMS = 7,     // max params any block type needs (chirp=6)
-    parameter REGFILE_ADDR_WIDTH = 8,
+    //10 bits; 
+    //lower 3 are allocated to indexing parameters
+    //middle 4 are allocated to indexing blocks
+    //upper 2 are used to index the 4 possible sequences. 
+    //total of 9 bits
+    parameter REGFILE_ADDR_WIDTH = 9,
 	 localparam int BLOCK_IDX_WIDTH      = $clog2(MAX_BLOCKS),
     localparam int PARAM_IDX_WIDTH      = $clog2(MAX_BLOCK_PARAMS),
     localparam int BLOCK_TYPE_IDX_WIDTH = $clog2(NUM_BLOCK_TYPES)
@@ -103,7 +108,15 @@ module control #(
   logic                               timer_flag;
 
   // ========================= Current Block Calculations ==============================
-  assign block_base_addr   = {1'b0, block_idx, 3'b000};      // block_idx * 8
+  // "effectively" a 4 bit value; upper 0 doesn't do anything, and middle
+  // 3 dictates location of block; can address 16 blocks. 
+  // to access upper 16 blocks, set MSB to 1. 
+  // to increase from 32 blocks to 64 (effectively 4 seperate sequences),
+  // increase upper bit size to 2
+  // hmmmm, given this is combinational it might just be easier to increase
+  // the size of the o_active signal to 4 bits so the upper bits can be
+  // combinationally determined?
+  assign block_base_addr   = {2'b00, block_idx, 3'b000};      // block_idx * 8
   //based on cur_type, activates the relavant block by left shifting 'b1 by
   //the given type
   assign type_onehot       = NUM_BLOCK_TYPES'(1) << cur_type;
@@ -113,7 +126,7 @@ module control #(
 
   // param count LUT — how many params each block type needs (duration param doesn't go into the blocks though)
   //   type 0 (delay):       2  (hold_voltage, duration)
-  //   type 1 (linear_ramp): 3  (v_start,clk_div, step_size, duration)
+  //   type 1 (linear_ramp): 3  (v_start,v_step, clk_div, duration)
   //   type 2 (direct_jump): 2  (target_voltage, duration)
   //   type 3 (chirp):       5  (a, b, rate, raterate, duration)
   //   type 4 (sinusoid):    6  (v_mid, v_amp, v_min_cut, v_max_cut, phase_inc, duration)
@@ -170,6 +183,8 @@ module control #(
   end
 
   // ========================= Datapath Registers (sync reset) ==============================
+  // TODO: change block_idx to start at different "start" points, so that
+  // multiple ttl_signals can trigger different sequences. 
   always_ff @(posedge clk) begin
     if (!rst_n) begin
       block_idx    <= '0;
@@ -182,6 +197,7 @@ module control #(
       case (state)
         IDLE: begin
           if (i_start) begin
+            //change the block_idx depending on which signal was triggered. 
             block_idx    <= '0;
             param_idx    <= '0;
             // relative semantics: prev_v_drive holds the inter-block hold OFFSET.

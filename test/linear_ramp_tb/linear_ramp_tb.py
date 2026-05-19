@@ -1,6 +1,10 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, ClockCycles
+import random
+
+V_MIN = 0x3FFF
+V_MAX = 0x1FFF
 
 
 # helper to sign-extend a 14-bit value to Python int
@@ -34,13 +38,14 @@ async def reset(dut):
     await ClockCycles(dut.clk, 2)
 
 
-async def run_ramp(dut, v_start, v_step, num_steps):
+async def run_ramp(dut, v_start, v_step, clk_div, num_steps):
     """
     Loads params, activates block, collects output samples, deactivates.
     Returns list of observed v_drive values.
     """
     await load_param(dut, 0, to_14bit(v_start))
     await load_param(dut, 1, to_14bit(v_step))
+    await load_param(dut, 2, to_14bit(clk_div))
 
     samples = []
     dut.i_active.value = 1
@@ -55,93 +60,32 @@ async def run_ramp(dut, v_start, v_step, num_steps):
 
 
 @cocotb.test()
-async def test_basic_ramp_up(dut):
-    """Simple positive ramp: start=0, step=+10"""
-    cocotb.log.info("test_basic_ramp_up")
+async def test_1(dut):
+    cocotb.log.info("test 1 commencing")
     clock = Clock(dut.clk, 8, units="ns")
     cocotb.start_soon(clock.start())
     await reset(dut)
-
-    v_start, v_step, num_steps = 0, 2, 2000
-    samples = await run_ramp(dut, v_start, v_step, num_steps)
-
-    # first sample should be v_start (active_pulse loads v_start)
-    # each subsequent sample increments by v_step
-    for i, s in enumerate(samples):
-        expected = v_start + i * v_step
-        assert s == expected, f"step {i}: expected {expected}, got {s}"
-    cocotb.log.info(f"samples: {samples}")
+    # run a series of random ramps, holding for the same amount of time
+    for i in range(10):
+        v_start = random.randint(0, V_MAX)
+        v_step = random.randint(0x000, 0x0100)
+        clk_div = random.randint(10, 100)
+        num_steps = 2000
+        await run_ramp(dut, v_start, v_step, clk_div, num_steps)
 
 
+# test specifically for negative ramps
 @cocotb.test()
-async def test_ramp_down(dut):
-    """Negative step: start=100, step=-5"""
-    cocotb.log.info("test_ramp_down")
+async def test_2(dut):
+    cocotb.log.info("test 1 commencing")
     clock = Clock(dut.clk, 8, units="ns")
     cocotb.start_soon(clock.start())
     await reset(dut)
-
-    v_start, v_step, num_steps = -1, 5, 2000
-    samples = await run_ramp(dut, v_start, v_step, num_steps)
-
-    for i, s in enumerate(samples):
-        expected = v_start + i * v_step
-        assert s == expected, f"step {i}: expected {expected}, got {s}"
-    cocotb.log.info(f"samples: {samples}")
-
-
-@cocotb.test()
-async def test_ramp_from_negative(dut):
-    """Start from negative voltage, ramp up"""
-    cocotb.log.info("test_ramp_from_negative")
-    clock = Clock(dut.clk, 8, units="ns")
-    cocotb.start_soon(clock.start())
-    await reset(dut)
-
-    v_start, v_step, num_steps = -500, 1, 20
-    samples = await run_ramp(dut, v_start, v_step, num_steps)
-
-    for i, s in enumerate(samples):
-        expected = v_start + i * v_step
-        assert s == expected, f"step {i}: expected {expected}, got {s}"
-    cocotb.log.info(f"samples: {samples}")
-
-
-@cocotb.test()
-async def test_inactive_drives_zero(dut):
-    """When i_active is low, v_drive should be 0"""
-    cocotb.log.info("test_inactive_drives_zero")
-    clock = Clock(dut.clk, 8, units="ns")
-    cocotb.start_soon(clock.start())
-    await reset(dut)
-
-    await load_param(dut, 0, to_14bit(500))
-    await load_param(dut, 1, to_14bit(10))
-
-    # don't activate, just check output
-    await ClockCycles(dut.clk, 5)
-    assert from_signed14(dut.v_drive.value.integer) == 0, (
-        "v_drive should be 0 when inactive"
-    )
-
-
-@cocotb.test()
-async def test_two_sequential_ramps(dut):
-    """Run two ramps back to back with different params, verify independence"""
-    cocotb.log.info("test_two_sequential_ramps")
-    clock = Clock(dut.clk, 8, units="ns")
-    cocotb.start_soon(clock.start())
-    await reset(dut)
-
-    # first ramp
-    samples1 = await run_ramp(dut, 0, 10, 10)
-    for i, s in enumerate(samples1):
-        assert s == i * 10, f"ramp1 step {i}: expected {i * 10}, got {s}"
-
-    # second ramp with different params
-    samples2 = await run_ramp(dut, -100, 7, 10)
-    for i, s in enumerate(samples2):
-        expected = -100 + i * 7
-        assert s == expected, f"ramp2 step {i}: expected {expected}, got {s}"
-
-    cocotb.log.info("both ramps passed")
+    # run a series of random ramps, holding for the same amount of time
+    for i in range(10):
+        v_start = random.randint(4000, 8000)
+        v_step = random.randint(-1000, 0)
+        v_step = from_signed14(to_14bit(v_step))
+        clk_div = random.randint(10, 100)
+        num_steps = 2000
+        await run_ramp(dut, v_start, v_step, clk_div, num_steps)

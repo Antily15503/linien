@@ -6,16 +6,35 @@ device = Device(host="rp-f0edf0.local", username="root", password="root")
 client = LinienClient(device)
 client.connect(autostart_server=False, use_parameter_cache=False)
 
-vals = []
-for i in range(1024):
-    if i < 160:
-        vals.append(8000 - i * 50)
-    elif i < 320:
-        vals.append(i * 50)
-    elif i < 640:
-        vals.append(0)
-    elif i < 1024:
-        vals.append(8000)
+CLOCK_FREQ = 125e6
+CLOCK_PER = 1 / CLOCK_FREQ
+VPP = 2
+VP = 1.1
+DAC_COUNTS = 8192
+# vout=gain*v_dac
+# vout/gain=v_dac
+GAIN = 5
+V_MAX = VPP / 2
+V_MIN = -VPP / 2
+
+
+def volts_to_bits(volt):
+    if volt > 0:
+        return int((volt / VP) / GAIN * DAC_COUNTS - 1)
+    return int((volt / VP) / GAIN * DAC_COUNTS)
+
+
+def us_to_clock(time):
+    return time * (10 ** (-6)) * CLOCK_FREQ
+
+
+def ms_to_clock(time):
+    return int(time * (10 ** (-3)) * CLOCK_FREQ)
+
+
+def s_to_clock(time):
+    return time * CLOCK_FREQ
+
 
 # client.control.write_awg(vals)
 
@@ -31,21 +50,44 @@ for i in range(1024):
 
 client.parameters.sequence_blocks.value = [
     # {"type": 5, "params": [10, 100000000]},
-    {"type": 1, "params": [0, 100, 80, 400000000]},
-    # {"type": 0, "params": [0, 40000000]},
-    # {"type": 4, "params": [0, 8000, -8000, 800, 8000, 400000000]},
-    # {"type": 0, "params": [4000, 400000000]},
-    # {"type": 4, "params": [0, 2000, -1000, 800, 1000, 400000000]},
-    # {"type": 4, "params": [0, 8000, -1000, 3000, 1000, 400000000]},
-    # {"type": 0, "params": [8000, 400000000]},
-    # {"type": 4, "params": [2000, 8000, -1000, 3000, 1000, 400000000]},
-    # {"type": 1, "params": [0, 5000, 400000000]},
-    # {"type": 4, "params": [6000, 1000, -1000, 8000, 1000, 400000000]},
-    # {"type": 4, "params": [0000, 1000, -8000, 8000, 1000, 400000000]},
-    # {"type": 4, "params": [1000, 1000, -8000, 8000, 2000, 400000000]},
-    # {"type": 4, "params": [4000, 1000, -8000, 8000, 4000, 400000000]},
-    # {"type": 4, "params": [6000, 1000, -8000, 8000, 8000, 400000000]},
-    # {"type": 4, "params": [8000, 1000, -8000, 8000, 10000, 400000000]},
+    {"type": 1, "params": [0, volts_to_bits(1), volts_to_bits(5), ms_to_clock(10)]},
+    {"type": 0, "params": [0, ms_to_clock(10)]},
+    {
+        "type": 4,
+        "params": [
+            0,
+            8000,
+            -8000,
+            1000,
+            8000,
+        ],
+    },
+    {
+        "type": 0,
+        "params": [
+            4000,
+        ],
+    },
+    {
+        "type": 4,
+        "params": [
+            0,
+            2000,
+            -1000,
+            8000,
+            1000,
+        ],
+    },
+    {"type": 4, "params": [0, 8000, -1000, 3000, 1000, ms_to_clock(50)]},
+    {"type": 0, "params": [8000, ms_to_clock(10)]},
+    {"type": 4, "params": [2000, 8000, -1000, 3000, 1000, ms_to_clock(10)]},
+    {"type": 1, "params": [0, 5000, ms_to_clock(10)]},
+    # {"type": 4, "params": [6000, 1000, -1000, 8000, 1000, ms_to_clock(10)]},
+    # {"type": 4, "params": [0000, 1000, -8000, 8000, 1000, ms_to_clock(10)]},
+    # {"type": 4, "params": [1000, 1000, -8000, 8000, 2000, ms_to_clock(10)]},
+    # {"type": 4, "params": [4000, 1000, -8000, 8000, 4000, ms_to_clock(10)]},
+    # {"type": 4, "params": [6000, 1000, -8000, 8000, 8000, ms_to_clock(10)]},
+    # {"type": 4, "params": [8000, 1000, -8000, 8000, 10000, ms_to_clock(10)]},
 ]
 client.control.write_sequence_config()
 print("sequence programmed")

@@ -5,6 +5,11 @@ module sequence_top #(
     parameter int DATA_WIDTH = 32,
     parameter int V_DATA_WIDTH = 14,
     parameter int NUM_BLOCK_TYPES = 6,
+    //dictates how many instructions there can be
+    //assuming each instruction takes up 8 lines of memory, 1 line being 32
+    //bits wide
+    //total of 32 instructions?
+    //test to see how large this can get lol
     parameter int FSM_REGFILE_ADDR_WIDTH = 8,
     parameter int AWG_REGFILE_ADDR_WIDTH = 10,
   localparam int BLOCK_IDX_WIDTH = $clog2(MAX_BLOCKS),

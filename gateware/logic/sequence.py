@@ -125,6 +125,7 @@ class SequenceExecutor(Module, AutoCSR):
             i_i_init_v=ttl.o_saved_dac_out,
             # outputs
             o_o_seq_done=self.seq_done,
+            # ERROR
             o_o_active=Signal(),  # ignore FSM's internal active, use ttl.o_active
             o_o_dac_drive=o_dac_drive,
         )

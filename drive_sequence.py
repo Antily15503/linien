@@ -77,7 +77,12 @@ while end != True:
             {"type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(130)]},
             {
                 "type": 1,
-                "params": [volts_to_bits(-1.25), 1, int(33333 * ramp), ms_to_clock(12)],
+                "params": [
+                    volts_to_bits(jump_1),
+                    1,
+                    int(33333 * ramp),
+                    ms_to_clock(12),
+                ],
             },
             {"type": 0, "params": [0, ms_to_clock(3)]},
         ]
