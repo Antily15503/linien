@@ -92,18 +92,34 @@ class Registers:
     # when called, should iterate over the parameter parameters.sequence_blocks and...
     # 1)
 
+    # MULTIPLE TTL_SEQUENCE CHANGE
+    # write_sequence should now have the index of which instruction its writing to as its first argument.
+    #
+
     def write_sequence_config(self):
         # maintain a local key-value dictionary for type of nistruction and number of parameters
-        base_addr = 0
         self.set("logic_sequence_fsm_reg_wen", 0)
         stride = 8
         # set the arm to 0
-        self.set("logic_sequence_arm", 0)
+        # CHANGES:
+        # recall arm was changed to be a 4 bit wide signal.
+        # one hot encoded. Initially set to 0000
+        self.set("logic_sequence_arm", 0b0000)
         sequence_blocks = self.parameters.sequence_blocks.value
+        # first vlaue in sequence_blocks will be the index/offset being used.
+        index = sequence_blocks[0]
+        # rest of the values will be the actual instructions.
+        instructions = sequence_blocks[1:]
 
+        # recall that the base_addr is the 2 MSB of the reg addr.
+        # dicatates where the intructions are being read from.
+        # ASSUMES THAT THE PROVIDED INDEX IS 1-4, INDEX 1
+        base_addr = (index - 1) << 7
         # iterate over the instructions in sequence_blocks.start (list)
-        i = 1
-        for inst in sequence_blocks:
+        # base address should be determined by the index selected
+        # index can be 0,1,2,3
+        # this sets the
+        for inst in instructions:
             # first, write the type of instruction to the base address
             self.set("logic_sequence_fsm_reg_addr", base_addr)
             self.set("logic_sequence_fsm_reg_data", inst["type"])
@@ -120,9 +136,10 @@ class Registers:
 
             # increment the base_addr by the stride
             base_addr += stride
-        # after finishing this loop, set the other parameters
-        self.set("logic_sequence_arm", 1)
-        self.set("logic_sequence_num_blocks", len(sequence_blocks) - 1)
+        # after done programming, set arm high for the thing that was just programmed.
+        self.set("logic_sequence_arm", 1 << (index - 1))
+        # CHANGES: now num_blocks has to be specified for each sequence.
+        self.set(f"logic_sequence_num_blocks_{index}", len(instructions) - 1)
 
     def write_registers(self):
         """Writes data from `parameters` to the FPGA."""

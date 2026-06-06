@@ -197,13 +197,19 @@ class LinienModule(Module, AutoCSR):
         self.submodules.gpio_p = Gpio(exp.p)
 
         leds = Cat(*(platform.request("user_led", i) for i in range(8)))
-        sequence_status = Signal(2)
         # self.comb += leds.eq(self.gpio_n.o)
         led_val = Signal(8)
+        # recall arm is now a 4 wide signal
+        # recall that active is now a 4 wide signal
         self.comb += [
-            led_val[0].eq(self.logic.sequence.arm.storage),
-            led_val[1].eq(self.logic.sequence.active),
-            led_val[2].eq(sequence_status[0]),
+            led_val[0].eq(self.logic.sequence.arm.storage[0]),
+            led_val[2].eq(self.logic.sequence.arm.storage[1]),
+            led_val[4].eq(self.logic.sequence.arm.storage[2]),
+            led_val[6].eq(self.logic.sequence.arm.storage[3]),
+            led_val[1].eq(self.logic.sequence.active[0]),
+            led_val[3].eq(self.logic.sequence.active[1]),
+            led_val[5].eq(self.logic.sequence.active[2]),
+            led_val[7].eq(self.logic.sequence.active[3]),
         ]
         self.comb += leds.eq(led_val)
 
@@ -437,12 +443,17 @@ class LinienModule(Module, AutoCSR):
 
         # ttl_handler (inside SequenceExecutor) watches gpio_p[0]; on rising
         # edge it snapshots linien state before the sequence takes over the DAC.
+        # get a list of all the gpio pins being used for ttl signals
+
+        ttl_pins = Signal(4)
+        for i in range(4):
+            ttl_pins[i].eq(self.gpio_p.i[i])
         self.comb += [
+            # TODO: modify to assign it to array of gpio_p inputs instead of singular
             self.logic.sequence.ttl_in.eq(self.gpio_p.i[0]),
             self.logic.sequence.linien_pid_out.eq(pid_out),
             self.logic.sequence.linien_integrator.eq(self.logic.pid.int_out),
             self.logic.sequence.linien_sweep_pos.eq(self.logic.sweep.y),
-            # NOTE: WE SWAPPED THE CHANNELS EARLIER, SO NEED TO SWAP THE VALUES BEIGN SAVED!!!
             self.logic.sequence.linien_dac_out.eq(self.logic.limit_fast2.y),
         ]
 

@@ -22,9 +22,10 @@ through reg_file, they're just standalone config values.
 from migen import *
 from misoc.interconnect.csr import AutoCSR, CSRStorage, CSRStatus
 
+
 class RegFileAdapter(Module, AutoCSR):
     def __init__(self):
-        #param reg_file write path
+        # param reg_file write path
         self.wr_addr = CSRStorage(8, name="wr_addr")
         self.wr_data = CSRStorage(32, name="wr_data")
         self.wr_strobe = CSRStorage(name="wr_strobe")
@@ -42,7 +43,7 @@ class RegFileAdapter(Module, AutoCSR):
             self.o_wr_en.eq(self.wr_strobe.storage & ~strobe_prev),
         ]
 
-        #AWG BRAM write path
+        # AWG BRAM write path
         self.awg_addr = CSRStorage(10, name="awg_addr")
         self.awg_data = CSRStorage(14, name="awg_data")
         self.awg_strobe = CSRStorage(name="awg_strobe")
@@ -60,14 +61,20 @@ class RegFileAdapter(Module, AutoCSR):
             self.o_awg_en.eq(self.awg_strobe.storage & ~awg_strobe_prev),
         ]
 
-        #config passthrough
-        self.num_blocks = CSRStorage(4, name="num_blocks")
+        # config passthrough
+        self.num_blocks_1 = CSRStorage(4, name="num_blocks")
+        self.num_blocks_2 = CSRStorage(4, name="num_blocks")
+        self.num_blocks_3 = CSRStorage(4, name="num_blocks")
+        self.num_blocks_4 = CSRStorage(4, name="num_blocks")
         self.enable = CSRStorage(1, name="enable")
 
         self.o_num_blocks = Signal(4, name="o_num_blocks")
         self.o_enable = Signal(name="o_enable")
 
         self.comb += [
+            # o_num_blocks should be combinationally determined by
+            # the one hot encoded value of the active signal from the ttl_handler?
             self.o_num_blocks.eq(self.num_blocks.storage),
             self.o_enable.eq(self.enable.storage),
         ]
+

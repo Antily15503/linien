@@ -10,6 +10,8 @@ SRC_DIR = $(PWD)/../../src
 
 SIM_BUILD				= sim_build/rtl
 VERILOG_SOURCES += $(wildcard $(SRC_DIR)/*.sv)
+#export the python path
+export PYTHONPATH := $(shell pwd)/../../gateware/logic:$(shell pwd)/../../gateware:$(PYTHONPATH)
 
 # Allow sharing configuration between design and testbench via `include`:
 VERILOG_INCLUDE_DIRS += $(SRC_DIR)

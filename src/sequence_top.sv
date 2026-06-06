@@ -10,7 +10,7 @@ module sequence_top #(
     //bits wide
     //total of 32 instructions?
     //test to see how large this can get lol
-    parameter int FSM_REGFILE_ADDR_WIDTH = 8,
+    parameter int FSM_REGFILE_ADDR_WIDTH = 9,
     parameter int AWG_REGFILE_ADDR_WIDTH = 10,
   localparam int BLOCK_IDX_WIDTH = $clog2(MAX_BLOCKS),
     localparam int BLOCK_TYPE_IDX_WIDTH = $clog2(NUM_BLOCK_TYPES)
@@ -37,9 +37,11 @@ module sequence_top #(
     //signals from ttl handler
     input wire                     i_start,         //in ttl_handler, this is o_fsm_start
     input wire [13:0]              i_init_v,        //saved DAC voltage
+    input wire [3:0] i_active, //signal for offset, COMES FROM TTL HANDLER
 
     //Signals to ttl handler
     output logic                    o_seq_done,      //1 cycle pulse
+    //NOTE: THIS IS NOT USED
     output logic                    o_active,        //high when sequence is active
 
     //DAC output (to linien)
@@ -106,6 +108,7 @@ control #(
 ) u_control (
     .clk            (clk),
     .rst_n          (rst_n),
+    .i_active(i_active),
 
     // Top-level control
     .i_start        (i_start),

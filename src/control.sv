@@ -40,12 +40,9 @@ module control #(
     //upper 2 are used to index the 4 possible sequences. 
     //total of 9 bits
     parameter REGFILE_ADDR_WIDTH = 9,
-	 localparam int BLOCK_IDX_WIDTH      = $clog2(MAX_BLOCKS),
+	  localparam int BLOCK_IDX_WIDTH      = $clog2(MAX_BLOCKS),
     localparam int PARAM_IDX_WIDTH      = $clog2(MAX_BLOCK_PARAMS),
     localparam int BLOCK_TYPE_IDX_WIDTH = $clog2(NUM_BLOCK_TYPES)
-
-    // auto-calculated
-   
 ) (
     input wire clk,
     input wire rst_n,
@@ -62,6 +59,9 @@ module control #(
     // functional block drive (active block selected by cur_type)
     input  wire [13:0]                   i_block_drive [NUM_BLOCK_TYPES], 
 
+    //ADDED: active from ttl_handler to infer offset
+    input wire[3:0] i_active,
+
     // shared param bus to functional blocks
     output logic [DATA_WIDTH-1:0]         o_param_data,
     output logic [3:0]                    o_param_addr,
@@ -75,6 +75,7 @@ module control #(
 
     // control outputs (to ttl_handler / relock)
     output logic                          o_seq_done,
+    //NOTE: THIS O_ACTIVE IS IGNORED, INSTEAD USES DIRECTLY FROM TTL HANDLER
     output logic                          o_active
 );
 
@@ -116,7 +117,23 @@ module control #(
   // hmmmm, given this is combinational it might just be easier to increase
   // the size of the o_active signal to 4 bits so the upper bits can be
   // combinationally determined?
-  assign block_base_addr   = {2'b00, block_idx, 3'b000};      // block_idx * 8
+  logic [1:0] active_to_binary;
+  always_comb begin
+    case(i_active)
+      4'b0000:
+        active_to_binary=2'b00;
+      4'b0001:
+        active_to_binary=2'b00;
+      4'b0010:
+        active_to_binary=2'b01;
+      4'b0100:
+        active_to_binary=2'b10;
+      4'b1000:
+        active_to_binary=2'b11;
+        default: active_to_binary=2'b00;
+    endcase
+end
+  assign block_base_addr   = {active_to_binary, block_idx, 3'b000};      // block_idx * 8
   //based on cur_type, activates the relavant block by left shifting 'b1 by
   //the given type
   assign type_onehot       = NUM_BLOCK_TYPES'(1) << cur_type;
@@ -147,6 +164,8 @@ module control #(
   end
 
   // boundary flags
+  // NOTE: this needs to be asserted 1 clock cycle earlier due to latency of
+  // reads from the regfile. 
   assign last_param = (param_idx == (num_params - PARAM_IDX_WIDTH'(1)));
   assign last_block = (block_idx == i_num_blocks);
 
@@ -257,7 +276,8 @@ module control #(
     case (state)
       FETCH_TYPE:  o_regfile_addr = block_base_addr;                                         // offset 0: type
       LOAD_INIT:   o_regfile_addr = block_base_addr + 8'd1;                                  // offset 1: first param (arrives next cycle)
-      LOAD_PARAMS: o_regfile_addr = block_base_addr + 8'd2 + REGFILE_ADDR_WIDTH'(param_idx); // offset 2+: next param
+      LOAD_PARAMS:
+      o_regfile_addr = block_base_addr + 8'd2 + REGFILE_ADDR_WIDTH'(param_idx);
       default:     o_regfile_addr = '0;
     endcase
   end

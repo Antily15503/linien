@@ -63,6 +63,8 @@ client.connect(autostart_server=False, use_parameter_cache=False)
 #        {"type": 0, "params": [0, ms_to_clock(3)]},
 #    ]
 
+# start and end voltage, and time driven.
+
 
 end = False
 while end != True:
@@ -74,6 +76,7 @@ while end != True:
         jump_1 = float(input_voltage)
         ramp = -1 * (jump_1) / 5
         jump_2 = -1 * (jump_1 + ramp)
+
         client.parameters.sequence_blocks.value = [
             {"type": 0, "params": [0, ms_to_clock(3)]},
             {"type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
@@ -82,8 +85,8 @@ while end != True:
                 "type": 1,
                 "params": [
                     volts_to_bits(jump_1),
-                    1,
-                    int(33333 * ramp),
+                    0x3AAA,
+                    int(33333 * abs(ramp)),
                     ms_to_clock(12),
                 ],
             },

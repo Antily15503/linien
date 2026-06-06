@@ -21,6 +21,7 @@ module linear_ramp #(
     always_ff @(posedge clk) begin
         if (!rst_n) begin
             v_start <= '0;
+            v_step<= '0;
             clk_div <= 32'd1;
         end else if (en) begin
             case (i_param_addr)

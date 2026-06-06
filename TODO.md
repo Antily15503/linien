@@ -1,0 +1,7 @@
+- look at ttl_handler to see if the signals are correctly configured: DONE
+- look at the control.sv to check if its inputs are configured to account for the offset given by the ttl_handler: DONE
+- determine where num_blocks is determined, and mux that to account for multiple ttl_signals
+- see if anything needs to be on the top level modules
+    - Note that the hierarchy is sequence.sv -> sequence_top.sv -> sequence.py
+- retrace hierarchy to determine if any other signals need to be changed in length (namely CSR's) to account for multiple ttl signals
+- change the gateware assignement to use multiple LED's and input pins to handle multiple ttl signals. 

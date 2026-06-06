@@ -106,6 +106,8 @@ class AcquisitionService(Service):
                 # mismatch (e.g. stale csrmap.py vs flashed gateware.bin).
                 # falling-edge detection is disabled until that's resolved.
                 seq_active = False
+                logger.debug("Failed to relock: key error")
+                logger.info("Failed to relock: key error")
 
             if seq_active:
                 self._sequence_was_active = True

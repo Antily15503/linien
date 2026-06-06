@@ -1,6 +1,7 @@
 from migen import Module, Signal, Instance, Cat
 from misoc.interconnect.csr import AutoCSR, CSRStorage, CSRStatus
 from migen import ClockSignal, ResetSignal
+from migen import *
 
 from .ttl_handler import TTLHandler
 
@@ -27,8 +28,11 @@ class SequenceExecutor(Module, AutoCSR):
     ):
 
         # CSRs for server control
-        self.arm = CSRStorage(1)  # enable the ttl watcher
-        self.status = CSRStatus(2)  # bit0: active, bit1: armed
+        self.arm = CSRStorage(4)  # enable the ttl watcher
+        self.status_1 = CSRStatus(2)  # bit0: active, bit1: armed
+        self.status_2 = CSRStatus(2)  # bit0: active, bit1: armed
+        self.status_3 = CSRStatus(2)  # bit0: active, bit1: armed
+        self.status_4 = CSRStatus(2)  # bit0: active, bit1: armed
 
         # snapshot readback for relock. captured by ttl_handler on the TTL
         # rising edge and held until the next trigger. values are signed but
@@ -51,7 +55,11 @@ class SequenceExecutor(Module, AutoCSR):
 
         # config
         block_idx_width = (max_blocks - 1).bit_length()
-        self.num_blocks = CSRStorage(block_idx_width)
+        # recall that the num_blocks_1...4 is defined inside of the regfile adapter
+        self.num_blocks_1 = CSRStorage(block_idx_width)
+        self.num_blocks_2 = CSRStorage(block_idx_width)
+        self.num_blocks_3 = CSRStorage(block_idx_width)
+        self.num_blocks_4 = CSRStorage(block_idx_width)
 
         # kept for backwards compat with server registers.py / csrmap.py.
         # the real starting voltage now comes from the TTL snapshot.
@@ -59,9 +67,9 @@ class SequenceExecutor(Module, AutoCSR):
 
         # signals exposed to LinienModule
         self.dac_out = Signal((width, True))
-        self.ttl_in = Signal()  # from gpio
+        self.ttl_in = Signal(4)  # from gpio
         self.pid_pause = Signal()  # HIGH while sequence active
-        self.active = Signal()
+        self.active = Signal(4)
         self.seq_done = Signal()  # 1-cycle pulse from control.sv DONE state
 
         # linien state inputs (wired in linien_module.py)
@@ -86,7 +94,10 @@ class SequenceExecutor(Module, AutoCSR):
             ttl.i_linien_sweep_pos.eq(self.linien_sweep_pos),
             ttl.i_linien_dac_out.eq(self.linien_dac_out),
             # exported signals driven by ttl handler
-            self.status.status.eq(ttl.o_status),
+            self.status_1.status.eq(ttl.o_status_1),
+            self.status_2.status.eq(ttl.o_status_2),
+            self.status_3.status.eq(ttl.o_status_3),
+            self.status_4.status.eq(ttl.o_status_4),
             self.active.eq(ttl.o_active),
             self.pid_pause.eq(ttl.o_active),
             self.dac_out.eq(o_dac_drive),
@@ -95,6 +106,20 @@ class SequenceExecutor(Module, AutoCSR):
             self.saved_integrator.status.eq(ttl.o_saved_integrator),
             self.saved_sweep_pos.status.eq(ttl.o_saved_sweep_pos),
             self.saved_dac_out.status.eq(ttl.o_saved_dac_out),
+        ]
+
+        self.num_blocks = Signal(4)
+        self.comb += [
+            Case(
+                self.active,
+                {
+                    0b0001: self.num_blocks.eq(self.num_blocks_1.storage),
+                    0b0010: self.num_blocks.eq(self.num_blocks_2.storage),
+                    0b0100: self.num_blocks.eq(self.num_blocks_3.storage),
+                    0b1000: self.num_blocks.eq(self.num_blocks_4.storage),
+                    "default": self.num_blocks.eq(self.num_blocks_1.storage),
+                },
+            ),
         ]
 
         # instantiate sequence_top
@@ -117,7 +142,7 @@ class SequenceExecutor(Module, AutoCSR):
             i_i_awg_reg_w_data=self.awg_reg_data.storage,
             i_i_awg_reg_w_en=self.awg_reg_wen.storage,
             # config
-            i_i_num_blocks=self.num_blocks.storage,
+            i_i_num_blocks=self.num_blocks,
             # from ttl handler. o_saved_dac_out is v_lock — the FSM adds it to
             # every block's drive at output, so block params are SIGNED OFFSETS
             # from v_lock, not absolute DAC counts.
@@ -128,4 +153,6 @@ class SequenceExecutor(Module, AutoCSR):
             # ERROR
             o_o_active=Signal(),  # ignore FSM's internal active, use ttl.o_active
             o_o_dac_drive=o_dac_drive,
+            # additional active input to sequence
+            i_i_active=self.active,
         )

@@ -20,8 +20,12 @@ class SequenceRelock:
         self.settle_time = settle_time
 
     def is_sequence_active(self):
-        """check if a sequence is currently running."""
-        status = self.csr.get("logic_sequence_status")
+        """check if ANY sequence is currently running."""
+        status_1 = self.csr.get("logic_sequence_status_1")
+        status_2 = self.csr.get("logic_sequence_status_2")
+        status_3 = self.csr.get("logic_sequence_status_3")
+        status_4 = self.csr.get("logic_sequence_status_4")
+        status = status_1 | status_2 | status_3 | status_4
         return bool(status & STATUS_ACTIVE)
 
     def is_locked(self):
