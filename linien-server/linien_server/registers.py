@@ -43,6 +43,7 @@ class Registers:
     ) -> None:
         self.control = control
         self.parameters = parameters
+        self._armed_sequence=0b0000
 
         if host is None:
             # AcquisitionService is imported only on the Red Pitaya since pyrp3 is not
@@ -94,8 +95,6 @@ class Registers:
 
     # MULTIPLE TTL_SEQUENCE CHANGE
     # write_sequence should now have the index of which instruction its writing to as its first argument.
-    #
-
     def write_sequence_config(self):
         # maintain a local key-value dictionary for type of nistruction and number of parameters
         self.set("logic_sequence_fsm_reg_wen", 0)
@@ -104,10 +103,15 @@ class Registers:
         # CHANGES:
         # recall arm was changed to be a 4 bit wide signal.
         # one hot encoded. Initially set to 0000
-        self.set("logic_sequence_arm", 0b0000)
+        #WAIT, note that this means *each time* a seqeunce is writte, 
+        #it "dearms" all the others!
+        #instead, disarm only the signal being written to right now. 
         sequence_blocks = self.parameters.sequence_blocks.value
-        # first vlaue in sequence_blocks will be the index/offset being used.
         index = sequence_blocks[0]
+        #de-arm the signal being written to
+        self._armed_sequence=self._armed_sequence & (~(1<<(index-1)))
+        self.set("logic_sequence_arm", self._armed_sequence)
+        # first vlaue in sequence_blocks will be the index/offset being used.
         # rest of the values will be the actual instructions.
         instructions = sequence_blocks[1:]
 
@@ -136,8 +140,9 @@ class Registers:
 
             # increment the base_addr by the stride
             base_addr += stride
-        # after done programming, set arm high for the thing that was just programmed.
-        self.set("logic_sequence_arm", 1 << (index - 1))
+        #re-arm the sequence
+        self._armed_sequence=self._armed_sequence | (1<<(index-1))
+        self.set("logic_sequence_arm",self._armed_sequence)
         # CHANGES: now num_blocks has to be specified for each sequence.
         self.set(f"logic_sequence_num_blocks_{index}", len(instructions) - 1)
 

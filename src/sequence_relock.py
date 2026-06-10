@@ -35,9 +35,13 @@ class SequenceRelock:
         self.widen_step = widen_step
         self.relock_window = relock_window
 
+# to check if the seuqence is active, look at the output of the ttl handler. 
     def is_sequence_active(self):
         """check if a sequence is currently running."""
-        status = self.csr.get("regfile_adapter_status")
+        """ERROR: regfile_adapter_status is  not instantiated; needs to be rewored"""
+        #replace with check on o_active signal from ttl handler. 
+        #status = self.csr.get("regfile_adapter_status")
+        status=(self.csr.get("logic_o_active")!=0)
         return bool(status & STATUS_ACTIVE)
 
     def is_locked(self):
