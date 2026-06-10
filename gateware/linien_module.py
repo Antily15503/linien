@@ -47,7 +47,6 @@ from .lowlevel.gpio import Gpio
 from .lowlevel.pitaya_ps import PitayaPS, Sys2CSR, SysCDC, SysInterconnect
 from .lowlevel.scopegen import ScopeGen
 from .lowlevel.xadc import XADC
-from .logic.sequence import SequenceExecutor
 
 
 class LinienLogic(Module, AutoCSR):
@@ -415,6 +414,9 @@ class LinienModule(Module, AutoCSR):
         #    #),
         # ]
 
+        
+        #NOTE: look at the array of values instead of just gpio_p.i[0]
+        #i.e, ttl_pins
         self.comb += [
             # self.logic.autolock.robust.at_start.eq(self.logic.sweep.sweep.trigger),
             self.scopegen.gpio_trigger.eq(self.gpio_p.i[0]),
@@ -446,11 +448,10 @@ class LinienModule(Module, AutoCSR):
         # get a list of all the gpio pins being used for ttl signals
 
         ttl_pins = Signal(4)
-        for i in range(4):
-            ttl_pins[i].eq(self.gpio_p.i[i])
+        self.comb+=[ttl_pins[i-1].eq(self.gpio_p.i[i]) for i in range(1,5)]
         self.comb += [
             # TODO: modify to assign it to array of gpio_p inputs instead of singular
-            self.logic.sequence.ttl_in.eq(self.gpio_p.i[0]),
+            self.logic.sequence.ttl_in.eq(ttl_pins),
             self.logic.sequence.linien_pid_out.eq(pid_out),
             self.logic.sequence.linien_integrator.eq(self.logic.pid.int_out),
             self.logic.sequence.linien_sweep_pos.eq(self.logic.sweep.y),
