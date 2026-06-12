@@ -1,6 +1,8 @@
 from migen import *
 from ttl_handler import TTLHandler
 
+#modify testbench to work with multiple ttl signals
+#send ttl should send a 4 wide ttl signal. 
 
 # sync(2) + edge detect(1) + SNAPSHOT(1) + TRIGGER(1) = 5 cycles min.
 # add margin for test reliability.
@@ -19,8 +21,8 @@ def tb_ttl_handler():
             yield dut.i_linien_sweep_pos.eq(sweep)
             yield dut.i_linien_dac_out.eq(dac)
 
-        def send_ttl(width=2):
-            yield dut.i_ttl.eq(1)
+        def send_ttl(width=2,ttl=0b0000):
+            yield dut.i_ttl.eq(ttl)
             for _ in range(width):
                 yield
             yield dut.i_ttl.eq(0)
@@ -33,29 +35,46 @@ def tb_ttl_handler():
         yield from set_linien(pid=1000, integ=500000, sweep=4000, dac=3000)
         yield
 
-        # test 1: disabled
-        print("test 1:  trigger ignored when disabled")
-        yield dut.i_enable.eq(0)
+        # test 1.1: disabled all sequences: should not trigger any
+        print("test 1.1:  trigger ignored when arm is 0b0000")
+        yield dut.i_enable.eq(0b0000)
         yield
-        yield from send_ttl()
-        yield from wait(REACT_CYCLES)
-        assert (yield dut.o_active) == 0
-        assert (yield dut.o_fsm_start) == 0
-        print("  passed")
+        for i in range(4):
+            yield from send_ttl(i)
+            yield from wait(REACT_CYCLES)
+            assert (yield dut.o_active) == 0
+            assert (yield dut.o_fsm_start) == 0
+            print("passed")
+
+        # test 1.2 disabled select sequences: should not trigger any of the OTHERS
+        """
+        for i in range(4):
+            print(f"test 1.2:  trigger ignored when arm is {i:04b}")
+            yield dut.i_enable.eq(0b0001<<i)
+            yield
+            nums=[0,1,2,3]
+            for i in range(4):
+                yield from send_ttl(i)
+                yield from wait(REACT_CYCLES)
+                assert (yield dut.o_active) == 0
+                assert (yield dut.o_fsm_start) == 0
+                print("passed")
+        """
 
         # test 2: enable + trigger + snapshot
         print("test 2:  enable, trigger, check snapshot")
-        yield dut.i_enable.eq(1)
-        yield
-        yield
-        yield from send_ttl()
-        yield from wait(REACT_CYCLES)
+        for i in range(4):
+            yield dut.i_enable.eq(0b0001<<i)
+            yield
+            yield
+            yield from send_ttl()
+            yield from wait(REACT_CYCLES)
 
-        assert (yield dut.o_active) == 1
-        assert (yield dut.o_saved_pid_out) == 1000
-        assert (yield dut.o_saved_integrator) == 500000
-        assert (yield dut.o_saved_sweep_pos) == 4000
-        print("  passed")
+            assert (yield dut.o_active) == 1
+            assert (yield dut.o_saved_pid_out) == 1000
+            assert (yield dut.o_saved_integrator) == 500000
+            assert (yield dut.o_saved_sweep_pos) == 4000
+            print("  passed")
 
         # test 3: dac_out captured
         print("test 3:  o_saved_dac_out captures starting voltage")
