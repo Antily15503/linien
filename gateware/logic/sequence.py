@@ -100,7 +100,7 @@ class SequenceExecutor(Module, AutoCSR):
             self.status_4.status.eq(ttl.o_status_4),
             self.active.eq(ttl.o_active),
             #TODO: pid_pause should be OR'd o_active
-            self.pid_pause.eq((ttl.o_active!=0))
+            self.pid_pause.eq(ttl.o_active!=0),
             self.dac_out.eq(o_dac_drive),
             # snapshot readback
             self.saved_pid_out.status.eq(ttl.o_saved_pid_out),
