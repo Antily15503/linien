@@ -78,6 +78,7 @@ while end != True:
         jump_2 = -1 * (jump_1 + ramp)
 
         client.parameters.sequence_blocks.value = [
+            1,
             {"type": 0, "params": [0, ms_to_clock(3)]},
             {"type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
             {"type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(130)]},
