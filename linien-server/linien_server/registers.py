@@ -121,7 +121,7 @@ class Registers:
         base_addr = (index - 1) << 7
         # iterate over the instructions in sequence_blocks.start (list)
         # base address should be determined by the index selected
-        # index can be 0,1,2,3
+        # index can be 1,2,3,4
         # this sets the
         for inst in instructions:
             # first, write the type of instruction to the base address
