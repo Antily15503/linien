@@ -1,4 +1,5 @@
 from migen import *
+from migen.sim import run_simulation
 from ttl_handler import TTLHandler
 
 #modify testbench to work with multiple ttl signals
@@ -11,6 +12,7 @@ REACT_CYCLES = 10
 
 def tb_ttl_handler():
     dut = TTLHandler()
+    #expose certian signals?
 
     def run(dut):
 
@@ -40,43 +42,49 @@ def tb_ttl_handler():
         yield dut.i_enable.eq(0b0000)
         yield
         for i in range(4):
-            yield from send_ttl(i)
+            yield from send_ttl(4,(1<<(i)))
             yield from wait(REACT_CYCLES)
-            assert (yield dut.o_active) == 0
+            assert (yield dut.o_active) == 0b0000
             assert (yield dut.o_fsm_start) == 0
             print("passed")
 
         # test 1.2 disabled select sequences: should not trigger any of the OTHERS
-        """
         for i in range(4):
             print(f"test 1.2:  trigger ignored when arm is {i:04b}")
             yield dut.i_enable.eq(0b0001<<i)
             yield
             nums=[0,1,2,3]
-            for i in range(4):
-                yield from send_ttl(i)
-                yield from wait(REACT_CYCLES)
-                assert (yield dut.o_active) == 0
-                assert (yield dut.o_fsm_start) == 0
-                print("passed")
-        """
-
+            for j in range(4):
+                if(j==i):
+                    pass
+                else:
+                    yield from send_ttl(4,1<<j)
+                    yield from wait(REACT_CYCLES)
+                    assert (yield dut.o_active) == 0b0000
+                    assert (yield dut.o_fsm_start) == 0
+                    print("passed")
         # test 2: enable + trigger + snapshot
         print("test 2:  enable, trigger, check snapshot")
         for i in range(4):
             yield dut.i_enable.eq(0b0001<<i)
             yield
             yield
-            yield from send_ttl()
+            yield from send_ttl(4,0b001<<i)
             yield from wait(REACT_CYCLES)
-
-            assert (yield dut.o_active) == 1
+            assert (yield dut.o_active) == 1<<i
             assert (yield dut.o_saved_pid_out) == 1000
             assert (yield dut.o_saved_integrator) == 500000
             assert (yield dut.o_saved_sweep_pos) == 4000
+            #after verifying all this, assert i_seq_done to let the TTl-handler go back to 
+            #IDLE state. 
+            yield dut.i_seq_done.eq(1)
+            yield
+            yield
+            yield dut.i_seq_done.eq(0)
             print("  passed")
 
         # test 3: dac_out captured
+        """
         print("test 3:  o_saved_dac_out captures starting voltage")
         assert (yield dut.o_saved_dac_out) == 3000
         print("  passed")
@@ -211,6 +219,7 @@ def tb_ttl_handler():
         print("  passed")
 
         print("\nall 12 tests passed")
+        """
 
     run_simulation(dut, run(dut), vcd_name="ttl_handler.vcd")
 

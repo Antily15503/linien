@@ -68,10 +68,10 @@ class TTLHandler(Module):
         self.o_saved_sweep_pos = Signal((SWEEP_WIDTH, True), name="o_saved_sweep_pos")
         self.o_saved_dac_out = Signal((DAC_WIDTH, True), name="o_saved_dac_out")
 
-        # two-flop synchronizer
-        ttl_sync0 = Signal(4)
-        ttl_sync1 = Signal(4)
-        ttl_prev = Signal(4)
+        # two-flop synchronizer0
+        ttl_sync0 = Signal(4,name="ttl_sync0")
+        ttl_sync1 = Signal(4,name="ttl_sync1")
+        ttl_prev = Signal(4,name="ttl_prev")
 
         self.sync += [
             ttl_sync0.eq(self.i_ttl),
@@ -90,14 +90,14 @@ class TTLHandler(Module):
 
         # if multiple signals are detected, use a **priority encoder setup**
         # i.e, the lowest index (0) takes priority over all else, same for 1,2,3
-        priority_rising_edge = Signal(4)
+        self.priority_rising_edge = Signal(4,name="priority_rising_edge")
         self.comb += [
             # default case
-            priority_rising_edge.eq(0),
-            If(rising_edge[0], priority_rising_edge.eq(0b0001))
-            .Elif(rising_edge[1], priority_rising_edge.eq(0b0010))
-            .Elif(rising_edge[2], priority_rising_edge.eq(0b0100))
-            .Elif(rising_edge[3], priority_rising_edge.eq(0b1000)),
+            self.priority_rising_edge.eq(0),
+            If(rising_edge[0], self.priority_rising_edge.eq(0b0001))
+            .Elif(rising_edge[1], self.priority_rising_edge.eq(0b0010))
+            .Elif(rising_edge[2], self.priority_rising_edge.eq(0b0100))
+            .Elif(rising_edge[3], self.priority_rising_edge.eq(0b1000)),
         ]
 
         self.submodules.fsm = fsm = FSM(reset_state="IDLE")
@@ -109,20 +109,24 @@ class TTLHandler(Module):
         # using that instead?
         # actually, treat this as a latch that gets reset in the idle state
 
-        self.o_active_offset = Signal(4)
+        self.o_active_offset = Signal(4,name="o_active_offset")
+
 
         fsm.act(
             "IDLE",
             self.o_active.eq(0),
             self.o_fsm_start.eq(0),
-            self.o_active_offset.eq(0),
             If(
-                armed
-                & (rising_edge[0] | rising_edge[1] | rising_edge[2] | rising_edge[3]),
+                #only proceed to snapshot if the corresponding armed and rising edge
+                #are detected?
+                (armed[0] & self.priority_rising_edge[0])|
+                (armed[1] & self.priority_rising_edge[1])|
+                (armed[2] & self.priority_rising_edge[2])|
+                (armed[3] & self.priority_rising_edge[3]),
                 NextState("SNAPSHOT"),
                 # additionally, latch the rising edge profile?
-                NextValue(self.o_active_offset, priority_rising_edge),
-            ),
+                NextValue(self.o_active_offset, self.priority_rising_edge),
+            )
         )
 
         fsm.act(

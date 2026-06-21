@@ -43,7 +43,7 @@ class Registers:
     ) -> None:
         self.control = control
         self.parameters = parameters
-        self._armed_sequence=0b0000
+        self._armed_sequence=0
 
         if host is None:
             # AcquisitionService is imported only on the Red Pitaya since pyrp3 is not
