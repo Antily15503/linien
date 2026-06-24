@@ -259,6 +259,7 @@ class RedPitayaControlService(BaseService, LinienControlService):
         """Sync the parameters with the FSM registers(?)"""
         self.registers.write_sequence_config()
 
+        #TODO: double check if this is the reason AWG doesn't work correctly?
     def exposed_write_awg(self, vals) -> None:
         """Sync the parameters with the FSM registers(?)"""
         self.registers.write_awg(vals)
@@ -322,6 +323,8 @@ class RedPitayaControlService(BaseService, LinienControlService):
         # FIXME: hacky way to trigger atexit handlers for saving parameters
         _thread.interrupt_main()
         raise SystemExit()
+    def exposed_disarm_sequence(self,index):
+        self.registers.disarm_sequence(index)
 
     def exposed_pause_acquisition(self):
         """

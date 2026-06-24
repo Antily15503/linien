@@ -44,6 +44,17 @@ class Registers:
         self.control = control
         self.parameters = parameters
         self._armed_sequence=0
+        #on upload, reset all armed signals
+        self.set("logic_sequence_arm",0b0000)
+        #and send reset signal 
+        self.set("logic_sequence_reset_seq",0)
+        self.set("logic_sequence_reset_seq",1)
+        self.set("logic_sequence_reset_seq",0)
+        #TODO: 
+        #list that maintains the most recently written sequence to each index. 
+        #each entry corresponds to the type of instruction, from which parameter length can e inferred. 
+        #this should allow the calculation of start and end indexes, allowing for wiping. 
+        self._sequence_length=[[],[],[],[]]
 
         if host is None:
             # AcquisitionService is imported only on the Red Pitaya since pyrp3 is not
@@ -93,8 +104,24 @@ class Registers:
     # when called, should iterate over the parameter parameters.sequence_blocks and...
     # 1)
 
+    #method to hard wipe the instruction memory, and reset all the arm/status signals(?)
+    def hard_wipe(self):
+        pass
+
+    #convenience function to disarm/wipe certain sequences. 
+    def disarm_sequence(self,index):
+        if index not in range(1,5):
+            raise ValueError(f"sequence index must be 1-4, got {index}")
+        #step 1: disarm the sequence. 
+        one_hot=~(1<<(index-1)) & 0b1111
+        self._armed_sequence=self._armed_sequence & one_hot
+        self.set("logic_sequence_arm",self._armed_sequence)
+
+        #step 2: wipe the series of instructions(?)
+
     # MULTIPLE TTL_SEQUENCE CHANGE
     # write_sequence should now have the index of which instruction its writing to as its first argument.
+    # use _sequence_length to maintain length of each sequence. 
     def write_sequence_config(self):
         # maintain a local key-value dictionary for type of nistruction and number of parameters
         self.set("logic_sequence_fsm_reg_wen", 0)
@@ -108,6 +135,8 @@ class Registers:
         #instead, disarm only the signal being written to right now. 
         sequence_blocks = self.parameters.sequence_blocks.value
         index = sequence_blocks[0]
+        if index not in range(1,5):
+            raise ValueError(f"sequence index must be 1-4, got {index}")
         #de-arm the signal being written to
         self._armed_sequence=self._armed_sequence & (~(1<<(index-1)))
         self.set("logic_sequence_arm", self._armed_sequence)

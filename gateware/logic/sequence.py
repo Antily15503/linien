@@ -23,10 +23,14 @@ class SequenceExecutor(Module, AutoCSR):
         signal_width=25,
         data_width=32,
         max_blocks=16,
-        fsm_addr_width=8,
+        fsm_addr_width=9,
         awg_addr_width=10,
     ):
 
+        #csr for user-enabled reset of sequence_top and ttl_handler. 
+        self.reset_seq=CSRStorage(1)
+        #user pulses reset_seq from 0 to 1 to trigger reset. 
+        self.comb+=self.reset_seq.eq(~self.reset_seq & ~ResetSignal("sys"))
         # CSRs for server control
         self.arm = CSRStorage(4)  # enable the ttl watcher
         self.status_1 = CSRStatus(2)  # bit0: active, bit1: armed
@@ -133,7 +137,8 @@ class SequenceExecutor(Module, AutoCSR):
             p_FSM_REGFILE_ADDR_WIDTH=fsm_addr_width,
             p_AWG_REGFILE_ADDR_WIDTH=awg_addr_width,
             i_clk=ClockSignal(),
-            i_rst_n=~ResetSignal(),
+            # if sys goes high OR if reset_seq goes high, triggers reset? 
+            i_rst_n=(~ResetSignal("sys") & ~self.reset_seq.storage),
             # FSM regfile write port
             i_i_fsm_reg_w_addr=self.fsm_reg_addr.storage,
             i_i_fsm_reg_w_data=self.fsm_reg_data.storage,
