@@ -29,8 +29,6 @@ class SequenceExecutor(Module, AutoCSR):
 
         #csr for user-enabled reset of sequence_top and ttl_handler. 
         self.reset_seq=CSRStorage(1)
-        #user pulses reset_seq from 0 to 1 to trigger reset. 
-        self.comb+=self.reset_seq.eq(~self.reset_seq & ~ResetSignal("sys"))
         # CSRs for server control
         self.arm = CSRStorage(4)  # enable the ttl watcher
         self.status_1 = CSRStatus(2)  # bit0: active, bit1: armed
