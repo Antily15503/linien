@@ -255,11 +255,18 @@ class RedPitayaControlService(BaseService, LinienControlService):
         """Sync the parameters with the FPGA registers."""
         self.registers.write_registers()
 
+    def exposed_reset_device(self) -> None:
+        self.reset_device()
+
+    def exposed_disarm_sequence(self, index):
+        self.disarm_sequence(index)
+
     def exposed_write_sequence_config(self) -> None:
         """Sync the parameters with the FSM registers(?)"""
         self.registers.write_sequence_config()
 
-        #TODO: double check if this is the reason AWG doesn't work correctly?
+        # TODO: double check if this is the reason AWG doesn't work correctly?
+
     def exposed_write_awg(self, vals) -> None:
         """Sync the parameters with the FSM registers(?)"""
         self.registers.write_awg(vals)
@@ -323,7 +330,8 @@ class RedPitayaControlService(BaseService, LinienControlService):
         # FIXME: hacky way to trigger atexit handlers for saving parameters
         _thread.interrupt_main()
         raise SystemExit()
-    def exposed_disarm_sequence(self,index):
+
+    def exposed_disarm_sequence(self, index):
         self.registers.disarm_sequence(index)
 
     def exposed_pause_acquisition(self):
@@ -373,12 +381,14 @@ class FakeRedPitayaControlService(BaseService, LinienControlService):
             def gen():
                 return np.array([randint(-max_, max_) for _ in range(N_POINTS)])
 
-            self.parameters.to_plot.value = pickle.dumps({
-                "error_signal_1": gen(),
-                "error_signal_1_quadrature": gen(),
-                "error_signal_2": gen(),
-                "error_signal_2_quadrature": gen(),
-            })
+            self.parameters.to_plot.value = pickle.dumps(
+                {
+                    "error_signal_1": gen(),
+                    "error_signal_1_quadrature": gen(),
+                    "error_signal_2": gen(),
+                    "error_signal_2_quadrature": gen(),
+                }
+            )
             sleep(0.1)
 
     def exposed_write_registers(self):
