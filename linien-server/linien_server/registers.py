@@ -45,11 +45,6 @@ class Registers:
         self.parameters = parameters
         self._armed_sequence = 0
         # on upload, reset all armed signals
-        self.set("logic_sequence_arm", 0b0000)
-        # and send reset signal
-        self.set("logic_sequence_reset_seq", 0)
-        self.set("logic_sequence_reset_seq", 1)
-        self.set("logic_sequence_reset_seq", 0)
         # TODO:
         # list that maintains the most recently written sequence to each index.
         # each entry corresponds to the type of instruction, from which parameter length can e inferred.
@@ -77,6 +72,11 @@ class Registers:
         self.parameters.dual_channel.add_callback(
             self.acquisition.exposed_set_dual_channel, call_immediately=True
         )
+        self.set("logic_sequence_arm", 0b0000)
+        # and send reset signal
+        self.set("logic_sequence_reset_seq", 0)
+        self.set("logic_sequence_reset_seq", 1)
+        self.set("logic_sequence_reset_seq", 0)
 
     # method used to write to the AWG; expects a 1024 long sequence of values, 14 bits in size.
     def write_awg(self, arr_vals):
