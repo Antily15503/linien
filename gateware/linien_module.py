@@ -97,6 +97,7 @@ class LinienLogic(Module, AutoCSR):
         # pid is not started directly by `request_lock` signal. Instead, `request_lock`
         # queues a run that is then started when the sweep is at the zero crossing
         self.comb += [
+            self.pid.i_ttl_active.eq(self.sequence.active),
             self.pid.running.eq(
                 self.autolock.lock_running.status & ~self.sequence.pid_pause
             ),
@@ -287,10 +288,12 @@ class LinienModule(Module, AutoCSR):
         ]
 
         # now, we combine the output of the two paths, with a variable factor each.
-        mixed = Signal((
-            2 + ((signal_width + 1) + self.logic.chain_a_factor.size),
-            True,
-        ))
+        mixed = Signal(
+            (
+                2 + ((signal_width + 1) + self.logic.chain_a_factor.size),
+                True,
+            )
+        )
         self.comb += [
             If(
                 self.logic.dual_channel.storage,
@@ -414,9 +417,8 @@ class LinienModule(Module, AutoCSR):
         #    #),
         # ]
 
-        
-        #NOTE: look at the array of values instead of just gpio_p.i[0]
-        #i.e, ttl_pins
+        # NOTE: look at the array of values instead of just gpio_p.i[0]
+        # i.e, ttl_pins
         self.comb += [
             # self.logic.autolock.robust.at_start.eq(self.logic.sweep.sweep.trigger),
             self.scopegen.gpio_trigger.eq(self.gpio_p.i[0]),
@@ -448,9 +450,8 @@ class LinienModule(Module, AutoCSR):
         # get a list of all the gpio pins being used for ttl signals
 
         ttl_pins = Signal(4)
-        self.comb+=[ttl_pins[i-1].eq(self.gpio_p.i[i]) for i in range(1,5)]
+        self.comb += [ttl_pins[i - 1].eq(self.gpio_p.i[i]) for i in range(1, 5)]
         self.comb += [
-            # TODO: modify to assign it to array of gpio_p inputs instead of singular
             self.logic.sequence.ttl_in.eq(ttl_pins),
             self.logic.sequence.linien_pid_out.eq(pid_out),
             self.logic.sequence.linien_integrator.eq(self.logic.pid.int_out),

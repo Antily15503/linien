@@ -88,8 +88,17 @@ class PID(Module, AutoCSR):
         max_pos_extra = self.max_pos << extra_width
         max_neg_extra = (-1 * max_pos_extra) - 1
 
+        # add input from ttl_handler for o_active[3:0] signal to detect when a sequence is active.
+        # when a sequence is active, gate the accumulaton of error into int_reg.
+
+        self.i_ttl_active = Signal(4)
+
         self.sync += [
             If(self.reset.storage, self.int_reg.eq(0))
+            .Elif(
+                self.i_ttl_active != 0,
+                self.int_reg.eq(self.int_reg),  # hold, dont accumulate
+            )
             .Elif(
                 self.int_sum > max_pos_extra,  # positive saturation
                 self.int_reg.eq(max_pos_extra),
