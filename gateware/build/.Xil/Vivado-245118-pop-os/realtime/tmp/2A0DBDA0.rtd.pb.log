@@ -1,0 +1,367 @@
+xilinx rtfpga
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_limitcsr0_limitcsr0_y1_reg[24:0]' into 'linienmodule_fast_a_limitcsr0_limitcsr0_y1_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4517]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_b00_reg[24:0]' into 'linienmodule_fast_a_iir1_b00_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4706]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_b10_reg[24:0]' into 'linienmodule_fast_a_iir1_b10_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4705]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_a11_reg[24:0]' into 'linienmodule_fast_a_iir1_a11_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4729]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_a2_reg[24:0]' into 'linienmodule_fast_a_iir1_a2_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4728]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_b01_reg[24:0]' into 'linienmodule_fast_a_iir1_b01_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4727]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_b11_reg[24:0]' into 'linienmodule_fast_a_iir1_b11_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4726]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_b2_reg[24:0]' into 'linienmodule_fast_a_iir1_b2_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4725]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_a10_reg[24:0]' into 'linienmodule_fast_a_iir0_a10_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4617]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_b00_reg[24:0]' into 'linienmodule_fast_a_iir0_b00_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4616]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_b10_reg[24:0]' into 'linienmodule_fast_a_iir0_b10_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4615]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_a11_reg[24:0]' into 'linienmodule_fast_a_iir0_a11_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4639]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_a2_reg[24:0]' into 'linienmodule_fast_a_iir0_a2_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4638]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_b01_reg[24:0]' into 'linienmodule_fast_a_iir0_b01_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4637]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_b11_reg[24:0]' into 'linienmodule_fast_a_iir0_b11_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4636]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir0_b2_reg[24:0]' into 'linienmodule_fast_a_iir0_b2_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4635]
+INFO: [Synth 8-4471] merging register 'linienmodule_raw_acquisition_iir_b4_reg[24:0]' into 'linienmodule_raw_acquisition_iir_b4_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4471]
+INFO: [Synth 8-4471] merging register 'linienmodule_raw_acquisition_iir_b3_reg[24:0]' into 'linienmodule_raw_acquisition_iir_b3_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4472]
+INFO: [Synth 8-4471] merging register 'linienmodule_raw_acquisition_iir_b2_reg[24:0]' into 'linienmodule_raw_acquisition_iir_b2_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4473]
+INFO: [Synth 8-4471] merging register 'linienmodule_raw_acquisition_iir_b1_reg[24:0]' into 'linienmodule_raw_acquisition_iir_b1_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4474]
+INFO: [Synth 8-4471] merging register 'linienmodule_raw_acquisition_iir_b0_reg[24:0]' into 'linienmodule_raw_acquisition_iir_b0_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4475]
+INFO: [Synth 8-4471] merging register 'linienmodule_fast_a_iir1_a10_reg[24:0]' into 'linienmodule_fast_a_iir1_a10_reg[24:0]' [/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.v:4707]
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z20, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: register linienmodule_fast_a_iir1_a10_reg is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: operator linienmodule_fast_a_iir1_z20 is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: operator linienmodule_fast_a_iir1_z20 is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z20, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_y0_reg is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: register linienmodule_fast_a_iir1_a10_reg is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: operator linienmodule_fast_a_iir1_z20 is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: operator linienmodule_fast_a_iir1_z20 is absorbed into DSP linienmodule_fast_a_iir1_z20.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z10, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_z10 is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: register linienmodule_fast_a_iir1_b00_reg is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: operator linienmodule_fast_a_iir1_z10 is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: operator linienmodule_fast_a_iir1_z10 is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z10, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_limitcsr1_limitcsr1_y0_reg is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: register linienmodule_fast_a_iir1_b00_reg is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: operator linienmodule_fast_a_iir1_z10 is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: operator linienmodule_fast_a_iir1_z10 is absorbed into DSP linienmodule_fast_a_iir1_z10.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z00, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_z00 is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: register linienmodule_fast_a_iir1_b10_reg is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: operator linienmodule_fast_a_iir1_z00 is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: operator linienmodule_fast_a_iir1_z00 is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z00, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_limitcsr1_limitcsr1_y0_reg is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: register linienmodule_fast_a_iir1_b10_reg is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: operator linienmodule_fast_a_iir1_z00 is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: operator linienmodule_fast_a_iir1_z00 is absorbed into DSP linienmodule_fast_a_iir1_z00.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z70, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_z70 is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: register linienmodule_fast_a_iir1_a11_reg is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: operator linienmodule_fast_a_iir1_z70 is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: operator linienmodule_fast_a_iir1_z70 is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z70, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_y2_reg is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: register linienmodule_fast_a_iir1_a11_reg is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: operator linienmodule_fast_a_iir1_z70 is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: operator linienmodule_fast_a_iir1_z70 is absorbed into DSP linienmodule_fast_a_iir1_z70.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z60, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_z70 is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: register linienmodule_fast_a_iir1_a2_reg is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: operator linienmodule_fast_a_iir1_z60 is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: operator linienmodule_fast_a_iir1_z60 is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z60, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_y2_reg is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: register linienmodule_fast_a_iir1_a2_reg is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: operator linienmodule_fast_a_iir1_z60 is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: operator linienmodule_fast_a_iir1_z60 is absorbed into DSP linienmodule_fast_a_iir1_z60.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z50, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: register linienmodule_fast_a_iir1_b01_reg is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: operator linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: operator linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z50, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_y0_reg is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: register linienmodule_fast_a_iir1_b01_reg is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: operator linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: operator linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z50.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z40, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_b11_reg is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: register linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: operator linienmodule_fast_a_iir1_z40 is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: operator linienmodule_fast_a_iir1_z40 is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z40, operation Mode is: (PCIN>>17)+A*B2.
+DSP Report: register linienmodule_fast_a_iir1_b11_reg is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: register linienmodule_fast_a_iir1_y0_reg is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: operator linienmodule_fast_a_iir1_z40 is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: operator linienmodule_fast_a_iir1_z40 is absorbed into DSP linienmodule_fast_a_iir1_z40.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z30, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir1_b2_reg is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: register linienmodule_fast_a_iir1_z50 is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: operator linienmodule_fast_a_iir1_z30 is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: operator linienmodule_fast_a_iir1_z30 is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: Generating DSP linienmodule_fast_a_iir1_z30, operation Mode is: (PCIN>>17)+A*B2.
+DSP Report: register linienmodule_fast_a_iir1_b2_reg is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: register linienmodule_fast_a_iir1_y0_reg is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: operator linienmodule_fast_a_iir1_z30 is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: operator linienmodule_fast_a_iir1_z30 is absorbed into DSP linienmodule_fast_a_iir1_z30.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z20, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: register linienmodule_fast_a_iir0_a10_reg is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: operator linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: operator linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z20, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_y0_reg is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: register linienmodule_fast_a_iir0_a10_reg is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: operator linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: operator linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z20.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z10, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_z10 is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: register linienmodule_fast_a_iir0_b00_reg is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: operator linienmodule_fast_a_iir0_z10 is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: operator linienmodule_fast_a_iir0_z10 is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z10, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_limitcsr0_limitcsr0_y0_reg is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: register linienmodule_fast_a_iir0_b00_reg is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: operator linienmodule_fast_a_iir0_z10 is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: operator linienmodule_fast_a_iir0_z10 is absorbed into DSP linienmodule_fast_a_iir0_z10.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z00, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_z00 is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: register linienmodule_fast_a_iir0_b10_reg is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: operator linienmodule_fast_a_iir0_z00 is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: operator linienmodule_fast_a_iir0_z00 is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z00, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_limitcsr0_limitcsr0_y0_reg is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: register linienmodule_fast_a_iir0_b10_reg is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: operator linienmodule_fast_a_iir0_z00 is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: operator linienmodule_fast_a_iir0_z00 is absorbed into DSP linienmodule_fast_a_iir0_z00.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z70, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_z70 is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: register linienmodule_fast_a_iir0_a11_reg is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: operator linienmodule_fast_a_iir0_z70 is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: operator linienmodule_fast_a_iir0_z70 is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z70, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_y2_reg is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: register linienmodule_fast_a_iir0_a11_reg is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: operator linienmodule_fast_a_iir0_z70 is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: operator linienmodule_fast_a_iir0_z70 is absorbed into DSP linienmodule_fast_a_iir0_z70.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z60, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_z70 is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: register linienmodule_fast_a_iir0_a2_reg is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: operator linienmodule_fast_a_iir0_z60 is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: operator linienmodule_fast_a_iir0_z60 is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z60, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_y2_reg is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: register linienmodule_fast_a_iir0_a2_reg is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: operator linienmodule_fast_a_iir0_z60 is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: operator linienmodule_fast_a_iir0_z60 is absorbed into DSP linienmodule_fast_a_iir0_z60.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z50, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: register linienmodule_fast_a_iir0_b01_reg is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: operator linienmodule_fast_a_iir0_z50 is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: operator linienmodule_fast_a_iir0_z50 is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z50, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_y0_reg is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: register linienmodule_fast_a_iir0_b01_reg is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: operator linienmodule_fast_a_iir0_z50 is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: operator linienmodule_fast_a_iir0_z50 is absorbed into DSP linienmodule_fast_a_iir0_z50.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z40, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_b11_reg is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: register linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: operator linienmodule_fast_a_iir0_z40 is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: operator linienmodule_fast_a_iir0_z40 is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z40, operation Mode is: (PCIN>>17)+A*B2.
+DSP Report: register linienmodule_fast_a_iir0_b11_reg is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: register linienmodule_fast_a_iir0_y0_reg is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: operator linienmodule_fast_a_iir0_z40 is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: operator linienmodule_fast_a_iir0_z40 is absorbed into DSP linienmodule_fast_a_iir0_z40.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z30, operation Mode is: A2*B2.
+DSP Report: register linienmodule_fast_a_iir0_b2_reg is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: register linienmodule_fast_a_iir0_z20 is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: operator linienmodule_fast_a_iir0_z30 is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: operator linienmodule_fast_a_iir0_z30 is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: Generating DSP linienmodule_fast_a_iir0_z30, operation Mode is: (PCIN>>17)+A*B2.
+DSP Report: register linienmodule_fast_a_iir0_b2_reg is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: register linienmodule_fast_a_iir0_y0_reg is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: operator linienmodule_fast_a_iir0_z30 is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: operator linienmodule_fast_a_iir0_z30 is absorbed into DSP linienmodule_fast_a_iir0_z30.
+DSP Report: Generating DSP linienmodule_mixed2, operation Mode is: (0 or C')+(A2*B or 0).
+DSP Report: register linienmodule_fast_a_limitcsr0_limitcsr0_y1_reg is absorbed into DSP linienmodule_mixed2.
+DSP Report: register linienmodule_mixed2 is absorbed into DSP linienmodule_mixed2.
+DSP Report: operator linienmodule_mixed2 is absorbed into DSP linienmodule_mixed2.
+DSP Report: Generating DSP linienmodule_mixed2, operation Mode is: (A2*B or 0).
+DSP Report: register linienmodule_fast_b_limitcsr0_limitcsr0_y1_reg is absorbed into DSP linienmodule_mixed2.
+DSP Report: operator linienmodule_mixed2 is absorbed into DSP linienmodule_mixed2.
+DSP Report: Generating DSP O11, operation Mode is: PCIN+A2:B+C.
+DSP Report: register O11 is absorbed into DSP O11.
+DSP Report: operator O11 is absorbed into DSP O11.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z50, operation Mode is: A2*B2.
+DSP Report: register linienmodule_raw_acquisition_iir_z50 is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: register linienmodule_raw_acquisition_iir_b0_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: operator linienmodule_raw_acquisition_iir_z50 is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: operator linienmodule_raw_acquisition_iir_z50 is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z50, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_limit_error_signal_limitcsr_y_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: register linienmodule_raw_acquisition_iir_b0_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: operator linienmodule_raw_acquisition_iir_z50 is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: operator linienmodule_raw_acquisition_iir_z50 is absorbed into DSP linienmodule_raw_acquisition_iir_z50.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z40, operation Mode is: A2*B2.
+DSP Report: register linienmodule_raw_acquisition_iir_z40 is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: register linienmodule_raw_acquisition_iir_b1_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: operator linienmodule_raw_acquisition_iir_z40 is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: operator linienmodule_raw_acquisition_iir_z40 is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z40, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_limit_error_signal_limitcsr_y_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: register linienmodule_raw_acquisition_iir_b1_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: operator linienmodule_raw_acquisition_iir_z40 is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: operator linienmodule_raw_acquisition_iir_z40 is absorbed into DSP linienmodule_raw_acquisition_iir_z40.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z30, operation Mode is: A2*B2.
+DSP Report: register linienmodule_raw_acquisition_iir_z30 is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: register linienmodule_raw_acquisition_iir_b2_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: operator linienmodule_raw_acquisition_iir_z30 is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: operator linienmodule_raw_acquisition_iir_z30 is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z30, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_limit_error_signal_limitcsr_y_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: register linienmodule_raw_acquisition_iir_b2_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: operator linienmodule_raw_acquisition_iir_z30 is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: operator linienmodule_raw_acquisition_iir_z30 is absorbed into DSP linienmodule_raw_acquisition_iir_z30.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z20, operation Mode is: A2*B2.
+DSP Report: register linienmodule_raw_acquisition_iir_z20 is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: register linienmodule_raw_acquisition_iir_b3_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: operator linienmodule_raw_acquisition_iir_z20 is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: operator linienmodule_raw_acquisition_iir_z20 is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z20, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_limit_error_signal_limitcsr_y_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: register linienmodule_raw_acquisition_iir_b3_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: operator linienmodule_raw_acquisition_iir_z20 is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: operator linienmodule_raw_acquisition_iir_z20 is absorbed into DSP linienmodule_raw_acquisition_iir_z20.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z10, operation Mode is: A2*B2.
+DSP Report: register linienmodule_raw_acquisition_iir_z10 is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+DSP Report: register linienmodule_raw_acquisition_iir_b4_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+DSP Report: operator linienmodule_raw_acquisition_iir_z10 is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+DSP Report: operator linienmodule_raw_acquisition_iir_z10 is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+DSP Report: Generating DSP linienmodule_raw_acquisition_iir_z10, operation Mode is: (PCIN>>17)+A2*B2.
+DSP Report: register linienmodule_limit_error_signal_limitcsr_y_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+DSP Report: register linienmodule_raw_acquisition_iir_b4_reg is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+DSP Report: operator linienmodule_raw_acquisition_iir_z10 is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+DSP Report: operator linienmodule_raw_acquisition_iir_z10 is absorbed into DSP linienmodule_raw_acquisition_iir_z10.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[18] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r1_reg[22] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[18] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r1_reg[22] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[18] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_z0r0_reg[22] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[6] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[18] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir0_z0r0_reg[22] )
+INFO: [Synth 8-3886] merging instance 'linienmodule_fast_a_ya_reg[16]' (FDR) to 'linienmodule_fast_a_ya_reg[13]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_fast_a_ya_reg[13]' (FDR) to 'linienmodule_fast_a_ya_reg[14]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_fast_a_ya_reg[14]' (FDR) to 'linienmodule_fast_a_ya_reg[15]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[0]' (FDRE) to 'linienmodule_min_status0_reg[1]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[8]' (FDRE) to 'linienmodule_min_status0_reg[1]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[0]' (FDRE) to 'linienmodule_max_status0_reg[1]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[8]' (FDRE) to 'linienmodule_max_status0_reg[1]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[1]' (FDRE) to 'linienmodule_min_status0_reg[2]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[9]' (FDRE) to 'linienmodule_min_status0_reg[2]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[1]' (FDRE) to 'linienmodule_max_status0_reg[2]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[9]' (FDRE) to 'linienmodule_max_status0_reg[2]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[2]' (FDRE) to 'linienmodule_min_status0_reg[3]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[10]' (FDRE) to 'linienmodule_min_status0_reg[3]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[2]' (FDRE) to 'linienmodule_max_status0_reg[3]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[10]' (FDRE) to 'linienmodule_max_status0_reg[3]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[3]' (FDRE) to 'linienmodule_min_status0_reg[4]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[3]' (FDRE) to 'linienmodule_max_status0_reg[4]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[4]' (FDRE) to 'linienmodule_min_status0_reg[5]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[4]' (FDRE) to 'linienmodule_max_status0_reg[5]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[5]' (FDRE) to 'linienmodule_min_status0_reg[6]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[5]' (FDRE) to 'linienmodule_max_status0_reg[6]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_min_status0_reg[6]' (FDRE) to 'linienmodule_min_status0_reg[7]'
+INFO: [Synth 8-3886] merging instance 'linienmodule_max_status0_reg[6]' (FDRE) to 'linienmodule_max_status0_reg[7]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_min_status0_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_max_status0_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_zr3_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_zr3_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_zr3_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_zr3_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_zr3_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\linienmodule_fast_a_iir1_zr3_reg[5] )
+INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
