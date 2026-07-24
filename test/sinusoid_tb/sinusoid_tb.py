@@ -7,6 +7,23 @@ from cocotb.triggers import FallingEdge
 from cocotb.triggers import Timer
 from cocotb.triggers import First
 
+CLOCK_FREQ = 125e6
+CLOCK_PER = 1 / CLOCK_FREQ
+VPP = 2
+VP = 1.1
+DAC_COUNTS = 8192
+# vout=gain*v_dac
+# vout/gain=v_dac
+GAIN = 5
+V_MAX = VPP / 2
+V_MIN = -VPP / 2
+
+
+def volts_to_bits(volt):
+    if volt > 0:
+        return int((volt / VP) / GAIN * DAC_COUNTS - 1)
+    return int((volt / VP) / GAIN * DAC_COUNTS)
+
 
 # method to load in values into the DUT.
 async def load(dut, address, data):
@@ -43,6 +60,10 @@ async def rand_load_and_run(dut):
     await ClockCycles(dut.clk, 100000)
 
 
+def freq_to_phase(f_hz, f_clk_hz):
+    return int(round(f_hz / f_clk_hz * (1 << 32)))
+
+
 @cocotb.test()
 async def test1(dut):
     cocotb.log.info("test 1")
@@ -57,7 +78,14 @@ async def test1(dut):
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 2)
 
-    await rand_load_and_run(dut)
-    await rand_load_and_run(dut)
-    await rand_load_and_run(dut)
-    await rand_load_and_run(dut)
+    await load(dut, 0, 0)
+    await load(dut, 0x01, volts_to_bits(1))
+    await load(dut, 0x02, -8192)
+    await load(dut, 0x03, volts_to_bits(2))
+
+    for i in range(1, 7):
+        await load(dut, 0x04, freq_to_phase(i * 10**3, 125 * 10**6))
+        dut.i_active.value = 1
+        await ClockCycles(dut.clk, 500000)
+        dut.i_active.value = 0
+        pass
