@@ -615,6 +615,12 @@ class Parameters:
         # pre-sequence?
         self.sequence_init_v = Parameter(start=0, min_=0, max_=(2**14) - 1)
 
+        # ------------------- SINUSOID MODULATION PARAMETERS ------------------------------
+        # these parameters are used to program the sinusoid generator, which
+        # is intended to run in the background and be superimposed with the
+        # normal sequence output.
+        self.sinusoid_params = Parameter(start=[], sync=True)
+
     def __iter__(self) -> Iterator[tuple[str, Parameter]]:
         for name, param in self.__dict__.items():
             if isinstance(param, Parameter):
@@ -652,10 +658,12 @@ class Parameters:
         param: Parameter = getattr(self, param_name)
         param.add_callback(append_changed_values_to_queue, call_immediately=True)
 
-        self._remote_listener_callbacks[uuid].append((
-            param,
-            append_changed_values_to_queue,
-        ))
+        self._remote_listener_callbacks[uuid].append(
+            (
+                param,
+                append_changed_values_to_queue,
+            )
+        )
 
     def unregister_remote_listeners(self, uuid: str):
         for param, callback in self._remote_listener_callbacks[uuid]:

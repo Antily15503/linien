@@ -271,6 +271,15 @@ class RedPitayaControlService(BaseService, LinienControlService):
         """Sync the parameters with the FSM registers(?)"""
         self.registers.write_awg(vals)
 
+    def exposed_write_sinusoid_config(self) -> None:
+        self.registers.write_sinusoid_config()
+
+    def exposed_activate_sinusoid(self) -> None:
+        self.registers.activate_sinusoid()
+
+    def exposed_deactivate_sinusoid(self) -> None:
+        self.registers.deactivate_sinusoid()
+
     def exposed_start_autolock(self, x0, x1, spectrum, additional_spectra=None):
         spectrum = pickle.loads(spectrum)
         # start_watching = self.parameters.watch_lock.value

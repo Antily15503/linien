@@ -27,14 +27,22 @@ class SequenceExecutor(Module, AutoCSR):
         awg_addr_width=10,
     ):
 
-        #csr for user-enabled reset of sequence_top and ttl_handler. 
-        self.reset_seq=CSRStorage(1)
+        # csr for user-enabled reset of sequence_top and ttl_handler.
+        self.reset_seq = CSRStorage(1)
         # CSRs for server control
         self.arm = CSRStorage(4)  # enable the ttl watcher
         self.status_1 = CSRStatus(2)  # bit0: active, bit1: armed
         self.status_2 = CSRStatus(2)  # bit0: active, bit1: armed
         self.status_3 = CSRStatus(2)  # bit0: active, bit1: armed
         self.status_4 = CSRStatus(2)  # bit0: active, bit1: armed
+
+        # CSR's for communicating with sinusoid generator
+        self.sinusoid_reg_addr = CSRStorage(4)
+        self.sinusoid_reg_data = CSRStorage(32)
+        # see if bit-packing is more efficient in CSR allocation
+        # sinusoid_en_active[1]=enable
+        # sinusoid_en_active[0]=active
+        self.sinusoid_en_active = CSRStorage(2)
 
         # snapshot readback for relock. captured by ttl_handler on the TTL
         # rising edge and held until the next trigger. values are signed but
@@ -101,8 +109,8 @@ class SequenceExecutor(Module, AutoCSR):
             self.status_3.status.eq(ttl.o_status_3),
             self.status_4.status.eq(ttl.o_status_4),
             self.active.eq(ttl.o_active),
-            #TODO: pid_pause should be OR'd o_active
-            self.pid_pause.eq(ttl.o_active!=0),
+            # TODO: pid_pause should be OR'd o_active
+            self.pid_pause.eq(ttl.o_active != 0),
             self.dac_out.eq(o_dac_drive),
             # snapshot readback
             self.saved_pid_out.status.eq(ttl.o_saved_pid_out),
@@ -135,7 +143,7 @@ class SequenceExecutor(Module, AutoCSR):
             p_FSM_REGFILE_ADDR_WIDTH=fsm_addr_width,
             p_AWG_REGFILE_ADDR_WIDTH=awg_addr_width,
             i_clk=ClockSignal(),
-            # if sys goes high OR if reset_seq goes high, triggers reset? 
+            # if sys goes high OR if reset_seq goes high, triggers reset?
             i_rst_n=(~ResetSignal("sys") & ~self.reset_seq.storage),
             # FSM regfile write port
             i_i_fsm_reg_w_addr=self.fsm_reg_addr.storage,

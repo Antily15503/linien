@@ -13,7 +13,7 @@
 
 module sinusoid #(
     parameter DATA_WIDTH
-  )(
+) (
     input wire [3:0] i_param_addr,
     input wire [31:0] i_param_data,
     input wire i_en,
@@ -31,7 +31,7 @@ module sinusoid #(
   wire [31:0] phase_increment;
 
   logic [31:0] params[4:0];
-  logic signed [31:0] v_mid_r,v_amp_r,v_min_cut_r,v_max_cut_r;
+  logic signed [31:0] v_mid_r, v_amp_r, v_min_cut_r, v_max_cut_r;
   logic [31:0] phase_inc_r;
 
   assign v_mid = v_mid_r;
@@ -40,20 +40,20 @@ module sinusoid #(
   assign v_max_cut = v_max_cut_r;
   assign phase_increment = phase_inc_r;
 
-  always_ff@(posedge clk)begin
-    if(~rst_n)begin
-      v_mid_r<=32'b0;
-      v_amp_r<=32'b0;
-      v_min_cut_r<=32'b0;
-      v_max_cut_r<=32'b0;
-      phase_inc_r<=32'b0;
-    end else if(i_en && !i_active) begin
-      case(i_param_addr)
-        4'd0: v_mid_r<=i_param_data;
-        4'd1: v_amp_r<=i_param_data;
-        4'd2: v_min_cut_r<=i_param_data;
-        4'd3: v_max_cut_r<=i_param_data;
-        4'd4: phase_inc_r<=i_param_data;
+  always_ff @(posedge clk) begin
+    if (~rst_n) begin
+      v_mid_r <= 32'b0;
+      v_amp_r <= 32'b0;
+      v_min_cut_r <= 32'b0;
+      v_max_cut_r <= 32'b0;
+      phase_inc_r <= 32'b0;
+    end else if (i_en && !i_active) begin
+      case (i_param_addr)
+        4'd0: v_mid_r <= i_param_data;
+        4'd1: v_amp_r <= i_param_data;
+        4'd2: v_min_cut_r <= i_param_data;
+        4'd3: v_max_cut_r <= i_param_data;
+        4'd4: phase_inc_r <= i_param_data;
       endcase
     end
   end
@@ -85,16 +85,16 @@ module sinusoid #(
   end
   */
 
-  logic[13:0] o_sin_mem;
+  logic [13:0] o_sin_mem;
   ROM #(
-    .FILE("sin_lut.memh"),
-    .DATA_WIDTH(14),
-    .ADDR_WIDTH(9)
-    ) sin_lut(
+      .FILE("sin_lut.memh"),
+      .DATA_WIDTH(14),
+      .ADDR_WIDTH(9)
+  ) sin_lut (
       .clk(clk),
       .i_rd_addr(phase_accum[31:23]),
       .o_rd_data(o_sin_mem)
-      );
+  );
 
 
   logic active_ff;
@@ -109,7 +109,7 @@ module sinusoid #(
 
   always @(posedge clk) begin
     if (~rst_n) phase_accum <= 32'b0;
-    else if(i_active==1'b0) phase_accum<=32'b0;
+    else if (i_active == 1'b0) phase_accum <= 32'b0;
     else begin
       if (i_active == 1'b1) begin
         phase_accum <= phase_accum + phase_increment;
@@ -117,9 +117,9 @@ module sinusoid #(
     end
   end
 
-  //Note: sin_LUT stores signed values of sin, from -2^13 to 2^13, 
-  //representing -1 to 1 normalized. 
-  //v_amp scales it, v_mid shifts it. 
+  //Note: sin_LUT stores signed values of sin, from -2^13 to 2^13,
+  //representing -1 to 1 normalized.
+  //v_amp scales it, v_mid shifts it.
   logic signed [31:0] raw_out;
   wire signed  [31:0] v_mid_s = $signed(v_mid);
   wire signed  [31:0] v_amp_s = $signed(v_amp);
@@ -127,28 +127,32 @@ module sinusoid #(
   wire signed  [31:0] v_max_cut_s = $signed(v_max_cut);
 
   // Stage 1: LUT lookup (registered)
-logic signed [13:0] lut_reg;
-always_ff @(posedge clk)begin
+  logic signed [13:0] lut_reg;
+  always_ff @(posedge clk) begin
     if (~rst_n) lut_reg <= '0;
     else if (i_active) lut_reg <= $signed(o_sin_mem);
     else lut_reg <= '0;
-end
+  end
 
-// Stage 2: multiply (registered)
-logic signed [31:0] mult_reg;
-always_ff @(posedge clk) begin
+  // Stage 2: multiply (registered)
+  logic signed [31:0] mult_reg;
+  always_ff @(posedge clk) begin
     if (~rst_n) mult_reg <= '0;
-    else if (i_active) mult_reg <= lut_reg * v_amp_s;
-    else mult_reg <= '0;
-end
+    //NOTE: optimization if amplitude is set to 0? just ignore it instead of
+    //performing multiplication? should mux with a 0.
+    else if (i_active) begin
+      if (v_amp_s == 0) mult_reg <= 'b0;
+      else mult_reg <= lut_reg * v_amp_s;
+    end else mult_reg <= '0;
+  end
 
-// Stage 3: add + clamp (combinational)
-always_comb begin
+  // Stage 3: add + clamp (combinational)
+  always_comb begin
     raw_out = v_mid_s + (mult_reg >>> 13);
     o_drive = (!i_active) ? '0 :
               (raw_out > v_max_cut_s) ? v_max_cut_s[13:0] :
               (raw_out < v_min_cut_s) ? v_min_cut_s[13:0] :
               raw_out[13:0];
-end
+  end
 endmodule
 
