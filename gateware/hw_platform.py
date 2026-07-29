@@ -168,7 +168,10 @@ class Platform(XilinxPlatform):
     default_clk_period = 8.0
 
     def __init__(self):
-        XilinxPlatform.__init__(self, "xc7z010-clg400-1", _io, toolchain="vivado")
+        # STEMlab 125-14 Gen 2 (Zynq 7020). Pinout is identical to the Gen 1
+        # Zynq 7010 board for all signals used here (see RedPitaya-FPGA
+        # sdc/red_pitaya_G2.xdc); only the part differs.
+        XilinxPlatform.__init__(self, "xc7z020-clg400-1", _io, toolchain="vivado")
         self.toolchain.pre_synthesis_commands.append(
             "read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc"  # noqa: E501
         )

@@ -1,4 +1,4 @@
-create_project -force -name top -part xc7z010-clg400-1
+create_project -force -name top -part xc7z020-clg400-1
 set_property XPM_LIBRARIES {XPM_CDC XPM_MEMORY} [current_project]
 add_files {imports/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/axi_slave.v}
 set_property library work [get_files {imports/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/axi_slave.v}]
@@ -38,7 +38,7 @@ add_files {top.v}
 set_property library work [get_files {top.v}]
 read_xdc top.xdc
 read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc
-synth_design -top top -part xc7z010-clg400-1
+synth_design -top top -part xc7z020-clg400-1
 opt_design -directive ExploreWithRemap
 report_timing_summary -file top_timing_synth.rpt
 report_utilization -hierarchical -file top_utilization_hierarchical_synth.rpt

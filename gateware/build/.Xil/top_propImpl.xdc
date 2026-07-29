@@ -1,5 +1,5 @@
-set_property SRC_FILE_INFO {cfile:/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/build/top.xdc rfile:../top.xdc id:1} [current_design]
-set_property SRC_FILE_INFO {cfile:/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/system_processing_system7_0_0.xdc rfile:../../verilog/system_processing_system7_0_0.xdc id:2 scoped_inst:system_processing_system7_0_0/inst} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/UW-Madison/RA/linien/gateware/build/top.xdc rfile:../top.xdc id:1} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/UW-Madison/RA/linien/gateware/verilog/system_processing_system7_0_0.xdc rfile:../../verilog/system_processing_system7_0_0.xdc id:2 scoped_inst:system_processing_system7_0_0/inst} [current_design]
 set_property src_info {type:XDC file:1 line:23 export:INPUT save:INPUT read:READ} [current_design]
 set_property LOC U18 [get_ports {clk125_p}]
 set_property src_info {type:XDC file:1 line:26 export:INPUT save:INPUT read:READ} [current_design]
