@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Fri Jul 31 01:30:27 2026
+| Date         : Fri Jul 31 18:11:15 2026
 | Host         : cachyos-x8664 running 64-bit CachyOS
 | Command      : report_drc -file top_drc.rpt
 | Design       : top
@@ -24,16 +24,15 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max checks: <unlimited>
-             Checks found: 190
-+-------------+----------+---------------------------------+--------+
-| Rule        | Severity | Description                     | Checks |
-+-------------+----------+---------------------------------+--------+
-| DPIP-1      | Warning  | Input pipelining                | 36     |
-| DPOP-1      | Warning  | PREG Output pipelining          | 79     |
-| DPOP-2      | Warning  | MREG Output pipelining          | 72     |
-| DPREG-4     | Warning  | DSP48E1_PregDynOpmodeZmuxP:     | 2      |
-| PLBUFGOPT-1 | Warning  | Non-Optimal connections to BUFG | 1      |
-+-------------+----------+---------------------------------+--------+
+             Checks found: 189
++---------+----------+-----------------------------+--------+
+| Rule    | Severity | Description                 | Checks |
++---------+----------+-----------------------------+--------+
+| DPIP-1  | Warning  | Input pipelining            | 36     |
+| DPOP-1  | Warning  | PREG Output pipelining      | 79     |
+| DPOP-2  | Warning  | MREG Output pipelining      | 72     |
+| DPREG-4 | Warning  | DSP48E1_PregDynOpmodeZmuxP: | 2      |
++---------+----------+-----------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
@@ -980,11 +979,6 @@ Related violations: <none>
 DPREG-4#2 Warning
 DSP48E1_PregDynOpmodeZmuxP:  
 The DSP48E1 cell p_1_out__1 with the given dynamic OPMODE[6:0] connections may lead to an unregistered asynchronous feedback path without the PREG attribute enabled. Please refer to the user guide and if one of the internal P feedback opmodes is possible for this design the PREG attribute must be set to 1, currently set to 0
-Related violations: <none>
-
-PLBUFGOPT-1#1 Warning
-Non-Optimal connections to BUFG  
-A non-muxed BUFG BUFG_4 is driven by another global buffer BUFG_4_replica. Remove non-muxed BUFG if it is not desired
 Related violations: <none>
 
 

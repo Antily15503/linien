@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Fri Jul 31 01:29:47 2026
+| Date         : Fri Jul 31 18:10:04 2026
 | Host         : cachyos-x8664 running 64-bit CachyOS
 | Command      : report_utilization -hierarchical -file top_utilization_hierarchical_place.rpt
 | Design       : top
@@ -22,15 +22,18 @@ Table of Contents
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 |        Instance        |      Module      | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
-| top                    |            (top) |      14453 |      14453 |       0 |    0 | 11306 |     28 |      1 |         80 |
-|   (top)                |            (top) |      12840 |      12840 |       0 |    0 |  9902 |      0 |      0 |         80 |
-|   axi_slave            |        axi_slave |         91 |         91 |       0 |    0 |   148 |      0 |      0 |          0 |
-|   red_pitaya_scope     | red_pitaya_scope |       1321 |       1321 |       0 |    0 |  1002 |     28 |      0 |          0 |
-|     (red_pitaya_scope) | red_pitaya_scope |       1098 |       1098 |       0 |    0 |   940 |     28 |      0 |          0 |
-|     i_bridge           | bus_clk_bridge_0 |        223 |        223 |       0 |    0 |    62 |      0 |      0 |          0 |
-|   sequence_top         |     sequence_top |        203 |        203 |       0 |    0 |   223 |      0 |      1 |          0 |
-|     u_control          |          control |         78 |         78 |       0 |    0 |    77 |      0 |      0 |          0 |
-|     u_sinusoid         |         sinusoid |        122 |        122 |       0 |    0 |   146 |      0 |      0 |          0 |
+| top                    |            (top) |      14951 |      14951 |       0 |    0 | 11757 |     28 |      2 |         80 |
+|   (top)                |            (top) |      12975 |      12975 |       0 |    0 |  9954 |      0 |      0 |         80 |
+|   axi_slave            |        axi_slave |         90 |         90 |       0 |    0 |   148 |      0 |      0 |          0 |
+|   red_pitaya_scope     | red_pitaya_scope |       1324 |       1324 |       0 |    0 |  1002 |     28 |      0 |          0 |
+|     (red_pitaya_scope) | red_pitaya_scope |       1101 |       1101 |       0 |    0 |   940 |     28 |      0 |          0 |
+|     i_bridge           | bus_clk_bridge_0 |        225 |        225 |       0 |    0 |    62 |      0 |      0 |          0 |
+|   sequence_top         |     sequence_top |        563 |        563 |       0 |    0 |   622 |      0 |      2 |          0 |
+|     u_arb_wave         |         arb_wave |         51 |         51 |       0 |    0 |    75 |      0 |      0 |          0 |
+|     u_chirp_gen        |        chirp_gen |         86 |         86 |       0 |    0 |   161 |      0 |      0 |          0 |
+|     u_control          |          control |        320 |        320 |       0 |    0 |   105 |      0 |      0 |          0 |
+|     u_linear_ramp      |      linear_ramp |         59 |         59 |       0 |    0 |   107 |      0 |      0 |          0 |
+|     u_sinusoid         |         sinusoid |        108 |        108 |       0 |    0 |   146 |      0 |      0 |          0 |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 * Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
 

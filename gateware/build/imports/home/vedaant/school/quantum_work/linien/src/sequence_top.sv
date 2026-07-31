@@ -217,7 +217,7 @@ module sequence_top #(
       .o_drive     (sinusoid_v_out)
   );
 
-  assign o_dac_drive = o_dac_drive + sinusoid_v_out;
+  assign o_dac_drive = o_dac_drive_raw + sinusoid_v_out;
 
 
   // AWG Block (type 5)

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Fri Jul 31 01:28:49 2026
+| Date         : Fri Jul 31 18:08:18 2026
 | Host         : cachyos-x8664 running 64-bit CachyOS
 | Command      : report_utilization -hierarchical -file top_utilization_hierarchical_synth.rpt
 | Design       : top
@@ -22,15 +22,18 @@ Table of Contents
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 |        Instance        |      Module      | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
-| top                    |            (top) |      14457 |      14457 |       0 |    0 | 11159 |     28 |      1 |         80 |
-|   (top)                |            (top) |      12921 |      12921 |       0 |    0 |  9755 |      0 |      0 |         80 |
+| top                    |            (top) |      14929 |      14929 |       0 |    0 | 11516 |     28 |      2 |         80 |
+|   (top)                |            (top) |      13034 |      13034 |       0 |    0 |  9727 |      0 |      0 |         80 |
 |   axi_slave            |        axi_slave |         93 |         93 |       0 |    0 |   148 |      0 |      0 |          0 |
 |   red_pitaya_scope     | red_pitaya_scope |       1228 |       1228 |       0 |    0 |  1002 |     28 |      0 |          0 |
 |     (red_pitaya_scope) | red_pitaya_scope |       1001 |       1001 |       0 |    0 |   940 |     28 |      0 |          0 |
 |     i_bridge           | bus_clk_bridge_0 |        227 |        227 |       0 |    0 |    62 |      0 |      0 |          0 |
-|   sequence_top         |     sequence_top |        205 |        205 |       0 |    0 |   223 |      0 |      1 |          0 |
-|     u_control          |          control |         80 |         80 |       0 |    0 |    77 |      0 |      0 |          0 |
-|     u_sinusoid         |         sinusoid |        122 |        122 |       0 |    0 |   146 |      0 |      0 |          0 |
+|   sequence_top         |     sequence_top |        564 |        564 |       0 |    0 |   608 |      0 |      2 |          0 |
+|     u_arb_wave         |         arb_wave |         51 |         51 |       0 |    0 |    75 |      0 |      0 |          0 |
+|     u_chirp_gen        |        chirp_gen |         86 |         86 |       0 |    0 |   161 |      0 |      0 |          0 |
+|     u_control          |          control |        319 |        319 |       0 |    0 |    91 |      0 |      0 |          0 |
+|     u_linear_ramp      |      linear_ramp |         59 |         59 |       0 |    0 |   107 |      0 |      0 |          0 |
+|     u_sinusoid         |         sinusoid |        108 |        108 |       0 |    0 |   146 |      0 |      0 |          0 |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 
 

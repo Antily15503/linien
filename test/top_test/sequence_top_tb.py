@@ -62,6 +62,38 @@ def volts_to_bits(volt):
 num_blocks = [0, 0, 0, 0]
 
 
+#
+async def write_sinusoid_reg(dut, index, value):
+    # initially, set all values to 0
+    dut.sinusoid_reg_addr.value = 0
+    dut.sinusoid_reg_data.value = 0
+    dut.sinusoid_en_active.value = 0b00
+
+    # wait a couple of clock cycles.
+    await ClockCycles(dut.clk, 4)
+
+    dut.sinusoid_reg_addr.value = index
+    dut.sinusoid_reg_data.value = value
+    dut.sinusoid_en_active.value = 0b10
+
+    await ClockCycles(dut.clk, 4)
+
+    dut.sinusoid_reg_addr.value = 0
+    dut.sinusoid_reg_data.value = 0
+    dut.sinusoid_en_active.value = 0b00
+    pass
+
+
+async def activate_sinusoid(dut):
+    dut.sinusoid_en_active.value = 0b01
+    pass
+
+
+async def deactivate_sinusoid(dut):
+    dut.sinusoid_en_active.value = 0b00
+    pass
+
+
 async def write_inst_reg(dut, index, instructions):
     # initially set all the values to defualt.
     stride = 8
@@ -100,12 +132,17 @@ async def write_inst_reg(dut, index, instructions):
 # i_active for offset
 # i_num_blocks for number of blocks in the instruction.
 # wait until you recieve the o_seq_done signal
-async def execute(dut, index):
+async def execute(dut, index, en_sinusoid):
     # provide correct index and number of block.
     dut.i_active.value = 1 << (index - 1)
     dut.i_num_blocks.value = num_blocks[index - 1]
     # initial value of start
     dut.i_start.value = 0
+
+    if en_sinusoid:
+        await activate_sinusoid(dut)
+    else:
+        await deactivate_sinusoid(dut)
     # hold constant for a bit
     await ClockCycles(dut.clk, 3)
     # assert high for 1 clock cycle
@@ -170,18 +207,31 @@ async def test1(dut):
         {"type": 0, "params": [volts_to_bits(0.2), 100]},
         {"type": 0, "params": [volts_to_bits(0.8), 100]},
     ]
+
+    # write some default values to the sinusoid
+    await write_sinusoid_reg(dut, 0, volts_to_bits(0))
+    await write_sinusoid_reg(dut, 1, volts_to_bits(1))
+    await write_sinusoid_reg(dut, 2, volts_to_bits(-1))
+    await write_sinusoid_reg(dut, 3, volts_to_bits(1))
+    await write_sinusoid_reg(dut, 4, 1000000)
+
+    # for testing, try and activate it by itself?
+    await activate_sinusoid(dut)
+    await ClockCycles(dut.clk, 10000)
+    await deactivate_sinusoid(dut)
+
     await write_inst_reg(dut, 1, instructions_1)
     await write_inst_reg(dut, 2, instructions_2)
     await write_inst_reg(dut, 3, instructions_3)
-    await execute(dut, 1)
+    await execute(dut, 1, True)
     await RisingEdge(dut.o_seq_done)
-    await execute(dut, 2)
+    await execute(dut, 2, True)
     await RisingEdge(dut.o_seq_done)
-    await execute(dut, 3)
+    await execute(dut, 3, True)
     await RisingEdge(dut.o_seq_done)
-    await execute(dut, 3)
+    await execute(dut, 3, True)
     await RisingEdge(dut.o_seq_done)
-    await execute(dut, 2)
+    await execute(dut, 2, True)
     await RisingEdge(dut.o_seq_done)
-    await execute(dut, 1)
+    await execute(dut, 1, True)
     await RisingEdge(dut.o_seq_done)
