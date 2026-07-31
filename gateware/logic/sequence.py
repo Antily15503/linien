@@ -153,6 +153,9 @@ class SequenceExecutor(Module, AutoCSR):
             i_i_awg_reg_w_addr=self.awg_reg_addr.storage,
             i_i_awg_reg_w_data=self.awg_reg_data.storage,
             i_i_awg_reg_w_en=self.awg_reg_wen.storage,
+            i_sinusoid_reg_data=self.sinusoid_reg_data.storage,
+            i_sinusoid_reg_addr=self.sinusoid_reg_addr.storage,
+            i_sinusoid_en_active=self.sinusoid_en_active.storage,
             # config
             i_i_num_blocks=self.num_blocks,
             # from ttl handler. o_saved_dac_out is v_lock — the FSM adds it to
