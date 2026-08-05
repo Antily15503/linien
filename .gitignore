@@ -6,3 +6,5 @@
 *sim_build*
 *.nvim*
 *.venv*
+./gateware/build/*
+*xml*
