@@ -1,0 +1,154 @@
+//Sinusoid generator; simple block, for testing generation and simulation of
+//waveforms?
+////////////////// Parameters //////////////////
+//0x00:v_mid; middle value (i.e, DC offset)
+//0x01:v_amp; amplitude of sinusoid
+//0x02: v_min_cutoff; minimum cutoff voltge
+//0x03: v_max_cutoff; maximum cutoff voltge
+//0x04: phase_increment; phase_increment for the sin generator; indexes into
+//14x1024 LUT for values.
+//
+//TODO CHANGES: remove the timer, and instead rely on an external "i_drive"
+//signal
+
+module sinusoid #(
+    parameter DATA_WIDTH
+  )(
+    input wire [3:0] i_param_addr,
+    input wire [31:0] i_param_data,
+    input wire i_en,
+    input wire i_active,
+    input wire rst_n,
+    input wire clk,
+
+    output logic signed [13:0] o_drive
+);
+
+  wire [31:0] v_mid;
+  wire [31:0] v_amp;
+  wire [31:0] v_min_cut;
+  wire [31:0] v_max_cut;
+  wire [31:0] phase_increment;
+
+  logic [31:0] params[4:0];
+  logic signed [31:0] v_mid_r,v_amp_r,v_min_cut_r,v_max_cut_r;
+  logic [31:0] phase_inc_r;
+
+  assign v_mid = v_mid_r;
+  assign v_amp = v_amp_r;
+  assign v_min_cut = v_min_cut_r;
+  assign v_max_cut = v_max_cut_r;
+  assign phase_increment = phase_inc_r;
+
+  always_ff@(posedge clk)begin
+    if(~rst_n)begin
+      v_mid_r<=32'b0;
+      v_amp_r<=32'b0;
+      v_min_cut_r<=32'b0;
+      v_max_cut_r<=32'b0;
+      phase_inc_r<=32'b0;
+    end else if(i_en && !i_active) begin
+      case(i_param_addr)
+        4'd0: v_mid_r<=i_param_data;
+        4'd1: v_amp_r<=i_param_data;
+        4'd2: v_min_cut_r<=i_param_data;
+        4'd3: v_max_cut_r<=i_param_data;
+        4'd4: phase_inc_r<=i_param_data;
+      endcase
+    end
+  end
+
+
+
+  // logicisters to keep track of current driving voltage and current phase
+
+  //////////////////// THEORY: Numerically contlle oscillators and phase accumulators ////////////////////
+  //sin wave is simply sim(phi), where phi is the phase, between 0 and 2*pi
+  //repeatedly.
+  //a sin wave of frequency f implies that the phase phi increases by 2*pi*f
+  //(or 2*pi/t,t=1/f) radians per second.
+  //at every clock cycle, the phase should increase by 2*pi*f*T_clk
+  //
+  //2*pi cant be stored in logicisters, so map 0->2*pi to the full range of an
+  //N bit integer, 0->2^N. Phase accumulator is in "integer phase units"
+  //for a 32 bit accumulator, a full circle is 2^32
+  //hence phase increment becomes (f_desired/f_clk)*2^32
+  //possibly add other LUT's to work with?
+
+
+  //TOOO: replace this with a BRAM block (use ethans BRAM?)
+  logic [31:0] phase_accum;
+  /*
+  (* rom_style = "block" *) logic [13:0] sin_LUT[0:511];
+  initial begin
+    $readmemh("sin_lut.memh", sin_LUT);
+  end
+  */
+
+  logic[13:0] o_sin_mem;
+  ROM #(
+    .FILE("sin_lut.memh"),
+    .DATA_WIDTH(14),
+    .ADDR_WIDTH(9)
+    ) sin_lut(
+      .clk(clk),
+      .i_rd_addr(phase_accum[31:23]),
+      .o_rd_data(o_sin_mem)
+      );
+
+
+  logic active_ff;
+  always @(posedge clk) begin
+    if (~rst_n) active_ff <= 1'b0;
+    else active_ff <= i_active;
+  end
+
+  logic active_pulse;
+  assign active_pulse = i_active & ~active_ff;
+  //o_done will be a pulse(?)
+
+  always @(posedge clk) begin
+    if (~rst_n) phase_accum <= 32'b0;
+    else if(i_active==1'b0) phase_accum<=32'b0;
+    else begin
+      if (i_active == 1'b1) begin
+        phase_accum <= phase_accum + phase_increment;
+      end  //while in the idle state, reset back to 0; dont maintain previous phase?
+    end
+  end
+
+  //Note: sin_LUT stores signed values of sin, from -2^13 to 2^13, 
+  //representing -1 to 1 normalized. 
+  //v_amp scales it, v_mid shifts it. 
+  logic signed [31:0] raw_out;
+  wire signed  [31:0] v_mid_s = $signed(v_mid);
+  wire signed  [31:0] v_amp_s = $signed(v_amp);
+  wire signed  [31:0] v_min_cut_s = $signed(v_min_cut);
+  wire signed  [31:0] v_max_cut_s = $signed(v_max_cut);
+
+  // Stage 1: LUT lookup (registered)
+logic signed [13:0] lut_reg;
+always_ff @(posedge clk)begin
+    if (~rst_n) lut_reg <= '0;
+    else if (i_active) lut_reg <= $signed(o_sin_mem);
+    else lut_reg <= '0;
+end
+
+// Stage 2: multiply (registered)
+logic signed [31:0] mult_reg;
+always_ff @(posedge clk) begin
+    if (~rst_n) mult_reg <= '0;
+    else if (i_active) mult_reg <= lut_reg * v_amp_s;
+    else mult_reg <= '0;
+end
+
+// Stage 3: add + clamp (combinational)
+always_comb begin
+    raw_out = v_mid_s + (mult_reg >>> 13);
+    o_drive = (!i_active) ? '0 :
+              (raw_out > v_max_cut_s) ? v_max_cut_s[13:0] :
+              (raw_out < v_min_cut_s) ? v_min_cut_s[13:0] :
+              raw_out[13:0];
+end
+endmodule
+

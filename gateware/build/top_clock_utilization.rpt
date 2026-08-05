@@ -1,11 +1,20 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
 | Date         : Wed Aug  5 04:35:59 2026
 | Host         : cachyos-x8664 running 64-bit CachyOS
 | Command      : report_clock_utilization -file top_clock_utilization.rpt
 | Design       : top
 | Device       : 7z010-clg400
+=======
+| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
+| Date         : Fri Jul 24 23:18:21 2026
+| Host         : TejaskumarBabel running 64-bit major release  (build 9200)
+| Command      : report_clock_utilization -file top_clock_utilization.rpt
+| Design       : top
+| Device       : 7z020-clg400
+>>>>>>> gen2-7020-port
 | Speed File   : -1  PRODUCTION 1.12 2019-11-22
 | Design State : Physopt postPlace
 ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -30,6 +39,11 @@ Table of Contents
 14. Clock Region Cell Placement per Global Clock: Region X1Y0
 15. Clock Region Cell Placement per Global Clock: Region X0Y1
 16. Clock Region Cell Placement per Global Clock: Region X1Y1
+<<<<<<< HEAD
+=======
+17. Clock Region Cell Placement per Global Clock: Region X0Y2
+18. Clock Region Cell Placement per Global Clock: Region X1Y2
+>>>>>>> gen2-7020-port
 
 1. Clock Primitive Utilization
 ------------------------------
@@ -38,18 +52,28 @@ Table of Contents
 | Type     | Used | Available | LOC | Clock Region | Pblock |
 +----------+------+-----------+-----+--------------+--------+
 | BUFGCTRL |    6 |        32 |   0 |            0 |      0 |
+<<<<<<< HEAD
 | BUFH     |    0 |        48 |   0 |            0 |      0 |
 | BUFIO    |    0 |         8 |   0 |            0 |      0 |
 | BUFMR    |    0 |         4 |   0 |            0 |      0 |
 | BUFR     |    0 |         8 |   0 |            0 |      0 |
 | MMCM     |    0 |         2 |   0 |            0 |      0 |
 | PLL      |    1 |         2 |   0 |            0 |      0 |
+=======
+| BUFH     |    0 |        72 |   0 |            0 |      0 |
+| BUFIO    |    0 |        16 |   0 |            0 |      0 |
+| BUFMR    |    0 |         8 |   0 |            0 |      0 |
+| BUFR     |    0 |        16 |   0 |            0 |      0 |
+| MMCM     |    0 |         4 |   0 |            0 |      0 |
+| PLL      |    1 |         4 |   0 |            0 |      0 |
+>>>>>>> gen2-7020-port
 +----------+------+-----------+-----+--------------+--------+
 
 
 2. Global Clock Resources
 -------------------------
 
+<<<<<<< HEAD
 +-----------+-----------+-----------------+------------+---------------+--------------+-------------------+-------------+-----------------+--------------+------------+------------------------------------------------------------------------+----------------------------------------------+
 | Global Id | Source Id | Driver Type/Pin | Constraint | Site          | Clock Region | Load Clock Region | Clock Loads | Non-Clock Loads | Clock Period | Clock      | Driver Pin                                                             | Net                                          |
 +-----------+-----------+-----------------+------------+---------------+--------------+-------------------+-------------+-----------------+--------------+------------+------------------------------------------------------------------------+----------------------------------------------+
@@ -60,6 +84,18 @@ Table of Contents
 | g4        | src4      | BUFG/O          | None       | BUFGCTRL_X0Y4 | n/a          |                 1 |           1 |               0 |        8.000 | clk125_p   | BUFG/O                                                                 | clk_adcb                                     |
 | g5        | src5      | BUFG/O          | None       | BUFGCTRL_X0Y5 | n/a          |                 1 |           1 |               0 |        8.000 | clk_fb     | BUFG_1/O                                                               | clk_fbb                                      |
 +-----------+-----------+-----------------+------------+---------------+--------------+-------------------+-------------+-----------------+--------------+------------+------------------------------------------------------------------------+----------------------------------------------+
+=======
++-----------+-----------+-----------------+------------+----------------+--------------+-------------------+-------------+-----------------+--------------+------------+------------------------------------------------------------------------+----------------------------------------------+
+| Global Id | Source Id | Driver Type/Pin | Constraint | Site           | Clock Region | Load Clock Region | Clock Loads | Non-Clock Loads | Clock Period | Clock      | Driver Pin                                                             | Net                                          |
++-----------+-----------+-----------------+------------+----------------+--------------+-------------------+-------------+-----------------+--------------+------------+------------------------------------------------------------------------+----------------------------------------------+
+| g0        | src0      | BUFG/O          | None       | BUFGCTRL_X0Y0  | n/a          |                 6 |       11074 |               0 |        8.000 | clk_2      | BUFG_4/O                                                               | sys_clk                                      |
+| g1        | src1      | BUFG/O          | None       | BUFGCTRL_X0Y16 | n/a          |                 3 |         244 |               0 |        8.000 | clk_fpga_0 | system_processing_system7_0_0/inst/buffer_fclk_clk_0.FCLK_CLK_0_BUFG/O | system_processing_system7_0_0/inst/FCLK_CLK0 |
+| g2        | src2      | BUFG/O          | None       | BUFGCTRL_X0Y2  | n/a          |                 1 |         171 |               0 |              |            | linienmodule_decimate_output_BUFG_inst/O                               | linienmodule_decimate_output_BUFG            |
+| g3        | src3      | BUFG/O          | None       | BUFGCTRL_X0Y1  | n/a          |                 3 |          82 |               0 |        4.000 | clk_1      | BUFG_3/O                                                               | sys_double_clk                               |
+| g4        | src4      | BUFG/O          | None       | BUFGCTRL_X0Y17 | n/a          |                 1 |           1 |               0 |        8.000 | clk125_p   | BUFG/O                                                                 | clk_adcb                                     |
+| g5        | src5      | BUFG/O          | None       | BUFGCTRL_X0Y3  | n/a          |                 1 |           1 |               0 |        8.000 | clk_fb     | BUFG_1/O                                                               | clk_fbb                                      |
++-----------+-----------+-----------------+------------+----------------+--------------+-------------------+-------------+-----------------+--------------+------------+------------------------------------------------------------------------+----------------------------------------------+
+>>>>>>> gen2-7020-port
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 ** Non-Clock Loads column represents cell count of non-clock pin loads
 
@@ -70,12 +106,21 @@ Table of Contents
 +-----------+-----------+--------------------+------------+----------------+--------------+-------------+-----------------+---------------------+--------------+-----------------------------------------------------+-----------------------------------------------------------+
 | Source Id | Global Id | Driver Type/Pin    | Constraint | Site           | Clock Region | Clock Loads | Non-Clock Loads | Source Clock Period | Source Clock | Driver Pin                                          | Net                                                       |
 +-----------+-----------+--------------------+------------+----------------+--------------+-------------+-----------------+---------------------+--------------+-----------------------------------------------------+-----------------------------------------------------------+
+<<<<<<< HEAD
 | src0      | g0        | PLLE2_ADV/CLKOUT2  | None       | PLLE2_ADV_X0Y0 | X1Y0         |           1 |               0 |               8.000 | clk_2        | PLLE2_BASE/CLKOUT2                                  | clk_2                                                     |
 | src1      | g1        | PS7/FCLKCLK[0]     | PS7_X0Y0   | PS7_X0Y0       | X0Y1         |           1 |               0 |               8.000 | clk_fpga_0   | system_processing_system7_0_0/inst/PS7_i/FCLKCLK[0] | system_processing_system7_0_0/inst/FCLK_CLK_unbuffered[0] |
 | src2      | g2        | FDRE/Q             | None       | SLICE_X15Y71   | X0Y1         |           1 |               0 |                     |              | linienmodule_decimate_output_reg/Q                  | linienmodule_decimate_output                              |
 | src3      | g3        | PLLE2_ADV/CLKOUT1  | None       | PLLE2_ADV_X0Y0 | X1Y0         |           1 |               0 |               4.000 | clk_1        | PLLE2_BASE/CLKOUT1                                  | clk_1                                                     |
 | src4      | g4        | IBUFDS/O           | IOB_X0Y26  | IOB_X0Y26      | X1Y0         |           1 |               0 |               8.000 | clk125_p     | IBUFGDS/O                                           | clk_adci                                                  |
 | src5      | g5        | PLLE2_ADV/CLKFBOUT | None       | PLLE2_ADV_X0Y0 | X1Y0         |           1 |               0 |               8.000 | clk_fb       | PLLE2_BASE/CLKFBOUT                                 | clk_fb                                                    |
+=======
+| src0      | g0        | PLLE2_ADV/CLKOUT2  | None       | PLLE2_ADV_X1Y0 | X1Y0         |           1 |               0 |               8.000 | clk_2        | PLLE2_BASE/CLKOUT2                                  | clk_2                                                     |
+| src1      | g1        | PS7/FCLKCLK[0]     | PS7_X0Y0   | PS7_X0Y0       | X0Y2         |           1 |               0 |               8.000 | clk_fpga_0   | system_processing_system7_0_0/inst/PS7_i/FCLKCLK[0] | system_processing_system7_0_0/inst/FCLK_CLK_unbuffered[0] |
+| src2      | g2        | FDRE/Q             | None       | SLICE_X41Y80   | X0Y1         |           1 |               0 |                     |              | linienmodule_decimate_output_reg/Q                  | linienmodule_decimate_output                              |
+| src3      | g3        | PLLE2_ADV/CLKOUT1  | None       | PLLE2_ADV_X1Y0 | X1Y0         |           1 |               0 |               4.000 | clk_1        | PLLE2_BASE/CLKOUT1                                  | clk_1                                                     |
+| src4      | g4        | IBUFDS/O           | IOB_X1Y76  | IOB_X1Y76      | X1Y1         |           1 |               0 |               8.000 | clk125_p     | IBUFGDS/O                                           | clk_adci                                                  |
+| src5      | g5        | PLLE2_ADV/CLKFBOUT | None       | PLLE2_ADV_X1Y0 | X1Y0         |           1 |               0 |               8.000 | clk_fb       | PLLE2_BASE/CLKFBOUT                                 | clk_fb                                                    |
+>>>>>>> gen2-7020-port
 +-----------+-----------+--------------------+------------+----------------+--------------+-------------+-----------------+---------------------+--------------+-----------------------------------------------------+-----------------------------------------------------------+
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 ** Non-Clock Loads column represents cell count of non-clock pin loads
@@ -84,11 +129,19 @@ Table of Contents
 4. Local Clock Details
 ----------------------
 
+<<<<<<< HEAD
 +----------+-----------------+------------+-----------------+--------------+-------------+-----------------+--------------+-------+-------------------------------+-----------------------------+
 | Local Id | Driver Type/Pin | Constraint | Site/BEL        | Clock Region | Clock Loads | Non-Clock Loads | Clock Period | Clock | Driver Pin                    | Net                         |
 +----------+-----------------+------------+-----------------+--------------+-------------+-----------------+--------------+-------+-------------------------------+-----------------------------+
 | 0        | FDRE/Q          | None       | SLICE_X1Y27/AFF | X0Y0         |           1 |               8 |              |       | linienmodule_dna_cnt_reg[0]/Q | linienmodule_dna_cnt_reg[0] |
 +----------+-----------------+------------+-----------------+--------------+-------------+-----------------+--------------+-------+-------------------------------+-----------------------------+
+=======
++----------+-----------------+------------+------------------+--------------+-------------+-----------------+--------------+-------+-------------------------------+-----------------------------+
+| Local Id | Driver Type/Pin | Constraint | Site/BEL         | Clock Region | Clock Loads | Non-Clock Loads | Clock Period | Clock | Driver Pin                    | Net                         |
++----------+-----------------+------------+------------------+--------------+-------------+-----------------+--------------+-------+-------------------------------+-----------------------------+
+| 0        | FDRE/Q          | None       | SLICE_X84Y78/AFF | X1Y1         |           1 |               8 |              |       | linienmodule_dna_cnt_reg[0]/Q | linienmodule_dna_cnt_reg[0] |
++----------+-----------------+------------+------------------+--------------+-------------+-----------------+--------------+-------+-------------------------------+-----------------------------+
+>>>>>>> gen2-7020-port
 * Local Clocks in this context represents only clocks driven by non-global buffers
 ** Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 *** Non-Clock Loads column represents cell count of non-clock pin loads
@@ -102,10 +155,19 @@ Table of Contents
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
 | Clock Region Name | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail |
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
+<<<<<<< HEAD
 | X0Y0              |    4 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 | 3346 |  1100 | 1182 |   400 |    0 |    20 |   10 |    10 |   20 |    20 |
 | X1Y0              |    5 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    1 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 | 3747 |  1100 | 1202 |   350 |    0 |    40 |   18 |    20 |   20 |    20 |
 | X0Y1              |    4 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 | 2160 |  1100 |  800 |   400 |    1 |    20 |    0 |    10 |   20 |    20 |
 | X1Y1              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |   17 |    50 | 2513 |  1100 |  944 |   350 |    0 |    40 |    0 |    20 |   18 |    20 |
+=======
+| X0Y0              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 | 2590 |  2500 |  962 |  1000 |    0 |    60 |   22 |    30 |   30 |    60 |
+| X1Y0              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    1 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 | 3324 |  3200 |  989 |   850 |    0 |    60 |    6 |    30 |   28 |    40 |
+| X0Y1              |    3 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 | 2179 |  1200 |  774 |   400 |    0 |    20 |    0 |    10 |   16 |    20 |
+| X1Y1              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 | 2985 |  2600 | 1112 |   850 |    1 |    60 |    0 |    30 |   19 |    40 |
+| X0Y2              |    2 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |   55 |  1200 |   20 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
+| X1Y2              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |   17 |    50 |  295 |  2600 |   55 |   850 |    0 |    60 |    0 |    30 |    0 |    40 |
+>>>>>>> gen2-7020-port
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
 * Global Clock column represents track count; while other columns represents cell counts
 
@@ -117,6 +179,10 @@ All Modules
 +----+----+----+
 |    | X0 | X1 |
 +----+----+----+
+<<<<<<< HEAD
+=======
+| Y2 |  0 |  0 |
+>>>>>>> gen2-7020-port
 | Y1 |  0 |  0 |
 | Y0 |  0 |  0 |
 +----+----+----+
@@ -128,7 +194,11 @@ All Modules
 +-----------+-----------------+-------------------+-------+-------------+---------------+-------------+----------+----------------+----------+---------+
 | Global Id | Driver Type/Pin | Driver Region (D) | Clock | Period (ns) | Waveform (ns) | Slice Loads | IO Loads | Clocking Loads | GT Loads | Net     |
 +-----------+-----------------+-------------------+-------+-------------+---------------+-------------+----------+----------------+----------+---------+
+<<<<<<< HEAD
 | g0        | BUFG/O          | n/a               | clk_2 |       8.000 | {0.000 4.000} |       11376 |        0 |              0 |        0 | sys_clk |
+=======
+| g0        | BUFG/O          | n/a               | clk_2 |       8.000 | {0.000 4.000} |       11074 |        0 |              0 |        0 | sys_clk |
+>>>>>>> gen2-7020-port
 +-----------+-----------------+-------------------+-------+-------------+---------------+-------------+----------+----------------+----------+---------+
 * Slice Loads column represents load cell count of all cell types other than IO, GT and clock resources
 ** IO Loads column represents load cell count of IO types
@@ -139,8 +209,14 @@ All Modules
 +----+-------+-------+-----------------------+
 |    | X0    | X1    | HORIZONTAL PROG DELAY |
 +----+-------+-------+-----------------------+
+<<<<<<< HEAD
 | Y1 |  2166 |  2384 |                     0 |
 | Y0 |  3124 |  3702 |                     0 |
+=======
+| Y2 |    55 |   312 |                     0 |
+| Y1 |  1971 |  2804 |                     0 |
+| Y0 |  2574 |  3358 |                     0 |
+>>>>>>> gen2-7020-port
 +----+-------+-------+-----------------------+
 
 
@@ -158,12 +234,22 @@ All Modules
 **** GT Loads column represents load cell count of GT types
 
 
+<<<<<<< HEAD
 +----+------+-----+-----------------------+
 |    | X0   | X1  | HORIZONTAL PROG DELAY |
 +----+------+-----+-----------------------+
 | Y1 |   13 |   0 |                     0 |
 | Y0 |  217 |  14 |                     0 |
 +----+------+-----+-----------------------+
+=======
++----+------+----+-----------------------+
+|    | X0   | X1 | HORIZONTAL PROG DELAY |
++----+------+----+-----------------------+
+| Y2 |    1 |  0 |                     0 |
+| Y1 |  175 |  0 |                     0 |
+| Y0 |   68 |  0 |                     0 |
++----+------+----+-----------------------+
+>>>>>>> gen2-7020-port
 
 
 9. Device Cell Placement Summary for Global Clock g2
@@ -172,7 +258,11 @@ All Modules
 +-----------+-----------------+-------------------+-------+-------------+---------------+-------------+----------+----------------+----------+-----------------------------------+
 | Global Id | Driver Type/Pin | Driver Region (D) | Clock | Period (ns) | Waveform (ns) | Slice Loads | IO Loads | Clocking Loads | GT Loads | Net                               |
 +-----------+-----------------+-------------------+-------+-------------+---------------+-------------+----------+----------------+----------+-----------------------------------+
+<<<<<<< HEAD
 | g2        | BUFG/O          | n/a               |       |             |               |         191 |        0 |              0 |        0 | linienmodule_decimate_output_BUFG |
+=======
+| g2        | BUFG/O          | n/a               |       |             |               |         171 |        0 |              0 |        0 | linienmodule_decimate_output_BUFG |
+>>>>>>> gen2-7020-port
 +-----------+-----------------+-------------------+-------+-------------+---------------+-------------+----------+----------------+----------+-----------------------------------+
 * Slice Loads column represents load cell count of all cell types other than IO, GT and clock resources
 ** IO Loads column represents load cell count of IO types
@@ -180,12 +270,22 @@ All Modules
 **** GT Loads column represents load cell count of GT types
 
 
+<<<<<<< HEAD
 +----+-----+-----+-----------------------+
 |    | X0  | X1  | HORIZONTAL PROG DELAY |
 +----+-----+-----+-----------------------+
 | Y1 |   4 |  98 |                     0 |
 | Y0 |  20 |  69 |                     0 |
 +----+-----+-----+-----------------------+
+=======
++----+----+------+-----------------------+
+|    | X0 | X1   | HORIZONTAL PROG DELAY |
++----+----+------+-----------------------+
+| Y2 |  0 |    0 |                     - |
+| Y1 |  0 |  171 |                     0 |
+| Y0 |  0 |    0 |                     - |
++----+----+------+-----------------------+
+>>>>>>> gen2-7020-port
 
 
 10. Device Cell Placement Summary for Global Clock g3
@@ -205,8 +305,14 @@ All Modules
 +----+-----+-----+-----------------------+
 |    | X0  | X1  | HORIZONTAL PROG DELAY |
 +----+-----+-----+-----------------------+
+<<<<<<< HEAD
 | Y1 |   1 |  66 |                     0 |
 | Y0 |  15 |   0 |                     0 |
+=======
+| Y2 |   0 |   2 |                     0 |
+| Y1 |  49 |  31 |                     0 |
+| Y0 |   0 |   0 |                     - |
+>>>>>>> gen2-7020-port
 +----+-----+-----+-----------------------+
 
 
@@ -227,6 +333,10 @@ All Modules
 +----+----+----+-----------------------+
 |    | X0 | X1 | HORIZONTAL PROG DELAY |
 +----+----+----+-----------------------+
+<<<<<<< HEAD
+=======
+| Y2 |  0 |  0 |                     - |
+>>>>>>> gen2-7020-port
 | Y1 |  0 |  0 |                     - |
 | Y0 |  0 |  1 |                     0 |
 +----+----+----+-----------------------+
@@ -249,6 +359,10 @@ All Modules
 +----+----+----+-----------------------+
 |    | X0 | X1 | HORIZONTAL PROG DELAY |
 +----+----+----+-----------------------+
+<<<<<<< HEAD
+=======
+| Y2 |  0 |  0 |                     - |
+>>>>>>> gen2-7020-port
 | Y1 |  0 |  0 |                     - |
 | Y0 |  0 |  1 |                     0 |
 +----+----+----+-----------------------+
@@ -260,10 +374,15 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF   | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                          |
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
+<<<<<<< HEAD
 | g0        | n/a   | BUFG/O          | None       |        3124 |               0 | 3094 |           0 |   10 |  20 |  0 |    0 |   0 |       0 | sys_clk                                      |
 | g1        | n/a   | BUFG/O          | None       |         217 |               0 |  217 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | system_processing_system7_0_0/inst/FCLK_CLK0 |
 | g2        | n/a   | BUFG/O          | None       |          20 |               0 |   20 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | linienmodule_decimate_output_BUFG            |
 | g3        | n/a   | BUFG/O          | None       |          15 |               0 |   15 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_double_clk                               |
+=======
+| g0        | n/a   | BUFG/O          | None       |        2574 |               0 | 2522 |           0 |   22 |  30 |  0 |    0 |   0 |       0 | sys_clk                                      |
+| g1        | n/a   | BUFG/O          | None       |          68 |               0 |   68 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | system_processing_system7_0_0/inst/FCLK_CLK0 |
+>>>>>>> gen2-7020-port
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 ** Non-Clock Loads column represents cell count of non-clock pin loads
@@ -273,6 +392,7 @@ All Modules
 14. Clock Region Cell Placement per Global Clock: Region X1Y0
 -------------------------------------------------------------
 
+<<<<<<< HEAD
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF   | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                          |
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
@@ -282,6 +402,15 @@ All Modules
 | g4        | n/a   | BUFG/O          | None       |           1 |               0 |    0 |           0 |    0 |   0 |  0 |    0 |   1 |       0 | clk_adcb                                     |
 | g5        | n/a   | BUFG/O          | None       |           1 |               0 |    0 |           0 |    0 |   0 |  0 |    0 |   1 |       0 | clk_fbb                                      |
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
+=======
++-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------+
+| Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF   | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net      |
++-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------+
+| g0        | n/a   | BUFG/O          | None       |        3358 |               0 | 3324 |           0 |    6 |  28 |  0 |    0 |   0 |       0 | sys_clk  |
+| g4        | n/a   | BUFG/O          | None       |           1 |               0 |    0 |           0 |    0 |   0 |  0 |    0 |   1 |       0 | clk_adcb |
+| g5        | n/a   | BUFG/O          | None       |           1 |               0 |    0 |           0 |    0 |   0 |  0 |    0 |   1 |       0 | clk_fbb  |
++-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------+
+>>>>>>> gen2-7020-port
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 ** Non-Clock Loads column represents cell count of non-clock pin loads
 *** Columns FF, LUTRAM, RAMB through 'Hard IP' represents load cell counts
@@ -293,10 +422,16 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF   | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                          |
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
+<<<<<<< HEAD
 | g0        | n/a   | BUFG/O          | None       |        2166 |               0 | 2143 |           0 |    1 |  20 |  0 |    0 |   0 |       0 | sys_clk                                      |
 | g1        | n/a   | BUFG/O          | None       |          13 |               0 |   12 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | system_processing_system7_0_0/inst/FCLK_CLK0 |
 | g2        | n/a   | BUFG/O          | None       |           4 |               0 |    4 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | linienmodule_decimate_output_BUFG            |
 | g3        | n/a   | BUFG/O          | None       |           1 |               0 |    1 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_double_clk                               |
+=======
+| g0        | n/a   | BUFG/O          | None       |        1971 |               0 | 1955 |           0 |    0 |  16 |  0 |    0 |   0 |       0 | sys_clk                                      |
+| g1        | n/a   | BUFG/O          | None       |         175 |               0 |  175 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | system_processing_system7_0_0/inst/FCLK_CLK0 |
+| g3        | n/a   | BUFG/O          | None       |          49 |               0 |   49 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_double_clk                               |
+>>>>>>> gen2-7020-port
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 ** Non-Clock Loads column represents cell count of non-clock pin loads
@@ -309,15 +444,22 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+-----------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF   | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                               |
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+-----------------------------------+
+<<<<<<< HEAD
 | g0        | n/a   | BUFG/O          | None       |        2384 |               0 | 2351 |           0 |    0 |  18 |  0 |    0 |   0 |       0 | sys_clk                           |
 | g2        | n/a   | BUFG/O          | None       |          98 |               0 |   98 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | linienmodule_decimate_output_BUFG |
 | g3        | n/a   | BUFG/O          | None       |          66 |               0 |   64 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_double_clk                    |
+=======
+| g0        | n/a   | BUFG/O          | None       |        2804 |               0 | 2784 |           0 |    1 |  18 |  0 |    0 |   0 |       0 | sys_clk                           |
+| g2        | n/a   | BUFG/O          | None       |         171 |               0 |  170 |           0 |    0 |   1 |  0 |    0 |   0 |       0 | linienmodule_decimate_output_BUFG |
+| g3        | n/a   | BUFG/O          | None       |          31 |               0 |   31 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_double_clk                    |
+>>>>>>> gen2-7020-port
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+-----------------------------------+
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 ** Non-Clock Loads column represents cell count of non-clock pin loads
 *** Columns FF, LUTRAM, RAMB through 'Hard IP' represents load cell counts
 
 
+<<<<<<< HEAD
 
 # Location of BUFG Primitives 
 set_property LOC BUFGCTRL_X0Y1 [get_cells system_processing_system7_0_0/inst/buffer_fclk_clk_0.FCLK_CLK_0_BUFG]
@@ -326,10 +468,49 @@ set_property LOC BUFGCTRL_X0Y0 [get_cells BUFG_4]
 set_property LOC BUFGCTRL_X0Y3 [get_cells linienmodule_decimate_output_BUFG_inst]
 set_property LOC BUFGCTRL_X0Y5 [get_cells BUFG_1]
 set_property LOC BUFGCTRL_X0Y4 [get_cells BUFG]
+=======
+17. Clock Region Cell Placement per Global Clock: Region X0Y2
+-------------------------------------------------------------
+
++-----------+-------+-----------------+------------+-------------+-----------------+----+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
+| Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                          |
++-----------+-------+-----------------+------------+-------------+-----------------+----+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
+| g0        | n/a   | BUFG/O          | None       |          55 |               0 | 55 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_clk                                      |
+| g1        | n/a   | BUFG/O          | None       |           1 |               0 |  0 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | system_processing_system7_0_0/inst/FCLK_CLK0 |
++-----------+-------+-----------------+------------+-------------+-----------------+----+-------------+------+-----+----+------+-----+---------+----------------------------------------------+
+* Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
+** Non-Clock Loads column represents cell count of non-clock pin loads
+*** Columns FF, LUTRAM, RAMB through 'Hard IP' represents load cell counts
+
+
+18. Clock Region Cell Placement per Global Clock: Region X1Y2
+-------------------------------------------------------------
+
++-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+----------------+
+| Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF  | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net            |
++-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+----------------+
+| g0        | n/a   | BUFG/O          | None       |         312 |               0 | 295 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_clk        |
+| g3        | n/a   | BUFG/O          | None       |           2 |               0 |   0 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | sys_double_clk |
++-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+----------------+
+* Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
+** Non-Clock Loads column represents cell count of non-clock pin loads
+*** Columns FF, LUTRAM, RAMB through 'Hard IP' represents load cell counts
+
+
+
+# Location of BUFG Primitives 
+set_property LOC BUFGCTRL_X0Y16 [get_cells system_processing_system7_0_0/inst/buffer_fclk_clk_0.FCLK_CLK_0_BUFG]
+set_property LOC BUFGCTRL_X0Y1 [get_cells BUFG_3]
+set_property LOC BUFGCTRL_X0Y0 [get_cells BUFG_4]
+set_property LOC BUFGCTRL_X0Y2 [get_cells linienmodule_decimate_output_BUFG_inst]
+set_property LOC BUFGCTRL_X0Y3 [get_cells BUFG_1]
+set_property LOC BUFGCTRL_X0Y17 [get_cells BUFG]
+>>>>>>> gen2-7020-port
 
 # Location of IO Primitives which is load of clock spine
 
 # Location of clock ports
+<<<<<<< HEAD
 set_property LOC IOB_X0Y25 [get_ports clk125_n]
 set_property LOC IOB_X0Y26 [get_ports clk125_p]
 
@@ -345,12 +526,30 @@ resize_pblock [get_pblocks {CLKAG_system_processing_system7_0_0/inst/FCLK_CLK0}]
 create_pblock {CLKAG_sys_double_clk}
 add_cells_to_pblock [get_pblocks  {CLKAG_sys_double_clk}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="sys_double_clk"}]]]
 resize_pblock [get_pblocks {CLKAG_sys_double_clk}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1}
+=======
+set_property LOC IOB_X1Y75 [get_ports clk125_n]
+set_property LOC IOB_X1Y76 [get_ports clk125_p]
+
+# Clock net "system_processing_system7_0_0/inst/FCLK_CLK0" driven by instance "system_processing_system7_0_0/inst/buffer_fclk_clk_0.FCLK_CLK_0_BUFG" located at site "BUFGCTRL_X0Y16"
+#startgroup
+create_pblock {CLKAG_system_processing_system7_0_0/inst/FCLK_CLK0}
+add_cells_to_pblock [get_pblocks  {CLKAG_system_processing_system7_0_0/inst/FCLK_CLK0}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="system_processing_system7_0_0/inst/FCLK_CLK0"}]]]
+resize_pblock [get_pblocks {CLKAG_system_processing_system7_0_0/inst/FCLK_CLK0}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2}
+#endgroup
+
+# Clock net "sys_double_clk" driven by instance "BUFG_3" located at site "BUFGCTRL_X0Y1"
+#startgroup
+create_pblock {CLKAG_sys_double_clk}
+add_cells_to_pblock [get_pblocks  {CLKAG_sys_double_clk}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="sys_double_clk"}]]]
+resize_pblock [get_pblocks {CLKAG_sys_double_clk}] -add {CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+>>>>>>> gen2-7020-port
 #endgroup
 
 # Clock net "sys_clk" driven by instance "BUFG_4" located at site "BUFGCTRL_X0Y0"
 #startgroup
 create_pblock {CLKAG_sys_clk}
 add_cells_to_pblock [get_pblocks  {CLKAG_sys_clk}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="sys_clk"}]]]
+<<<<<<< HEAD
 resize_pblock [get_pblocks {CLKAG_sys_clk}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1}
 #endgroup
 
@@ -359,4 +558,14 @@ resize_pblock [get_pblocks {CLKAG_sys_clk}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X
 create_pblock {CLKAG_linienmodule_decimate_output_BUFG}
 add_cells_to_pblock [get_pblocks  {CLKAG_linienmodule_decimate_output_BUFG}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="linienmodule_decimate_output_BUFG"}]]]
 resize_pblock [get_pblocks {CLKAG_linienmodule_decimate_output_BUFG}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1}
+=======
+resize_pblock [get_pblocks {CLKAG_sys_clk}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "linienmodule_decimate_output_BUFG" driven by instance "linienmodule_decimate_output_BUFG_inst" located at site "BUFGCTRL_X0Y2"
+#startgroup
+create_pblock {CLKAG_linienmodule_decimate_output_BUFG}
+add_cells_to_pblock [get_pblocks  {CLKAG_linienmodule_decimate_output_BUFG}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="linienmodule_decimate_output_BUFG"}]]]
+resize_pblock [get_pblocks {CLKAG_linienmodule_decimate_output_BUFG}] -add {CLOCKREGION_X1Y1:CLOCKREGION_X1Y1}
+>>>>>>> gen2-7020-port
 #endgroup
