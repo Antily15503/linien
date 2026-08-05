@@ -152,8 +152,11 @@ class Registers:
         # index can be 1,2,3,4
         # this sets the
         for inst in instructions:
-            # first, write the type of instruction to the base address
+            # first, write the sin_en to the base address
             self.set("logic_sequence_fsm_reg_addr", base_addr)
+            self.set("logic_sequence_fsm_reg_data", inst["en_sin"])
+            # second, write the type of instruction to the base address offset by 1
+            self.set("logic_sequence_fsm_reg_addr", base_addr + 1)
             self.set("logic_sequence_fsm_reg_data", inst["type"])
             # pulse the w_en to load it into the BRAM
             self.set("logic_sequence_fsm_reg_wen", 1)
@@ -161,7 +164,7 @@ class Registers:
 
             # iterate equal to the number of parameters
             for i, params in enumerate(inst["params"]):
-                self.set("logic_sequence_fsm_reg_addr", base_addr + 1 + i)
+                self.set("logic_sequence_fsm_reg_addr", base_addr + 2 + i)
                 self.set("logic_sequence_fsm_reg_data", params)
                 self.set("logic_sequence_fsm_reg_wen", 1)
                 self.set("logic_sequence_fsm_reg_wen", 0)

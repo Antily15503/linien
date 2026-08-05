@@ -436,7 +436,8 @@ class LinienModule(Module, AutoCSR):
             ).Else(
                 self.analog.dac_b.eq(self.logic.limit_fast2.y),
             ),
-            self.analog.dac_a.eq(self.logic.limit_fast1.y),
+            # NOTE: dac_a now outputs sinusoidal ref signal
+            self.analog.dac_a.eq(self.logic.sequence.o_ref),
         ]
 
         # Having this in a comb statement caused errors. See PR #251.

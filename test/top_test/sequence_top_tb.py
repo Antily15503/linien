@@ -71,7 +71,6 @@ async def write_sinusoid_reg(dut, index, value):
 
     # wait a couple of clock cycles.
     await ClockCycles(dut.clk, 4)
-
     dut.sinusoid_reg_addr.value = index
     dut.sinusoid_reg_data.value = value
     dut.sinusoid_en_active.value = 0b10
@@ -108,8 +107,16 @@ async def write_inst_reg(dut, index, instructions):
     for inst in instructions:
         # set the base address
         dut.i_fsm_reg_w_addr.value = base_addr
-        dut.i_fsm_reg_w_data.value = inst["type"]
+        dut.i_fsm_reg_w_data.value = inst["en_sin"]
         # pulse w_en
+        dut.i_fsm_reg_w_en.value = 1
+        # just test with 3 rising edges.
+        await ClockCycles(dut.clk, 1)
+        dut.i_fsm_reg_w_en.value = 0
+
+        dut.i_fsm_reg_w_addr.value = base_addr + 1
+        dut.i_fsm_reg_w_data.value = inst["type"]
+
         dut.i_fsm_reg_w_en.value = 1
         # just test with 3 rising edges.
         await ClockCycles(dut.clk, 1)
@@ -117,7 +124,7 @@ async def write_inst_reg(dut, index, instructions):
 
         # now for the parameters
         for i, params in enumerate(inst["params"]):
-            dut.i_fsm_reg_w_addr.value = base_addr + 1 + i
+            dut.i_fsm_reg_w_addr.value = base_addr + 2 + i
             dut.i_fsm_reg_w_data.value = params
             dut.i_fsm_reg_w_en.value = 1
             await ClockCycles(dut.clk, 1)
@@ -175,50 +182,56 @@ async def test1(dut):
     await ClockCycles(dut.clk, 3)
     dut.rst_n.value = 1
 
+    #
     instructions_1 = [
-        {"type": 0, "params": [0, 100]},
-        {"type": 0, "params": [volts_to_bits(1), 200]},
-        {"type": 0, "params": [volts_to_bits(0), 100]},
+        {"en_sin": 0, "type": 0, "params": [0, 100]},
+        {"en_sin": 0, "type": 0, "params": [volts_to_bits(1), 200]},
+        {"en_sin": 0, "type": 0, "params": [volts_to_bits(0), 100]},
         {
+            "en_sin": 0,
             "type": 1,
             "params": [0, 5, 5, 500],
         },
     ]
 
+    #
     instructions_2 = [
         {
+            "en_sin": 1,
             "type": 1,
             "params": [0, 5, 5, 500],
         },
         {
+            "en_sin": 0,
             "type": 1,
             "params": [0, 5, 1, 500],
         },
         {
+            "en_sin": 1,
             "type": 1,
             "params": [0, 10, 1, 500],
         },
     ]
 
+    #
     instructions_3 = [
-        {"type": 0, "params": [0, 100]},
-        {"type": 0, "params": [volts_to_bits(1), 200]},
-        {"type": 0, "params": [volts_to_bits(0.5), 100]},
-        {"type": 0, "params": [volts_to_bits(0.2), 100]},
-        {"type": 0, "params": [volts_to_bits(0.8), 100]},
+        {"en_sin": 0, "type": 0, "params": [0, 100]},
+        {"en_sin": 1, "type": 0, "params": [volts_to_bits(1), 200]},
+        {"en_sin": 0, "type": 0, "params": [volts_to_bits(0.5), 100]},
+        {"en_sin": 1, "type": 0, "params": [volts_to_bits(0.2), 100]},
+        {"en_sin": 0, "type": 0, "params": [volts_to_bits(0.8), 100]},
     ]
 
     # write some default values to the sinusoid
     await write_sinusoid_reg(dut, 0, volts_to_bits(0))
     await write_sinusoid_reg(dut, 1, volts_to_bits(1))
-    await write_sinusoid_reg(dut, 2, volts_to_bits(-1))
-    await write_sinusoid_reg(dut, 3, volts_to_bits(1))
-    await write_sinusoid_reg(dut, 4, 1000000)
+    await write_sinusoid_reg(dut, 2, volts_to_bits(-2))
+    await write_sinusoid_reg(dut, 3, volts_to_bits(2))
+    await write_sinusoid_reg(dut, 4, 10000000)
 
     # for testing, try and activate it by itself?
     await activate_sinusoid(dut)
     await ClockCycles(dut.clk, 10000)
-    await deactivate_sinusoid(dut)
 
     await write_inst_reg(dut, 1, instructions_1)
     await write_inst_reg(dut, 2, instructions_2)

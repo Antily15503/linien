@@ -18,10 +18,13 @@ module sinusoid #(
     input wire [31:0] i_param_data,
     input wire i_en,
     input wire i_active,
+    //enables carrier wave generated to be summed with normal sequence.
+    input wire i_en_dac_b,
     input wire rst_n,
     input wire clk,
 
-    output logic signed [13:0] o_drive
+    output logic signed [13:0] o_drive,
+    output logic signed [13:0] o_ref
 );
 
   wire [31:0] v_mid;
@@ -128,6 +131,7 @@ module sinusoid #(
 
   // Stage 1: LUT lookup (registered)
   logic signed [13:0] lut_reg;
+  assign o_ref = lut_reg;
   always_ff @(posedge clk) begin
     if (~rst_n) lut_reg <= '0;
     else if (i_active) lut_reg <= $signed(o_sin_mem);
@@ -149,7 +153,7 @@ module sinusoid #(
   // Stage 3: add + clamp (combinational)
   always_comb begin
     raw_out = v_mid_s + (mult_reg >>> 13);
-    o_drive = (!i_active) ? '0 :
+    o_drive = (!i_active || !i_en_dac_b) ? '0 :
               (raw_out > v_max_cut_s) ? v_max_cut_s[13:0] :
               (raw_out < v_min_cut_s) ? v_min_cut_s[13:0] :
               raw_out[13:0];

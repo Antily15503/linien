@@ -94,6 +94,10 @@ class SequenceExecutor(Module, AutoCSR):
         # internal wire for sequence_top dac drive
         o_dac_drive = Signal(width)
 
+        # carrier wave features.
+        # TODO: signal i_dac_en_active should be configured/controlled by control.sv, implement.
+        self.i_dac_en_active = Signal()
+
         self.comb += [
             # ttl handler <- external + linien state
             ttl.i_ttl.eq(self.ttl_in),
@@ -132,6 +136,7 @@ class SequenceExecutor(Module, AutoCSR):
                 },
             ),
         ]
+        self.o_ref = Signal((14, True))
 
         # instantiate sequence_top
         self.specials += Instance(
@@ -156,8 +161,8 @@ class SequenceExecutor(Module, AutoCSR):
             i_sinusoid_reg_data=self.sinusoid_reg_data.storage,
             i_sinusoid_reg_addr=self.sinusoid_reg_addr.storage,
             i_sinusoid_en_active=self.sinusoid_en_active.storage,
+            o_o_ref=self.o_ref,
             # config
-            i_i_num_blocks=self.num_blocks,
             # from ttl handler. o_saved_dac_out is v_lock — the FSM adds it to
             # every block's drive at output, so block params are SIGNED OFFSETS
             # from v_lock, not absolute DAC counts.

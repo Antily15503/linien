@@ -471,6 +471,7 @@ reg [3:0] linienmodule_sequenceexecutor_priority_rising_edge;
 reg [3:0] linienmodule_sequenceexecutor_o_active_offset = 4'd0;
 wire [13:0] linienmodule_sequenceexecutor_o_dac_drive;
 reg [3:0] linienmodule_sequenceexecutor_num_blocks;
+wire signed [13:0] linienmodule_sequenceexecutor_o_ref;
 wire linienmodule_sequenceexecutor;
 wire signed [24:0] linienmodule_combined_error_signal;
 wire signed [24:0] linienmodule_control_signal;
@@ -3456,7 +3457,7 @@ always @(*) begin
 	dummy_d_3 <= dummy_s;
 // synthesis translate_on
 end
-assign linienmodule_analog_dac_a = linienmodule_limit_fast1_limitcsr_y;
+assign linienmodule_analog_dac_a = linienmodule_sequenceexecutor_o_ref;
 
 // synthesis translate_off
 reg dummy_d_4;
@@ -11827,7 +11828,6 @@ sequence_top #(
 	.i_fsm_reg_w_data(linienmodule_sequenceexecutor_fsm_reg_data_storage),
 	.i_fsm_reg_w_en(linienmodule_sequenceexecutor_fsm_reg_wen_storage),
 	.i_init_v(linienmodule_sequenceexecutor_o_saved_dac_out),
-	.i_num_blocks(linienmodule_sequenceexecutor_num_blocks),
 	.i_start(linienmodule_sequenceexecutor_o_fsm_start),
 	.rst_n(((~sys_rst) & (~linienmodule_sequenceexecutor_reset_seq_storage))),
 	.sinusoid_en_active(linienmodule_sequenceexecutor_sinusoid_en_active_storage),
@@ -11835,6 +11835,7 @@ sequence_top #(
 	.sinusoid_reg_data(linienmodule_sequenceexecutor_sinusoid_reg_data_storage),
 	.o_active(linienmodule_sequenceexecutor),
 	.o_dac_drive(linienmodule_sequenceexecutor_o_dac_drive),
+	.o_ref(linienmodule_sequenceexecutor_o_ref),
 	.o_seq_done(linienmodule_sequenceexecutor_seq_done)
 );
 

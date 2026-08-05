@@ -33,80 +33,84 @@ module control #(
     parameter DATA_WIDTH = 32,
 
     parameter NUM_BLOCK_TYPES = 6,
-    parameter MAX_BLOCK_PARAMS = 7,     // max params any block type needs (chirp=6)
+    parameter MAX_BLOCK_PARAMS = 7,  // max params any block type needs (chirp=6)
     //10 bits; 
     //lower 3 are allocated to indexing parameters
     //middle 4 are allocated to indexing blocks
     //upper 2 are used to index the 4 possible sequences. 
     //total of 9 bits
     parameter REGFILE_ADDR_WIDTH = 9,
-	  localparam int BLOCK_IDX_WIDTH      = $clog2(MAX_BLOCKS),
-    localparam int PARAM_IDX_WIDTH      = $clog2(MAX_BLOCK_PARAMS),
+    localparam int BLOCK_IDX_WIDTH = $clog2(MAX_BLOCKS),
+    localparam int PARAM_IDX_WIDTH = $clog2(MAX_BLOCK_PARAMS),
     localparam int BLOCK_TYPE_IDX_WIDTH = $clog2(NUM_BLOCK_TYPES)
 ) (
     input wire clk,
     input wire rst_n,
 
     // top level control inputs
-    input wire                         i_start,          // one cycle pulse from ttl_handler
-    input wire [BLOCK_IDX_WIDTH-1:0]   i_num_blocks,     // last block index (0 = one block)
+    input wire i_start,  // one cycle pulse from ttl_handler
+    input wire [BLOCK_IDX_WIDTH-1:0] i_num_blocks,  // last block index (0 = one block)
     input wire [13:0]                  i_init_v_drive,   // v_lock: ttl snapshot of linien DAC (added to every block offset at output)
 
     // reg_file read port
     output logic [REGFILE_ADDR_WIDTH-1:0] o_regfile_addr,
-    input  wire [        DATA_WIDTH-1:0] i_regfile_data,
+    input  wire  [        DATA_WIDTH-1:0] i_regfile_data,
 
     // functional block drive (active block selected by cur_type)
-    input  wire [13:0]                   i_block_drive [NUM_BLOCK_TYPES], 
+    input wire [13:0] i_block_drive[NUM_BLOCK_TYPES],
 
     //ADDED: active from ttl_handler to infer offset
-    input wire[3:0] i_active,
+    input wire [3:0] i_active,
 
     // shared param bus to functional blocks
-    output logic [DATA_WIDTH-1:0]         o_param_data,
-    output logic [3:0]                    o_param_addr,
+    output logic [DATA_WIDTH-1:0] o_param_data,
+    output logic [           3:0] o_param_addr,
 
     // per-block one-hot enable, and start signals
     output logic [NUM_BLOCK_TYPES-1:0]    o_block_en, // <- enables parameter loading
     output logic [NUM_BLOCK_TYPES-1:0]    o_block_active, // <- enables execution
 
     // DAC output
-    output logic [13:0]                   v_drive,
+    output logic [13:0] v_drive,
 
     // control outputs (to ttl_handler / relock)
-    output logic                          o_seq_done,
+    output logic o_seq_done,
     //NOTE: THIS O_ACTIVE IS IGNORED, INSTEAD USES DIRECTLY FROM TTL HANDLER
-    output logic                          o_active
+    output logic o_active,
+    output logic o_en_dac_b
 );
 
   // ========================= FSM encoding ==============================
-  typedef enum logic [2:0] {
-    IDLE           = 3'b000,
-    FETCH_TYPE     = 3'b001,  // issue reg_file read for block type
-    LOAD_INIT      = 3'b010,  // latch type, issue read for first param
-    LOAD_PARAMS    = 3'b011,  // write params to block, 1 per cycle
-    START_BLOCK    = 3'b100,  // one-cycle start pulse (param_wr guaranteed low)
-    WAIT_DONE      = 3'b101,  // block executing, wait for done
-    CAPTURE_VDRIVE = 3'b110,  // latch final drive, advance block index
-    DONE           = 3'b111   // pulse seq_done, return to idle
+  // add additional state in between fetch_type and load_init to read carrier
+  // wave enable
+  typedef enum logic [3:0] {
+    IDLE           = 4'b0000,
+    ENABLE_CARRIER = 4'b0001,            // issue reg_file read for carrier_en
+    FETCH_TYPE     = 4'b0010,            //latch enable_carrier, issue fetch for type
+    LOAD_INIT      = 4'b0010 + 4'b0001,  // latch type, issue read for first param
+    LOAD_PARAMS    = 4'b0011 + 4'b0001,  // write params to block, 1 per cycle
+    START_BLOCK    = 4'b0100 + 4'b0001,  // one-cycle start pulse (param_wr guaranteed low)
+    WAIT_DONE      = 4'b0101 + 4'b0001,  // block executing, wait for done
+    CAPTURE_VDRIVE = 4'b0110 + 4'b0001,  // latch final drive, advance block index
+    DONE           = 4'b0111 + 4'b0001   // pulse seq_done, return to idle
   } state_t;
   state_t state, next_state;
 
   // ========================= Internal Registers ==============================
-  logic [BLOCK_IDX_WIDTH-1:0]      block_idx;      // "program counter"
-  logic [PARAM_IDX_WIDTH-1:0]      param_idx;      // current param being loaded
-  logic [13:0]                     prev_v_drive;    // voltage to hold between blocks
-  logic [BLOCK_TYPE_IDX_WIDTH-1:0] cur_type;        // current block type (opcode)
-  logic [DATA_WIDTH-1:0]           dur;            //how long the current block should run
-  logic [DATA_WIDTH-1:0]           count;          //counter - tracks how long current block has been on
+  logic [     BLOCK_IDX_WIDTH-1:0] block_idx;  // "program counter"
+  logic [     PARAM_IDX_WIDTH-1:0] param_idx;  // current param being loaded
+  logic [                    13:0] prev_v_drive;  // voltage to hold between blocks
+  logic [BLOCK_TYPE_IDX_WIDTH-1:0] cur_type;  // current block type (opcode)
+  logic [          DATA_WIDTH-1:0] dur;  //how long the current block should run
+  logic [          DATA_WIDTH-1:0] count;  //counter - tracks how long current block has been on
 
   // ========================= Comb. Intermediates ==============================
-  logic [NUM_BLOCK_TYPES-1:0]         type_onehot;
-  logic [13:0]                        active_block_drive;
-  logic [PARAM_IDX_WIDTH-1:0]         num_params;
-  logic                               last_param, last_block;
-  logic [REGFILE_ADDR_WIDTH-1:0]      block_base_addr;
-  logic                               timer_flag;
+  logic [     NUM_BLOCK_TYPES-1:0] type_onehot;
+  logic [                    13:0] active_block_drive;
+  logic [     PARAM_IDX_WIDTH-1:0] num_params;
+  logic last_param, last_block;
+  logic [REGFILE_ADDR_WIDTH-1:0] block_base_addr;
+  logic                          timer_flag;
 
   // ========================= Current Block Calculations ==============================
   // "effectively" a 4 bit value; upper 0 doesn't do anything, and middle
@@ -117,26 +121,21 @@ module control #(
   // hmmmm, given this is combinational it might just be easier to increase
   // the size of the o_active signal to 4 bits so the upper bits can be
   // combinationally determined?
-  logic [1:0] active_to_binary;
+  logic [                   1:0] active_to_binary;
   always_comb begin
-    case(i_active)
-      4'b0000:
-        active_to_binary=2'b00;
-      4'b0001:
-        active_to_binary=2'b00;
-      4'b0010:
-        active_to_binary=2'b01;
-      4'b0100:
-        active_to_binary=2'b10;
-      4'b1000:
-        active_to_binary=2'b11;
-        default: active_to_binary=2'b00;
+    case (i_active)
+      4'b0000: active_to_binary = 2'b00;
+      4'b0001: active_to_binary = 2'b00;
+      4'b0010: active_to_binary = 2'b01;
+      4'b0100: active_to_binary = 2'b10;
+      4'b1000: active_to_binary = 2'b11;
+      default: active_to_binary = 2'b00;
     endcase
-end
-  assign block_base_addr   = {active_to_binary, block_idx, 3'b000};      // block_idx * 8
+  end
+  assign block_base_addr    = {active_to_binary, block_idx, 3'b000};  // block_idx * 8
   //based on cur_type, activates the relavant block by left shifting 'b1 by
   //the given type
-  assign type_onehot       = NUM_BLOCK_TYPES'(1) << cur_type;
+  assign type_onehot        = NUM_BLOCK_TYPES'(1) << cur_type;
   assign active_block_drive = i_block_drive[cur_type];
   assign timer_flag         = (count >= dur);
 
@@ -148,16 +147,16 @@ end
   //   type 3 (chirp):       5  (a, b, rate, raterate, duration)
   //   type 4 (sinusoid):    6  (v_mid, v_amp, v_min_cut, v_max_cut, phase_inc, duration)
   //   type 5 (arb_wfm):     4  (clk_div, length, duration) <- ps should calculate how long the awg will take (if it is used) and pass that into the fsm as duration signal.
-  //   NOTE: changed it so that cur_type is given as decimal, and is
-  //   seperately converted to one-hot via type_onehot
+  //   NOTE: for carrier wave purposes, all parameters are increased by 1
   always_comb begin
     case (cur_type)
       6'd0:    num_params = 3'd2; //delay
       6'd1:    num_params = 3'd4; //linear ramp
       6'd2:    num_params = 3'd2; //direct jump
       6'd3:    num_params = 3'd5; //chirp
-      6'd4:    num_params = 3'd6; // sinusoid
-      //for testing, arb_wave has 2 parameters; clk div and duration
+      //NOTE: sinusoid can no longer be used in sequence (for the 7010 branch
+      //at least).
+      //6'd4:    num_params = 3'd6+3'd1; // sinusoid
       6'd5:    num_params = 3'd2; //arbitrary wave
       default: num_params = 3'd2;
     endcase
@@ -176,30 +175,49 @@ end
     case (state)
       IDLE: begin
         if (i_start) next_state = FETCH_TYPE;
+        if (i_start) next_state = ENABLE_CARRIER;
       end
-      FETCH_TYPE:  next_state = LOAD_INIT;
-      LOAD_INIT:   next_state = LOAD_PARAMS;
+      ENABLE_CARRIER: next_state = FETCH_TYPE;
+      FETCH_TYPE:     next_state = LOAD_INIT;
+      LOAD_INIT:      next_state = LOAD_PARAMS;
       LOAD_PARAMS: begin
         if (last_param) next_state = START_BLOCK;
       end
-      START_BLOCK: next_state = WAIT_DONE;
+      START_BLOCK:    next_state = WAIT_DONE;
       WAIT_DONE: begin
         if (timer_flag) next_state = CAPTURE_VDRIVE;
       end
       CAPTURE_VDRIVE: begin
         if (last_block) next_state = DONE;
-        else            next_state = FETCH_TYPE;
+        //else next_state = FETCH_TYPE;
+        else
+          next_state = ENABLE_CARRIER;
       end
-      DONE:    next_state = IDLE;
-      default: next_state = IDLE;
+      DONE:           next_state = IDLE;
+      default:        next_state = IDLE;
     endcase
   end
 
   // state register (async reset)
   always_ff @(posedge clk) begin
     if (!rst_n) state <= IDLE;
-    else        state <= next_state;
+    else state <= next_state;
   end
+
+  reg carrier_en;
+  always @(posedge clk) begin
+    if (!rst_n) begin
+      carrier_en <= 1'b0;
+    end
+    if (state == IDLE) carrier_en <= 1'b0;
+    else begin
+      if (state == FETCH_TYPE) carrier_en <= i_regfile_data;
+    end
+  end
+
+  assign o_en_dac_b = carrier_en;
+
+
 
   // ========================= Datapath Registers (sync reset) ==============================
   // TODO: change block_idx to start at different "start" points, so that
@@ -226,6 +244,15 @@ end
           end
         end
 
+        //if the current state is ENABLE_CARRIER, first index (param_idx==0)
+        //should be relavant bit
+        ENABLE_CARRIER: begin
+          param_idx <= 'b0;
+        end
+
+        //type should be located at param_idx==1
+        //1 clock cycle after showing regfile param_idx, signal should be
+        //  valid. read into register?
         FETCH_TYPE: begin
           param_idx <= '0;
           count     <= '0;
@@ -258,8 +285,7 @@ end
         CAPTURE_VDRIVE: begin
           prev_v_drive <= active_block_drive;
           count        <= '0;
-          if (!last_block)
-            block_idx <= block_idx + BLOCK_IDX_WIDTH'(1);
+          if (!last_block) block_idx <= block_idx + BLOCK_IDX_WIDTH'(1);
         end
 
         DONE: begin
@@ -272,13 +298,15 @@ end
   end
 
   // ========================= Reg-File Address Generation ==============================
+  // NOTE: offset all indicies by 1 to account for enable_carrier variable
   always_comb begin
     case (state)
-      FETCH_TYPE:  o_regfile_addr = block_base_addr;                                         // offset 0: type
-      LOAD_INIT:   o_regfile_addr = block_base_addr + 8'd1;                                  // offset 1: first param (arrives next cycle)
-      LOAD_PARAMS:
-      o_regfile_addr = block_base_addr + 8'd2 + REGFILE_ADDR_WIDTH'(param_idx);
-      default:     o_regfile_addr = '0;
+      ENABLE_CARRIER: o_regfile_addr = block_base_addr;
+      FETCH_TYPE: o_regfile_addr = block_base_addr + 1'b1;  // offset 0: type
+      LOAD_INIT:
+      o_regfile_addr = block_base_addr + 8'd2;  // offset 1: first param (arrives next cycle)
+      LOAD_PARAMS: o_regfile_addr = block_base_addr + 8'd3 + REGFILE_ADDR_WIDTH'(param_idx);
+      default: o_regfile_addr = '0;
     endcase
   end
 
@@ -289,10 +317,16 @@ end
   // wrap during the add.
   logic signed [14:0] block_plus_lock;
   logic signed [14:0] held_plus_lock;
-  assign block_plus_lock = $signed({active_block_drive[13], active_block_drive})
-                         + $signed({i_init_v_drive[13],     i_init_v_drive});
-  assign held_plus_lock  = $signed({prev_v_drive[13],       prev_v_drive})
-                         + $signed({i_init_v_drive[13],     i_init_v_drive});
+  assign block_plus_lock = $signed(
+      {active_block_drive[13], active_block_drive}
+  ) + $signed(
+      {i_init_v_drive[13], i_init_v_drive}
+  );
+  assign held_plus_lock = $signed(
+      {prev_v_drive[13], prev_v_drive}
+  ) + $signed(
+      {i_init_v_drive[13], i_init_v_drive}
+  );
 
   logic [13:0] block_drive_sat;
   logic [13:0] held_drive_sat;
@@ -306,17 +340,21 @@ end
 
   always_comb begin
     // defaults
-    o_param_data  = '0;
-    o_param_addr  = '0;
-    o_block_en    = '0;
+    o_param_data   = '0;
+    o_param_addr   = '0;
+    o_block_en     = '0;
     o_block_active = '0;
-    v_drive       = held_drive_sat;
-    o_seq_done    = 1'b0;
-    o_active      = 1'b0;
+    v_drive        = held_drive_sat;
+    o_seq_done     = 1'b0;
+    o_active       = 1'b0;
 
     case (state)
       IDLE: begin
         // everything at defaults
+      end
+
+      ENABLE_CARRIER: begin
+        //everything at default
       end
 
       FETCH_TYPE: begin
@@ -328,19 +366,19 @@ end
       end
 
       LOAD_PARAMS: begin
-        o_active      = 1'b1;
+        o_active = 1'b1;
         if (!last_param) begin
-          o_param_addr  = 4'(param_idx);
-          o_block_en    = type_onehot;
-          o_param_data  = i_regfile_data;   // data from previous cycle's read
+          o_param_addr = 4'(param_idx);
+          o_block_en   = type_onehot;
+          o_param_data = i_regfile_data;  // data from previous cycle's read
         end
       end
 
       START_BLOCK: begin
-        o_active      = 1'b1;
-        o_block_en    = '0;
+        o_active       = 1'b1;
+        o_block_en     = '0;
         o_block_active = type_onehot;
-        v_drive       = block_drive_sat;
+        v_drive        = block_drive_sat;
       end
 
       WAIT_DONE: begin

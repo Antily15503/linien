@@ -50,7 +50,8 @@ module sequence_top #(
     output logic o_active,    //high when sequence is active
 
     //DAC output (to linien)
-    output logic [13:0] o_dac_drive
+    output logic [13:0] o_dac_drive,
+    output logic [13:0] o_ref
 );
 
   //Internal Wires
@@ -108,6 +109,7 @@ module sequence_top #(
   );
 
   logic [13:0] o_dac_drive_raw;
+  logic en_dac_b;
   control #(
       .MAX_BLOCKS(MAX_BLOCKS),
       .DATA_WIDTH(DATA_WIDTH)
@@ -141,7 +143,8 @@ module sequence_top #(
 
       // Status
       .o_seq_done(o_seq_done),
-      .o_active  (o_active)
+      .o_active  (o_active),
+      .o_en_dac_b(en_dac_b)
   );
 
   // Delay Block (type 0)
@@ -214,7 +217,10 @@ module sequence_top #(
       .i_param_data(sinusoid_reg_data),
       .i_active    (sinusoid_active),
       .i_en        (sinusoid_en),
-      .o_drive     (sinusoid_v_out)
+      .o_drive     (sinusoid_v_out),
+
+      .o_ref(o_ref),
+      .i_en_dac_b(en_dac_b)
   );
 
   assign o_dac_drive = o_dac_drive_raw + sinusoid_v_out;
