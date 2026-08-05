@@ -8,18 +8,12 @@ MIGENPATH=~/migen
 MISOCPATH=~/misoc
 cd $SCRIPTPATH/../
 
-<<<<<<< HEAD
 export PYTHONPATH=$PYTHONPATH:$LINIENPATH:$LINIENPATH/linien-common:$LINIENPATH/linien-server:$LINIENPATH/src:$LINIENPATH/gateware:$MIGENPATH
 export PYTHONPATH=$PYTHONPATH:$MISOCPATH
 
 #VIVADOPATH=~/xilinx/Vivado/2020.2/bin
 #VIVADOPATH=~/Vivado/2020.2/bin
 VIVADOPATH=~/Applications/2025.2/Vivado/bin/
-=======
-#VIVADOPATH=~/xilinx/Vivado/2020.2/bin
-VIVADOPATH=~/Vivado/2020.2/bin
-#VIVADOPATH=~/Applications/2025.2/2025.2/Vivado/bin/
->>>>>>> gen2-7020-port
 if [ ! -d $VIVADOPATH ]; then
   echo "vivado path $VIVADOPATH does not exist. Please adapt it in build_fpga_image.sh"
   exit 1
