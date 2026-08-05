@@ -1,20 +1,11 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
 | Tool Version     : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date             : Wed Aug  5 04:37:23 2026
+| Date             : Wed Aug  5 05:00:27 2026
 | Host             : cachyos-x8664 running 64-bit CachyOS
 | Command          : report_power -file top_power.rpt
 | Design           : top
-| Device           : xc7z010clg400-1
-=======
-| Tool Version     : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date             : Fri Jul 24 23:20:15 2026
-| Host             : TejaskumarBabel running 64-bit major release  (build 9200)
-| Command          : report_power -file top_power.rpt
-| Design           : top
 | Device           : xc7z020clg400-1
->>>>>>> gen2-7020-port
 | Design State     : routed
 | Grade            : commercial
 | Process          : typical
@@ -39,25 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-<<<<<<< HEAD
-| Total On-Chip Power (W)  | 2.339        |
+| Total On-Chip Power (W)  | 2.354        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 2.195        |
-| Device Static (W)        | 0.143        |
+| Dynamic (W)              | 2.183        |
+| Device Static (W)        | 0.170        |
 | Effective TJA (C/W)      | 11.5         |
-| Max Ambient (C)          | 58.0         |
-| Junction Temperature (C) | 52.0         |
-=======
-| Total On-Chip Power (W)  | 2.455        |
-| Design Power Budget (W)  | Unspecified* |
-| Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 2.281        |
-| Device Static (W)        | 0.174        |
-| Effective TJA (C/W)      | 11.5         |
-| Max Ambient (C)          | 56.7         |
-| Junction Temperature (C) | 53.3         |
->>>>>>> gen2-7020-port
+| Max Ambient (C)          | 57.9         |
+| Junction Temperature (C) | 52.1         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -72,43 +52,23 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-<<<<<<< HEAD
-| Clocks         |     0.055 |       10 |       --- |             --- |
-| Slice Logic    |     0.144 |    32873 |       --- |             --- |
-|   LUT as Logic |     0.119 |    14892 |     17600 |           84.61 |
-|   CARRY4       |     0.017 |     2564 |      4400 |           58.27 |
-|   Register     |     0.007 |    11766 |     35200 |           33.43 |
-|   F7/F8 Muxes  |    <0.001 |      502 |     17600 |            2.85 |
-|   BUFG         |    <0.001 |        1 |        32 |            3.13 |
-|   Others       |     0.000 |      255 |       --- |             --- |
-| Signals        |     0.198 |    28184 |       --- |             --- |
-| Block RAM      |     0.087 |       29 |        60 |           48.33 |
-| PLL            |     0.098 |        1 |         2 |           50.00 |
-| DSPs           |     0.097 |       80 |        80 |          100.00 |
-| I/O            |     0.238 |       87 |       100 |           87.00 |
-| XADC           |     0.002 |        1 |       --- |             --- |
-| PS7            |     1.277 |        1 |       --- |             --- |
-| Static Power   |     0.143 |          |           |                 |
-| Total          |     2.339 |          |           |                 |
-=======
-| Clocks         |     0.072 |       10 |       --- |             --- |
-| Slice Logic    |     0.112 |    26347 |       --- |             --- |
-|   LUT as Logic |     0.092 |    10844 |     53200 |           20.38 |
-|   CARRY4       |     0.013 |     1759 |     13300 |           13.23 |
-|   Register     |     0.007 |    11428 |    106400 |           10.74 |
-|   F7/F8 Muxes  |    <0.001 |      523 |     53200 |            0.98 |
+| Clocks         |     0.068 |       10 |       --- |             --- |
+| Slice Logic    |     0.113 |    26520 |       --- |             --- |
+|   LUT as Logic |     0.092 |    10868 |     53200 |           20.43 |
+|   CARRY4       |     0.013 |     1763 |     13300 |           13.26 |
+|   Register     |     0.007 |    11484 |    106400 |           10.79 |
+|   F7/F8 Muxes  |    <0.001 |      589 |     53200 |            1.11 |
 |   BUFG         |    <0.001 |        1 |        32 |            3.13 |
 |   Others       |     0.000 |      164 |       --- |             --- |
-| Signals        |     0.132 |    22518 |       --- |             --- |
-| Block RAM      |     0.086 |     29.5 |       140 |           21.07 |
+| Signals        |     0.131 |    22540 |       --- |             --- |
+| Block RAM      |     0.088 |     29.5 |       140 |           21.07 |
 | PLL            |     0.098 |        1 |         4 |           25.00 |
-| DSPs           |     0.114 |       97 |       220 |           44.09 |
-| I/O            |     0.388 |       87 |       125 |           69.60 |
+| DSPs           |     0.116 |       97 |       220 |           44.09 |
+| I/O            |     0.289 |       87 |       125 |           69.60 |
 | XADC           |     0.002 |        1 |       --- |             --- |
 | PS7            |     1.277 |        1 |       --- |             --- |
-| Static Power   |     0.174 |          |           |                 |
-| Total          |     2.455 |          |           |                 |
->>>>>>> gen2-7020-port
+| Static Power   |     0.170 |          |           |                 |
+| Total          |     2.353 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -118,34 +78,20 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-<<<<<<< HEAD
-| Vccint    |       1.000 |     0.591 |       0.580 |      0.011 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.066 |       0.056 |      0.010 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     0.068 |       0.067 |      0.001 |       NA    | Unspecified | NA         |
-=======
-| Vccint    |       1.000 |     0.539 |       0.517 |      0.023 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.077 |       0.058 |      0.018 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     0.112 |       0.111 |      0.001 |       NA    | Unspecified | NA         |
->>>>>>> gen2-7020-port
+| Vccint    |       1.000 |     0.538 |       0.516 |      0.022 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.075 |       0.057 |      0.018 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     0.083 |       0.082 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.004 |       0.003 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-<<<<<<< HEAD
-| Vccbram   |       1.000 |     0.010 |       0.007 |      0.003 |       NA    | Unspecified | NA         |
-| MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vccpint   |       1.000 |     0.702 |       0.663 |      0.039 |       NA    | Unspecified | NA         |
-=======
 | Vccbram   |       1.000 |     0.011 |       0.007 |      0.004 |       NA    | Unspecified | NA         |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vccpint   |       1.000 |     0.704 |       0.663 |      0.041 |       NA    | Unspecified | NA         |
->>>>>>> gen2-7020-port
+| Vccpint   |       1.000 |     0.702 |       0.663 |      0.039 |       NA    | Unspecified | NA         |
 | Vccpaux   |       1.800 |     0.038 |       0.027 |      0.010 |       NA    | Unspecified | NA         |
 | Vccpll    |       1.800 |     0.017 |       0.014 |      0.003 |       NA    | Unspecified | NA         |
 | Vcco_ddr  |       1.500 |     0.356 |       0.354 |      0.002 |       NA    | Unspecified | NA         |
@@ -212,26 +158,15 @@ Table of Contents
 +---------------------------------+-----------+
 | Name                            | Power (W) |
 +---------------------------------+-----------+
-<<<<<<< HEAD
-| top                             |     2.195 |
+| top                             |     2.183 |
 |   axi_slave                     |     0.002 |
-|   red_pitaya_scope              |     0.109 |
-|   sequence_top                  |     0.011 |
+|   red_pitaya_scope              |     0.107 |
+|   sequence_top                  |     0.015 |
 |     BRAM                        |     0.002 |
 |     fsm_reg_file                |     0.003 |
 |     u_control                   |     0.002 |
-|     u_sinusoid                  |     0.001 |
-=======
-| top                             |     2.281 |
-|   axi_slave                     |     0.002 |
-|   red_pitaya_scope              |     0.107 |
-|   sequence_top                  |     0.009 |
-|     BRAM                        |     0.002 |
-|     fsm_reg_file                |     0.001 |
-|     u_chirp_gen                 |     0.001 |
-|     u_control                   |     0.002 |
-|     u_sinusoid                  |     0.002 |
->>>>>>> gen2-7020-port
+|     u_sinusoid                  |     0.006 |
+|       sin_lut                   |     0.002 |
 |   system_processing_system7_0_0 |     1.278 |
 |     inst                        |     1.278 |
 +---------------------------------+-----------+

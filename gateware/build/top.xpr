@@ -4,19 +4,11 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<<<<<<< HEAD
 <Project Product="Vivado" Version="7" Minor="71" Path="/home/vedaant/school/quantum_work/linien/gateware/build/top.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="35bdd57cd99b40c68cdb5b05b9536145"/>
-    <Option Name="Part" Val="xc7z010clg400-1"/>
-=======
-<Project Product="Vivado" Version="7" Minor="71" Path="C:/UW-Madison/RA/linien/gateware/build/top.xpr">
-  <DefaultLaunch Dir="$PRUNDIR"/>
-  <Configuration>
-    <Option Name="Id" Val="d7c7e371165e4ac595c10c795684c380"/>
+    <Option Name="Id" Val="39f61f3bdc1640c7b6e2f0756823ff12"/>
     <Option Name="Part" Val="xc7z020clg400-1"/>
->>>>>>> gen2-7020-port
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
     <Option Name="CompiledLibDirModelSim" Val="$PCACHEDIR/compile_simlib/modelsim"/>
@@ -99,11 +91,7 @@
   <FileSets Version="1" Minor="32">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
       <Filter Type="Srcs"/>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/axi_slave.v">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/axi_slave.v">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -111,11 +99,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/bus_clk_bridge.v">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/bus_clk_bridge.v">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -123,11 +107,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/processing_system7_v5_4_processing_system7.v">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/processing_system7_v5_4_processing_system7.v">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -135,11 +115,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/red_pitaya_scope.v">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/red_pitaya_scope.v">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -147,11 +123,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/system_processing_system7_0_0.v">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/gateware/verilog/system_processing_system7_0_0.v">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -159,11 +131,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/ROM.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/ROM.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -171,11 +139,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/arb_wave.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/arb_wave.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -183,11 +147,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/bram.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/bram.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -195,11 +155,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/chirp_gen.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/chirp_gen.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -207,11 +163,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/chirp_gen_tb.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/chirp_gen_tb.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -219,11 +171,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/control.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/control.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -231,11 +179,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/delay.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/delay.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -243,11 +187,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/direct_jump.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/direct_jump.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -255,11 +195,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/linear_ramp.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/linear_ramp.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -267,11 +203,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/reg_file_adapter.v">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/reg_file_adapter.v">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -279,11 +211,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/sequence_top.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/sequence_top.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -291,11 +219,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-<<<<<<< HEAD
       <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/sinusoid.sv">
-=======
-      <File Path="$PPRDIR/imports/home/vedaant/school_files/spring2026/ECE554/linien_554/src/sinusoid.sv">
->>>>>>> gen2-7020-port
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -379,7 +303,6 @@
     <Simulator Name="Questa">
       <Option Name="Description" Val="Questa Advanced Simulator"/>
     </Simulator>
-<<<<<<< HEAD
     <Simulator Name="Xcelium">
       <Option Name="Description" Val="Xcelium Parallel Simulator"/>
     </Simulator>
@@ -391,18 +314,7 @@
     </Simulator>
   </Simulators>
   <Runs Version="1" Minor="22">
-    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z010clg400-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="true" WriteIncrSynthDcp="false" State="current" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/synth_1" ParallelReportGen="true">
-=======
-    <Simulator Name="Riviera">
-      <Option Name="Description" Val="Riviera-PRO Simulator"/>
-    </Simulator>
-    <Simulator Name="ActiveHDL">
-      <Option Name="Description" Val="Active-HDL Simulator"/>
-    </Simulator>
-  </Simulators>
-  <Runs Version="1" Minor="22">
     <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z020clg400-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="true" WriteIncrSynthDcp="false" State="current" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/synth_1" ParallelReportGen="true">
->>>>>>> gen2-7020-port
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025">
           <Desc>Vivado Synthesis Defaults</Desc>
@@ -413,11 +325,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-<<<<<<< HEAD
-    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/impl_1" ParallelReportGen="true">
-=======
     <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg400-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/impl_1" ParallelReportGen="true">
->>>>>>> gen2-7020-port
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025">
           <Desc>Default settings for Implementation.</Desc>
