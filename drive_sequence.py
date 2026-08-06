@@ -35,6 +35,10 @@ def volts_to_bits(volt):
     return int((volt / VP) / GAIN * DAC_COUNTS)
 
 
+def freq_to_phase(f_hz, f_clk_hz):
+    return int(round(f_hz / f_clk_hz * (1 << 32)))
+
+
 print(bin(volts_to_bits(-1)))
 
 
