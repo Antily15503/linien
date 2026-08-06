@@ -65,6 +65,10 @@ client.connect(autostart_server=False, use_parameter_cache=False)
 
 # start and end voltage, and time driven.
 
+############## configure the carrier wave generation ###################
+client.parameters.sinusoid_params = [0, 1, -1, 1, 500000]
+client.control.write_sinusoid_config()
+client.control.activate_sinusoid()
 
 end = False
 while end != True:
@@ -79,10 +83,15 @@ while end != True:
 
         client.parameters.sequence_blocks.value = [
             1,
-            {"type": 0, "params": [0, ms_to_clock(3)]},
-            {"type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
-            {"type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(130)]},
+            {"en_sin": 0, "type": 0, "params": [0, ms_to_clock(3)]},
+            {"en_sin": 0, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
             {
+                "en_sin": 0,
+                "type": 0,
+                "params": [volts_to_bits(jump_1), ms_to_clock(130)],
+            },
+            {
+                "en_sin": 0,
                 "type": 1,
                 "params": [
                     volts_to_bits(jump_1),
@@ -91,7 +100,7 @@ while end != True:
                     ms_to_clock(12),
                 ],
             },
-            {"type": 0, "params": [0, ms_to_clock(3)]},
+            {"en_sin": 0, "type": 0, "params": [0, ms_to_clock(3)]},
         ]
         client.control.write_sequence_config()
         print("==============================")
