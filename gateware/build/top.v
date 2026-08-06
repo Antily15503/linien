@@ -11828,6 +11828,7 @@ sequence_top #(
 	.i_fsm_reg_w_data(linienmodule_sequenceexecutor_fsm_reg_data_storage),
 	.i_fsm_reg_w_en(linienmodule_sequenceexecutor_fsm_reg_wen_storage),
 	.i_init_v(linienmodule_sequenceexecutor_o_saved_dac_out),
+	.i_num_blocks(linienmodule_sequenceexecutor_num_blocks),
 	.i_start(linienmodule_sequenceexecutor_o_fsm_start),
 	.rst_n(((~sys_rst) & (~linienmodule_sequenceexecutor_reset_seq_storage))),
 	.sinusoid_en_active(linienmodule_sequenceexecutor_sinusoid_en_active_storage),
