@@ -36,8 +36,5 @@ gateware/build/top_route.dcp
 *sim_build*
 *.nvim*
 *.venv*
-<<<<<<< HEAD
 ./gateware/build/*
 *xml*
-=======
->>>>>>> gen2-7020-port
