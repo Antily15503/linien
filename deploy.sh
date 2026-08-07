@@ -5,10 +5,10 @@
 #as well as linien_common
 
 if [ gateware/linien_module.py -nt linien-server/linien_server/gateware.bin ]; then
-    echo "WARNING: linien_module.py is newer than gateware.bin - rebuild needed!"
-    exit 1
+  echo "WARNING: linien_module.py is newer than gateware.bin - rebuild needed!"
+  exit 1
 fi
-PITAYA="root@rp-f0ed21.local"
+PITAYA="root@rp-f0edf0.local"
 REMOTE="/usr/local/lib/python3.10/dist-packages/linien_server/"
 REMOTE_COMMON="/usr/local/lib/python3.10/dist-packages/linien_common/"
 
@@ -31,4 +31,3 @@ echo "starting server"
 ssh $PITAYA "linien-server start"
 
 echo "done"
-
