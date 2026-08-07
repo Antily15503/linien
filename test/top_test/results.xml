@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1785916961" />
-    <testcase name="test1" classname="sequence_top_tb" file="/home/vedaant/school/quantum_work/linien/test/top_test/sequence_top_tb.py" lineno="162" time="0.5498979091644287" sim_time_ns="130448.0" ratio_time="237222.21493479775" />
+    <property name="random_seed" value="1786048759" />
+    <testcase name="test1" classname="sequence_top_tb" file="/home/vedaant/school/quantum_work/linien/test/top_test/sequence_top_tb.py" lineno="162" time="0.4682185649871826" sim_time_ns="130448.0" ratio_time="278604.92888309754" />
   </testsuite>
 </testsuites>

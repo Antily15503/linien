@@ -1,0 +1,47 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 12:34:56 MST 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Fri Aug  7 02:32:29 2026
+# Process ID         : 1431613
+# Current directory  : /home/vedaant/school/quantum_work/linien/test/top_test
+# Command line       : vivado
+# Log file           : /home/vedaant/school/quantum_work/linien/test/top_test/vivado.log
+# Journal file       : /home/vedaant/school/quantum_work/linien/test/top_test/vivado.jou
+# Running On         : cachyos-x8664
+# Platform           : cachyos
+# Operating System   : CachyOS
+# Processor Detail   : AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+# CPU Frequency      : 5114.929 MHz
+# CPU Physical cores : 16
+# CPU Logical cores  : 32
+# Host memory        : 29034 MB
+# Swap memory        : 29034 MB
+# Total Virtual      : 58068 MB
+# Available Virtual  : 48274 MB
+#-----------------------------------------------------------
+start_gui
+open_project /home/vedaant/school/quantum_work/linien/gateware/build/top.xpr
+update_compile_order -fileset sources_1
+add_files -norecurse /home/vedaant/school/quantum_work/linien/src/sin_lut.mem
+update_compile_order -fileset sources_1
+synth_design -top top -part xc7z010clg400-1 -lint 
+synth_design -top top -part xc7z010clg400-1 -lint 
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+launch_runs synth_1 -jobs 16
+wait_on_run synth_1
+close_design
+open_run synth_1 -name synth_1
+launch_runs impl_1 -jobs 16
+wait_on_run impl_1
+open_run impl_1
+create_dataflow_design
+current_design synth_1
+create_dataflow_design
+current_design synth_1
+current_design impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 16
+wait_on_run impl_1
+open_hw_manager
+current_design synth_1

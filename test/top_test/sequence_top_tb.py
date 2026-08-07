@@ -190,16 +190,16 @@ async def test1(dut):
         {
             "en_sin": 0,
             "type": 1,
-            "params": [0, 5, 5, 500],
+            "params": [5000, -5, 5, 500],
         },
     ]
 
     #
     instructions_2 = [
         {
-            "en_sin": 1,
+            "en_sin": 0,
             "type": 1,
-            "params": [0, 5, 5, 500],
+            "params": [5000, -5, 5, 500],
         },
         {
             "en_sin": 0,

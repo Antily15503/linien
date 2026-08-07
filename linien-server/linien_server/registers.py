@@ -155,6 +155,8 @@ class Registers:
             # first, write the sin_en to the base address
             self.set("logic_sequence_fsm_reg_addr", base_addr)
             self.set("logic_sequence_fsm_reg_data", inst["en_sin"])
+            self.set("logic_sequence_fsm_reg_wen", 1)
+            self.set("logic_sequence_fsm_reg_wen", 0)
             # second, write the type of instruction to the base address offset by 1
             self.set("logic_sequence_fsm_reg_addr", base_addr + 1)
             self.set("logic_sequence_fsm_reg_data", inst["type"])
