@@ -42,9 +42,9 @@ def freq_to_phase(f_hz, f_clk_hz):
 print(bin(volts_to_bits(-1)))
 
 
-device = Device(host="rp-f0ed21.local", username="root", password="root")
+device = Device(host="rp-f0edf0.local", username="root", password="root")
 client = LinienClient(device)
-client.connect(autostart_server=False, use_parameter_cache=False)
+client.connect(autostart_server=True, use_parameter_cache=False)
 
 # ramp v_tart of -1.25 volts, v_end of -1.10 volts, and a duration of 12 ms
 # change in 0.15 over 12 ms, step of 0.0125 volts per ms.
@@ -70,7 +70,13 @@ client.connect(autostart_server=False, use_parameter_cache=False)
 # start and end voltage, and time driven.
 
 ############## configure the carrier wave generation ###################
-client.parameters.sinusoid_params = [0, 1, -1, 1, 500000]
+client.parameters.sinusoid_params.value = [
+    0,
+    volts_to_bits(1),
+    volts_to_bits(-1),
+    volts_to_bits(1),
+    freq_to_phase(60 * 10**3, CLOCK_FREQ),
+]
 client.control.write_sinusoid_config()
 client.control.activate_sinusoid()
 
@@ -87,24 +93,24 @@ while end != True:
 
         client.parameters.sequence_blocks.value = [
             1,
-            {"en_sin": 0, "type": 0, "params": [0, ms_to_clock(3)]},
-            {"en_sin": 0, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
+            {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(3)]},
+            {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
             {
-                "en_sin": 0,
+                "en_sin": 1,
                 "type": 0,
                 "params": [volts_to_bits(jump_1), ms_to_clock(130)],
             },
             {
-                "en_sin": 0,
+                "en_sin": 1,
                 "type": 1,
                 "params": [
                     volts_to_bits(jump_1),
-                    0x3AAA,
+                    volts_to_bits(-0.1),
                     int(33333 * abs(ramp)),
                     ms_to_clock(12),
                 ],
             },
-            {"en_sin": 0, "type": 0, "params": [0, ms_to_clock(3)]},
+            {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(130)]},
         ]
         client.control.write_sequence_config()
         print("==============================")

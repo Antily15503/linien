@@ -18,8 +18,6 @@ add_files {imports/home/vedaant/school/quantum_work/linien/src/bram.sv}
 set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/bram.sv}]
 add_files {imports/home/vedaant/school/quantum_work/linien/src/chirp_gen.sv}
 set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/chirp_gen.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/chirp_gen_tb.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/chirp_gen_tb.sv}]
 add_files {imports/home/vedaant/school/quantum_work/linien/src/control.sv}
 set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/control.sv}]
 add_files {imports/home/vedaant/school/quantum_work/linien/src/delay.sv}
@@ -28,8 +26,6 @@ add_files {imports/home/vedaant/school/quantum_work/linien/src/direct_jump.sv}
 set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/direct_jump.sv}]
 add_files {imports/home/vedaant/school/quantum_work/linien/src/linear_ramp.sv}
 set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/linear_ramp.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/reg_file_adapter.v}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/reg_file_adapter.v}]
 add_files {imports/home/vedaant/school/quantum_work/linien/src/sequence_top.sv}
 set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/sequence_top.sv}]
 add_files {imports/home/vedaant/school/quantum_work/linien/src/sinusoid.sv}

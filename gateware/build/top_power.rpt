@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date             : Thu Aug  6 17:12:12 2026
+| Date             : Fri Aug  7 14:37:47 2026
 | Host             : cachyos-x8664 running 64-bit CachyOS
 | Command          : report_power -file top_power.rpt
 | Design           : top
