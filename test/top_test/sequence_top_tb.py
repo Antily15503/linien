@@ -67,29 +67,34 @@ async def write_sinusoid_reg(dut, index, value):
     # initially, set all values to 0
     dut.sinusoid_reg_addr.value = 0
     dut.sinusoid_reg_data.value = 0
-    dut.sinusoid_en_active.value = 0b00
+    dut.sinusoid_en.value = 0
+    dut.sinusoid_active.value = 0
 
     # wait a couple of clock cycles.
     await ClockCycles(dut.clk, 4)
     dut.sinusoid_reg_addr.value = index
     dut.sinusoid_reg_data.value = value
-    dut.sinusoid_en_active.value = 0b10
+    dut.sinusoid_en.value = 1
+    dut.sinusoid_active.value = 0
 
     await ClockCycles(dut.clk, 4)
 
     dut.sinusoid_reg_addr.value = 0
     dut.sinusoid_reg_data.value = 0
-    dut.sinusoid_en_active.value = 0b00
+    dut.sinusoid_en.value = 0
+    dut.sinusoid_active.value = 0
     pass
 
 
 async def activate_sinusoid(dut):
-    dut.sinusoid_en_active.value = 0b01
+    dut.sinusoid_en.value = 0
+    dut.sinusoid_active.value = 1
     pass
 
 
 async def deactivate_sinusoid(dut):
-    dut.sinusoid_en_active.value = 0b00
+    dut.sinusoid_en.value = 0
+    dut.sinusoid_active.value = 0
     pass
 
 

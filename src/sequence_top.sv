@@ -40,9 +40,10 @@ module sequence_top #(
     input wire [ 3:0] i_active,  //signal for offset, COMES FROM TTL HANDLER
 
     //signals for paralell sinusoid function
-    input wire [ 3:0] sinusoid_reg_addr,
+    input wire [3:0] sinusoid_reg_addr,
     input wire [31:0] sinusoid_reg_data,
-    input wire [ 1:0] sinusoid_en_active,
+    input wire sinusoid_en,
+    input wire sinusoid_active,
 
     //Signals to ttl handler
     output logic o_seq_done,  //1 cycle pulse
@@ -202,11 +203,7 @@ module sequence_top #(
   // sequence_top and always runs in the background (overlaid with
   // sequence_top signals) no longer a valid block/sequence.
 
-  logic sinusoid_en;
-  logic sinusoid_active;
   logic [13:0] sinusoid_v_out;
-  assign sinusoid_en = sinusoid_en_active[1];
-  assign sinusoid_active = sinusoid_en_active[0];
 
   sinusoid #(
       .DATA_WIDTH(DATA_WIDTH)

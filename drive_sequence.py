@@ -71,13 +71,14 @@ client.connect(autostart_server=True, use_parameter_cache=False)
 
 ############## configure the carrier wave generation ###################
 client.parameters.sinusoid_params.value = [
-    0,
-    volts_to_bits(1),
-    volts_to_bits(-1),
-    volts_to_bits(1),
-    freq_to_phase(60 * 10**3, CLOCK_FREQ),
+    volts_to_bits(0),
+    volts_to_bits(2),
+    volts_to_bits(-2),
+    volts_to_bits(2),
+    freq_to_phase(6 * 10**2, CLOCK_FREQ),
 ]
 client.control.write_sinusoid_config()
+client.control.activate_sinusoid()
 client.control.activate_sinusoid()
 
 end = False
@@ -96,7 +97,7 @@ while end != True:
             {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(3)]},
             {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
             {
-                "en_sin": 1,
+                "en_sin": 0,
                 "type": 0,
                 "params": [volts_to_bits(jump_1), ms_to_clock(130)],
             },
@@ -110,7 +111,7 @@ while end != True:
                     ms_to_clock(12),
                 ],
             },
-            {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(130)]},
+            {"en_sin": 0, "type": 0, "params": [0, ms_to_clock(130)]},
         ]
         client.control.write_sequence_config()
         print("==============================")

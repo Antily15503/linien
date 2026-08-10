@@ -56,7 +56,8 @@ module sequence_top_tb ();
       .o_dac_drive(o_dac_drive),
       .sinusoid_reg_addr(sinusoid_reg_addr),
       .sinusoid_reg_data(sinusoid_reg_data),
-      .sinusoid_en_active(sinusoid_en_active)
+      .sinusoid_en(sinusoid_en),
+      .sinusoid_active(sinusoid_active)
   );
 
 endmodule

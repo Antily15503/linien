@@ -42,7 +42,8 @@ class SequenceExecutor(Module, AutoCSR):
         # see if bit-packing is more efficient in CSR allocation
         # sinusoid_en_active[1]=enable
         # sinusoid_en_active[0]=active
-        self.sinusoid_en_active = CSRStorage(2)
+        self.sinusoid_en = CSRStorage(1)
+        self.sinusoid_active = CSRStorage(1)
 
         # snapshot readback for relock. captured by ttl_handler on the TTL
         # rising edge and held until the next trigger. values are signed but
@@ -160,7 +161,8 @@ class SequenceExecutor(Module, AutoCSR):
             i_i_awg_reg_w_en=self.awg_reg_wen.storage,
             i_sinusoid_reg_data=self.sinusoid_reg_data.storage,
             i_sinusoid_reg_addr=self.sinusoid_reg_addr.storage,
-            i_sinusoid_en_active=self.sinusoid_en_active.storage,
+            i_sinusoid_active=self.sinusoid_active.storage,
+            i_sinusoid_en=self.sinusoid_en.storage,
             i_i_num_blocks=self.num_blocks,
             o_o_ref=self.o_ref,
             # config

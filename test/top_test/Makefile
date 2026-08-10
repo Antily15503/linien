@@ -29,4 +29,4 @@ COCOTB_TEST_MODULES = $(TOPLEVEL)
 include $(shell cocotb-config --makefiles)/Makefile.sim
 
 waves:
-	gtkwave $(TOPLEVEL).vcd &
+	surfer $(TOPLEVEL).vcd &
