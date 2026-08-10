@@ -207,6 +207,7 @@ module sequence_top #(
   logic [13:0] sinusoid_v_out;
   assign sinusoid_en = sinusoid_en_active[1];
   assign sinusoid_active = sinusoid_en_active[0];
+  wire signed [13:0] o_ref;
 
   sinusoid #(
       .DATA_WIDTH(DATA_WIDTH)

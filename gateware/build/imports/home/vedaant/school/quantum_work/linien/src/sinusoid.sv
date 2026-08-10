@@ -90,7 +90,7 @@ module sinusoid #(
 
   logic [13:0] o_sin_mem;
   ROM #(
-      .FILE("sin_lut.memh"),
+      .FILE("sin_lut.mem"),
       .DATA_WIDTH(14),
       .ADDR_WIDTH(9)
   ) sin_lut (
