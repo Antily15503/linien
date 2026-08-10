@@ -182,21 +182,23 @@ class Registers:
     def write_sinusoid_config(self):
         self.set("logic_sequence_sinusoid_reg_addr", 0000)
         self.set("logic_sequence_sinusoid_reg_data", 0x0000)
-        self.set("logic_sequence_sinusoid_en_active", 00)
+        self.set("logic_sequence_sinusoid_en", 1)
+        self.set("logic_sequence_sinusoid_active", 0)
         sinusoid_params = self.parameters.sinusoid_params.value
         for i in range(0, 5):
             self.set("logic_sequence_sinusoid_reg_addr", i)
             self.set("logic_sequence_sinusoid_reg_data", sinusoid_params[i])
-            self.set("logic_sequence_sinusoid_en_active", 0b10)
-            self.set("logic_sequence_sinusoid_en_active", 0b00)
+            self.set("logic_sequence_sinusoid_en", 0b1)
+            self.set("logic_sequence_sinusoid_en", 0b0)
+
         pass
-        self.set("logic_sequence_sinusoid_en_active", 0b01)
+        self.set("logic_sequence_sinusoid_active", 0b1)
 
     def activate_sinusoid(self):
-        self.set("logic_sequence_sinusoid_en_active", 0b01)
+        self.set("logic_sequence_sinusoid_active", 0b1)
 
     def deactivate_sinusoid(self):
-        self.set("logic_sequence_sinusoid_en_active", 0b00)
+        self.set("logic_sequence_sinusoid_active", 0b0)
 
     def write_registers(self):
         """Writes data from `parameters` to the FPGA."""
