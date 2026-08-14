@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Mon Aug 10 00:55:55 2026
-| Host         : cachyos-x8664 running 64-bit CachyOS
+| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
+| Date         : Thu Aug 13 20:09:12 2026
+| Host         : TejaskumarBabel running 64-bit major release  (build 9200)
 | Command      : report_utilization -hierarchical -file top_utilization_hierarchical_place.rpt
 | Design       : top
 | Device       : xc7z010clg400-1
@@ -22,19 +22,19 @@ Table of Contents
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 |        Instance        |      Module      | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
-| top                    |            (top) |      15360 |      15360 |       0 |    0 | 11837 |     28 |      3 |         80 |
-|   (top)                |            (top) |      13067 |      13067 |       0 |    0 |  9953 |      0 |      0 |         80 |
-|   axi_slave            |        axi_slave |         90 |         90 |       0 |    0 |   148 |      0 |      0 |          0 |
-|   red_pitaya_scope     | red_pitaya_scope |       1241 |       1241 |       0 |    0 |  1002 |     28 |      0 |          0 |
-|     (red_pitaya_scope) | red_pitaya_scope |       1018 |       1018 |       0 |    0 |   940 |     28 |      0 |          0 |
-|     i_bridge           | bus_clk_bridge_0 |        223 |        223 |       0 |    0 |    62 |      0 |      0 |          0 |
-|   sequence_top         |     sequence_top |        964 |        964 |       0 |    0 |   703 |      0 |      3 |          0 |
+| top                    |            (top) |      15374 |      15374 |       0 |    0 | 11838 |     28 |      3 |         80 |
+|   (top)                |            (top) |      13082 |      13082 |       0 |    0 |  9954 |      0 |      0 |         80 |
+|   axi_slave            |        axi_slave |         93 |         93 |       0 |    0 |   148 |      0 |      0 |          0 |
+|   red_pitaya_scope     | red_pitaya_scope |       1247 |       1247 |       0 |    0 |  1002 |     28 |      0 |          0 |
+|     (red_pitaya_scope) | red_pitaya_scope |       1019 |       1019 |       0 |    0 |   940 |     28 |      0 |          0 |
+|     i_bridge           | bus_clk_bridge_0 |        228 |        228 |       0 |    0 |    62 |      0 |      0 |          0 |
+|   sequence_top         |     sequence_top |        967 |        967 |       0 |    0 |   703 |      0 |      3 |          0 |
 |     u_arb_wave         |         arb_wave |         51 |         51 |       0 |    0 |    75 |      0 |      0 |          0 |
 |     u_chirp_gen        |        chirp_gen |         85 |         85 |       0 |    0 |   161 |      0 |      0 |          0 |
-|     u_control          |          control |        309 |        309 |       0 |    0 |   107 |      0 |      0 |          0 |
+|     u_control          |          control |        312 |        312 |       0 |    0 |   107 |      0 |      0 |          0 |
 |     u_linear_ramp      |      linear_ramp |         59 |         59 |       0 |    0 |   107 |      0 |      0 |          0 |
-|     u_sinusoid         |         sinusoid |        523 |        523 |       0 |    0 |   225 |      0 |      1 |          0 |
-|       (u_sinusoid)     |         sinusoid |        516 |        516 |       0 |    0 |   225 |      0 |      0 |          0 |
+|     u_sinusoid         |         sinusoid |        521 |        521 |       0 |    0 |   225 |      0 |      1 |          0 |
+|       (u_sinusoid)     |         sinusoid |        514 |        514 |       0 |    0 |   225 |      0 |      0 |          0 |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 * Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
 

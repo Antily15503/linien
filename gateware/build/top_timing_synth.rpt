@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Mon Aug 10 00:54:26 2026
-| Host         : cachyos-x8664 running 64-bit CachyOS
+| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
+| Date         : Thu Aug 13 20:04:18 2026
+| Host         : TejaskumarBabel running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -file top_timing_synth.rpt
 | Design       : top
 | Device       : 7z010-clg400
@@ -520,9 +520,9 @@ Slack (VIOLATED) :        -6.150ns  (required time - arrival time)
 Min Delay Paths
 --------------------------------------------------------------------------------------
 Slack (MET) :             0.045ns  (arrival time - required time)
-  Source:                 xilinxmultiregimpl0_xilinxmultiregimpl00_reg[0]/C
+  Source:                 xilinxmultiregimpl0_regs0_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by clk_2  {rise@0.000ns fall@4.000ns period=8.000ns})
-  Destination:            xilinxmultiregimpl0_xilinxmultiregimpl01_reg[0]/D
+  Destination:            xilinxmultiregimpl0_regs1_reg[0]/D
                             (rising edge-triggered cell FDRE clocked by clk_2  {rise@0.000ns fall@4.000ns period=8.000ns})
   Path Group:             clk_2
   Path Type:              Hold (Min at Fast Process Corner)
@@ -548,11 +548,11 @@ Slack (MET) :             0.045ns  (arrival time - required time)
                          net (fo=1, unplaced)         0.337     0.740    clk_2
                          BUFG (Prop_bufg_I_O)         0.026     0.766 r  BUFG_4/O
                          net (fo=11238, unplaced)     0.210     0.975    sys_clk
-                         FDRE                                         r  xilinxmultiregimpl0_xilinxmultiregimpl00_reg[0]/C
+                         FDRE                                         r  xilinxmultiregimpl0_regs0_reg[0]/C
   -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_fdre_C_Q)         0.147     1.122 r  xilinxmultiregimpl0_xilinxmultiregimpl00_reg[0]/Q
-                         net (fo=1, unplaced)         0.081     1.203    xilinxmultiregimpl0_xilinxmultiregimpl00[0]
-                         FDRE                                         r  xilinxmultiregimpl0_xilinxmultiregimpl01_reg[0]/D
+                         FDRE (Prop_fdre_C_Q)         0.147     1.122 r  xilinxmultiregimpl0_regs0_reg[0]/Q
+                         net (fo=1, unplaced)         0.081     1.203    xilinxmultiregimpl0_regs0[0]
+                         FDRE                                         r  xilinxmultiregimpl0_regs1_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_2 rise edge)      0.000     0.000 r  
@@ -567,9 +567,9 @@ Slack (MET) :             0.045ns  (arrival time - required time)
                          net (fo=1, unplaced)         0.355     0.789    clk_2
                          BUFG (Prop_bufg_I_O)         0.029     0.818 r  BUFG_4/O
                          net (fo=11238, unplaced)     0.355     1.173    sys_clk
-                         FDRE                                         r  xilinxmultiregimpl0_xilinxmultiregimpl01_reg[0]/C
+                         FDRE                                         r  xilinxmultiregimpl0_regs1_reg[0]/C
                          clock pessimism             -0.052     1.120    
-                         FDRE (Hold_fdre_C_D)         0.038     1.158    xilinxmultiregimpl0_xilinxmultiregimpl01_reg[0]
+                         FDRE (Hold_fdre_C_D)         0.038     1.158    xilinxmultiregimpl0_regs1_reg[0]
   -------------------------------------------------------------------
                          required time                         -1.158    
                          arrival time                           1.203    

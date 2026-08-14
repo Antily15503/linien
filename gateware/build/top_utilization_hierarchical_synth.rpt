@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
-| Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Mon Aug 10 00:54:27 2026
-| Host         : cachyos-x8664 running 64-bit CachyOS
+| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
+| Date         : Thu Aug 13 20:04:18 2026
+| Host         : TejaskumarBabel running 64-bit major release  (build 9200)
 | Command      : report_utilization -hierarchical -file top_utilization_hierarchical_synth.rpt
 | Design       : top
 | Device       : xc7z010clg400-1

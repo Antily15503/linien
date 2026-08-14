@@ -2,7 +2,7 @@ from linien_client.device import Device
 from linien_client.connection import LinienClient
 import random
 
-device = Device(host="rp-f0edf0.local", username="root", password="root")
+device = Device(host="rp-F0EFA8.local", username="root", password="root")
 client = LinienClient(device)
 client.connect(autostart_server=False, use_parameter_cache=False)
 
@@ -49,45 +49,10 @@ def s_to_clock(time):
 ##   seperately converted to one-hot via type_onehot
 
 client.parameters.sequence_blocks.value = [
-    # {"type": 5, "params": [10, 100000000]},
-    {"type": 1, "params": [0, volts_to_bits(1), volts_to_bits(5), ms_to_clock(10)]},
-    {"type": 0, "params": [0, ms_to_clock(10)]},
-    {
-        "type": 4,
-        "params": [
-            0,
-            8000,
-            -8000,
-            1000,
-            8000,
-        ],
-    },
-    {
-        "type": 0,
-        "params": [
-            4000,
-        ],
-    },
-    {
-        "type": 4,
-        "params": [
-            0,
-            2000,
-            -1000,
-            8000,
-            1000,
-        ],
-    },
-    {"type": 4, "params": [0, 8000, -1000, 3000, 1000, ms_to_clock(50)]},
-    {"type": 0, "params": [8000, ms_to_clock(10)]},
-    {"type": 4, "params": [2000, 8000, -1000, 3000, 1000, ms_to_clock(10)]},
-    {"type": 1, "params": [0, 5000, ms_to_clock(10)]},
-    # {"type": 4, "params": [6000, 1000, -1000, 8000, 1000, ms_to_clock(10)]},
-    # {"type": 4, "params": [0000, 1000, -8000, 8000, 1000, ms_to_clock(10)]},
-    # {"type": 4, "params": [1000, 1000, -8000, 8000, 2000, ms_to_clock(10)]},
-    # {"type": 4, "params": [4000, 1000, -8000, 8000, 4000, ms_to_clock(10)]},
-    # {"type": 4, "params": [6000, 1000, -8000, 8000, 8000, ms_to_clock(10)]},
-    # {"type": 4, "params": [8000, 1000, -8000, 8000, 10000, ms_to_clock(10)]},
+    1,
+    {"en_sin": 0, "type": 0, "params": [volts_to_bits(0.5), ms_to_clock(500)]},
+    {"en_sin": 0, "type": 0, "params": [0, ms_to_clock(10)]},
 ]
+
 client.control.write_sequence_config()
 print("sequence programmed")

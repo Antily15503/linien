@@ -1,40 +1,40 @@
 create_project -force -name top -part xc7z010-clg400-1
 set_property XPM_LIBRARIES {XPM_CDC XPM_MEMORY} [current_project]
-add_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/axi_slave.v}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/axi_slave.v}]
-add_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/bus_clk_bridge.v}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/bus_clk_bridge.v}]
-add_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/processing_system7_v5_4_processing_system7.v}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/processing_system7_v5_4_processing_system7.v}]
-add_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/red_pitaya_scope.v}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/red_pitaya_scope.v}]
-add_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/system_processing_system7_0_0.v}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/gateware/verilog/system_processing_system7_0_0.v}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/ROM.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/ROM.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/arb_wave.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/arb_wave.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/bram.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/bram.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/chirp_gen.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/chirp_gen.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/control.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/control.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/delay.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/delay.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/direct_jump.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/direct_jump.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/linear_ramp.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/linear_ramp.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/sequence_top.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/sequence_top.sv}]
-add_files {imports/home/vedaant/school/quantum_work/linien/src/sinusoid.sv}
-set_property library work [get_files {imports/home/vedaant/school/quantum_work/linien/src/sinusoid.sv}]
+add_files {imports\UW-Madison\RA\linien\gateware\verilog\axi_slave.v}
+set_property library work [get_files {imports\UW-Madison\RA\linien\gateware\verilog\axi_slave.v}]
+add_files {imports\UW-Madison\RA\linien\gateware\verilog\bus_clk_bridge.v}
+set_property library work [get_files {imports\UW-Madison\RA\linien\gateware\verilog\bus_clk_bridge.v}]
+add_files {imports\UW-Madison\RA\linien\gateware\verilog\processing_system7_v5_4_processing_system7.v}
+set_property library work [get_files {imports\UW-Madison\RA\linien\gateware\verilog\processing_system7_v5_4_processing_system7.v}]
+add_files {imports\UW-Madison\RA\linien\gateware\verilog\red_pitaya_scope.v}
+set_property library work [get_files {imports\UW-Madison\RA\linien\gateware\verilog\red_pitaya_scope.v}]
+add_files {imports\UW-Madison\RA\linien\gateware\verilog\system_processing_system7_0_0.v}
+set_property library work [get_files {imports\UW-Madison\RA\linien\gateware\verilog\system_processing_system7_0_0.v}]
+add_files {imports\UW-Madison\RA\linien\src\ROM.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\ROM.sv}]
+add_files {imports\UW-Madison\RA\linien\src\arb_wave.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\arb_wave.sv}]
+add_files {imports\UW-Madison\RA\linien\src\bram.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\bram.sv}]
+add_files {imports\UW-Madison\RA\linien\src\chirp_gen.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\chirp_gen.sv}]
+add_files {imports\UW-Madison\RA\linien\src\control.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\control.sv}]
+add_files {imports\UW-Madison\RA\linien\src\delay.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\delay.sv}]
+add_files {imports\UW-Madison\RA\linien\src\direct_jump.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\direct_jump.sv}]
+add_files {imports\UW-Madison\RA\linien\src\linear_ramp.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\linear_ramp.sv}]
+add_files {imports\UW-Madison\RA\linien\src\sequence_top.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\sequence_top.sv}]
+add_files {imports\UW-Madison\RA\linien\src\sinusoid.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\sinusoid.sv}]
 add_files {top.v}
 set_property library work [get_files {top.v}]
 read_xdc top.xdc
 read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc
-add_files -norecurse /home/vedaant/school/quantum_work/linien/src/sin_lut.mem
+add_files -norecurse ../../src/sin_lut.mem
 synth_design -top top -part xc7z010-clg400-1
 opt_design -directive ExploreWithRemap
 report_timing_summary -file top_timing_synth.rpt

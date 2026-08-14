@@ -4,10 +4,10 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<Project Product="Vivado" Version="7" Minor="71" Path="/home/vedaant/school/quantum_work/linien/gateware/build/top.xpr">
+<Project Product="Vivado" Version="7" Minor="71" Path="C:/UW-Madison/RA/linien/gateware/build/top.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="f615817e65fb4ac4ac4598bdf3e23599"/>
+    <Option Name="Id" Val="5bb8b450a82942ea961cdd8df958a4fb"/>
     <Option Name="Part" Val="xc7z010clg400-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -91,7 +91,7 @@
   <FileSets Version="1" Minor="32">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/axi_slave.v">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/gateware/verilog/axi_slave.v">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -99,7 +99,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/bus_clk_bridge.v">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/gateware/verilog/bus_clk_bridge.v">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -107,7 +107,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/processing_system7_v5_4_processing_system7.v">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/gateware/verilog/processing_system7_v5_4_processing_system7.v">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -115,7 +115,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/red_pitaya_scope.v">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/gateware/verilog/red_pitaya_scope.v">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -123,7 +123,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/gateware/verilog/system_processing_system7_0_0.v">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/gateware/verilog/system_processing_system7_0_0.v">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -131,7 +131,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/ROM.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/ROM.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -139,7 +139,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/arb_wave.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/arb_wave.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -147,7 +147,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/bram.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/bram.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -155,7 +155,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/chirp_gen.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/chirp_gen.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -163,7 +163,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/control.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/control.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -171,7 +171,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/delay.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/delay.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -179,7 +179,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/direct_jump.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/direct_jump.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -187,7 +187,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/linear_ramp.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/linear_ramp.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -195,7 +195,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/sequence_top.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/sequence_top.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -203,7 +203,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/imports/home/vedaant/school/quantum_work/linien/src/sinusoid.sv">
+      <File Path="$PPRDIR/imports/UW-Madison/RA/linien/src/sinusoid.sv">
         <FileInfo>
           <Attr Name="Library" Val="work"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -293,14 +293,11 @@
     <Simulator Name="Questa">
       <Option Name="Description" Val="Questa Advanced Simulator"/>
     </Simulator>
-    <Simulator Name="Xcelium">
-      <Option Name="Description" Val="Xcelium Parallel Simulator"/>
-    </Simulator>
-    <Simulator Name="VCS">
-      <Option Name="Description" Val="Verilog Compiler Simulator (VCS)"/>
-    </Simulator>
     <Simulator Name="Riviera">
       <Option Name="Description" Val="Riviera-PRO Simulator"/>
+    </Simulator>
+    <Simulator Name="ActiveHDL">
+      <Option Name="Description" Val="Active-HDL Simulator"/>
     </Simulator>
   </Simulators>
   <Runs Version="1" Minor="22">

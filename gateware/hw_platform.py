@@ -173,7 +173,7 @@ class Platform(XilinxPlatform):
             "read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc",  # noqa: E501
         )
         self.toolchain.pre_synthesis_commands.append(
-            "add_files -norecurse /home/vedaant/school/quantum_work/linien/src/sin_lut.mem"
+            "add_files -norecurse ../../src/sin_lut.mem"
         )
         # self.toolchain.with_phys_opt = False
         self.toolchain.with_phys_opt = True
