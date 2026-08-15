@@ -179,6 +179,7 @@ module sequence_top #(
       .DATA_WIDTH(DATA_WIDTH)
   ) u_direct_jump (
       .clk         (clk),
+      //offset added to undo relative jumps?
       .rst_n       (rst_n),
       .en          (block_en[2]),
       .i_param_data(param_bus_data),

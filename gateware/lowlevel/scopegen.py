@@ -30,7 +30,7 @@ class ScopeGen(Module, AutoCSR):
         # scope, waits until scope has triggered and reads out the data. Once
         # data is read out, it rearms the acquisition. When robust autolock is
         # looking for a lock point, acquisition process doesn't send any triggers
-        # though because it doesn't transmit any data until lock is confirmed.
+        # through because it doesn't transmit any data until lock is confirmed.
         # Therefore, autolock turns on "always_arm" mode which automatically
         # rearms scope when it has finished.
         self.automatically_rearm = Signal()
