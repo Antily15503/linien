@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date             : Mon Aug 10 18:53:53 2026
+| Date             : Sat Aug 15 03:56:48 2026
 | Host             : cachyos-x8664 running 64-bit CachyOS
 | Command          : report_power -file top_power.rpt
 | Design           : top
@@ -30,11 +30,11 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 2.362        |
+| Total On-Chip Power (W)  | 2.355        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 2.192        |
-| Device Static (W)        | 0.171        |
+| Dynamic (W)              | 2.185        |
+| Device Static (W)        | 0.170        |
 | Effective TJA (C/W)      | 11.5         |
 | Max Ambient (C)          | 57.8         |
 | Junction Temperature (C) | 52.2         |
@@ -52,23 +52,23 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |     0.071 |       10 |       --- |             --- |
-| Slice Logic    |     0.112 |    26390 |       --- |             --- |
-|   LUT as Logic |     0.092 |    10917 |     53200 |           20.52 |
+| Clocks         |     0.070 |       10 |       --- |             --- |
+| Slice Logic    |     0.113 |    26440 |       --- |             --- |
+|   LUT as Logic |     0.092 |    10954 |     53200 |           20.59 |
 |   CARRY4       |     0.013 |     1763 |     13300 |           13.26 |
-|   Register     |     0.007 |    11446 |    106400 |           10.76 |
+|   Register     |     0.007 |    11473 |    106400 |           10.78 |
 |   F7/F8 Muxes  |    <0.001 |      568 |     53200 |            1.07 |
 |   BUFG         |    <0.001 |        1 |        32 |            3.13 |
 |   Others       |     0.000 |      164 |       --- |             --- |
-| Signals        |     0.136 |    22447 |       --- |             --- |
+| Signals        |     0.129 |    22492 |       --- |             --- |
 | Block RAM      |     0.088 |     29.5 |       140 |           21.07 |
 | PLL            |     0.098 |        1 |         4 |           25.00 |
 | DSPs           |     0.116 |       97 |       220 |           44.09 |
 | I/O            |     0.291 |       87 |       125 |           69.60 |
 | XADC           |     0.002 |        1 |       --- |             --- |
 | PS7            |     1.277 |        1 |       --- |             --- |
-| Static Power   |     0.171 |          |           |                 |
-| Total          |     2.362 |          |           |                 |
+| Static Power   |     0.170 |          |           |                 |
+| Total          |     2.355 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -78,7 +78,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.545 |       0.523 |      0.022 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.538 |       0.516 |      0.022 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.075 |       0.057 |      0.018 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.084 |       0.083 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -158,10 +158,10 @@ Table of Contents
 +---------------------------------+-----------+
 | Name                            | Power (W) |
 +---------------------------------+-----------+
-| top                             |     2.192 |
-|   axi_slave                     |     0.002 |
-|   red_pitaya_scope              |     0.107 |
-|   sequence_top                  |     0.016 |
+| top                             |     2.185 |
+|   axi_slave                     |     0.003 |
+|   red_pitaya_scope              |     0.106 |
+|   sequence_top                  |     0.015 |
 |     BRAM                        |     0.002 |
 |     fsm_reg_file                |     0.003 |
 |     u_control                   |     0.002 |

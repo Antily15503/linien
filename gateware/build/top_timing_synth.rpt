@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Mon Aug 10 18:52:05 2026
+| Date         : Sat Aug 15 03:55:13 2026
 | Host         : cachyos-x8664 running 64-bit CachyOS
 | Command      : report_timing_summary -file top_timing_synth.rpt
 | Design       : top
@@ -140,7 +140,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-     -5.966    -4055.043                   2487                31963       -0.757     -277.818                    446                31963        1.500        0.000                       0                 11135  
+     -5.966    -4063.934                   2487                31965       -0.757     -277.818                    446                31965        1.500        0.000                       0                 11136  
 
 
 Timing constraints are not met.
@@ -172,7 +172,7 @@ Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoin
 -----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
 clk125_p                                                                                                                                                        2.000        0.000                       0                     2  
   clk_1             1.090        0.000                      0                   80        0.148        0.000                      0                   80        1.500        0.000                       0                    84  
-  clk_2            -5.966    -4055.043                   2487                30996        0.045        0.000                      0                30996        3.500        0.000                       0                 10802  
+  clk_2            -5.966    -4063.934                   2487                30998        0.045        0.000                      0                30998        3.500        0.000                       0                 10803  
   clk_fb                                                                                                                                                        5.845        0.000                       0                     3  
 clk_fpga_0          2.260        0.000                      0                  511        0.132        0.000                      0                  511        3.500        0.000                       0                   244  
 
@@ -400,7 +400,7 @@ High Pulse Width  Slow    FDRE/C             n/a            0.500         2.000 
 From Clock:  clk_2
   To Clock:  clk_2
 
-Setup :         2487  Failing Endpoints,  Worst Slack       -5.966ns,  Total Violation    -4055.043ns
+Setup :         2487  Failing Endpoints,  Worst Slack       -5.966ns,  Total Violation    -4063.934ns
 Hold  :            0  Failing Endpoints,  Worst Slack        0.045ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        3.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
@@ -440,7 +440,7 @@ Slack (VIOLATED) :        -5.966ns  (required time - arrival time)
                                                      -1.485     0.952 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.800     1.752    clk_2
                          BUFG (Prop_bufg_I_O)         0.101     1.853 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.800     2.653    sys_clk
+                         net (fo=10891, unplaced)     0.800     2.653    sys_clk
                          FDRE                                         r  linienmodule_pid_only_mode_storage_full_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.478     3.131 r  linienmodule_pid_only_mode_storage_full_reg/Q
@@ -523,7 +523,7 @@ Slack (VIOLATED) :        -5.966ns  (required time - arrival time)
                                                      -1.290     8.910 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.760     9.669    clk_2
                          BUFG (Prop_bufg_I_O)         0.091     9.760 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.655    10.415    sys_clk
+                         net (fo=10891, unplaced)     0.655    10.415    sys_clk
                          FDRE                                         r  linienmodule_pid_int_reg_reg[0]/C
                          clock pessimism              0.093    10.508    
                          clock uncertainty           -0.069    10.439    
@@ -568,7 +568,7 @@ Slack (MET) :             0.045ns  (arrival time - required time)
                                                      -0.477     0.371 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.337     0.708    clk_2
                          BUFG (Prop_bufg_I_O)         0.026     0.734 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.210     0.944    sys_clk
+                         net (fo=10891, unplaced)     0.210     0.944    sys_clk
                          FDRE                                         r  xilinxmultiregimpl0_xilinxmultiregimpl00_reg[0]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.147     1.091 r  xilinxmultiregimpl0_xilinxmultiregimpl00_reg[0]/Q
@@ -587,7 +587,7 @@ Slack (MET) :             0.045ns  (arrival time - required time)
                                                      -0.643     0.402 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.355     0.757    clk_2
                          BUFG (Prop_bufg_I_O)         0.029     0.786 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.355     1.141    sys_clk
+                         net (fo=10891, unplaced)     0.355     1.141    sys_clk
                          FDRE                                         r  xilinxmultiregimpl0_xilinxmultiregimpl01_reg[0]/C
                          clock pessimism             -0.052     1.089    
                          FDRE (Hold_fdre_C_D)         0.038     1.127    xilinxmultiregimpl0_xilinxmultiregimpl01_reg[0]
@@ -825,7 +825,7 @@ Slack (MET) :             1.196ns  (required time - arrival time)
                                                      -1.485     0.952 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.800     1.752    clk_2
                          BUFG (Prop_bufg_I_O)         0.101     1.853 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.800     2.653    sys_clk
+                         net (fo=10891, unplaced)     0.800     2.653    sys_clk
                          FDRE                                         r  linienmodule_slow_decimation_storage_full_reg[1]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.478     3.131 r  linienmodule_slow_decimation_storage_full_reg[1]/Q
@@ -899,7 +899,7 @@ Slack (VIOLATED) :        -0.030ns  (arrival time - required time)
                                                      -0.477     0.371 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.337     0.708    clk_2
                          BUFG (Prop_bufg_I_O)         0.026     0.734 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.210     0.944    sys_clk
+                         net (fo=10891, unplaced)     0.210     0.944    sys_clk
                          FDRE                                         r  linienmodule_slow_out_shifted_reg[9]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.147     1.091 r  linienmodule_slow_out_shifted_reg[9]/Q
@@ -1002,7 +1002,7 @@ Slack (MET) :             4.180ns  (required time - arrival time)
                                                      -1.290     8.910 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.760     9.669    clk_2
                          BUFG (Prop_bufg_I_O)         0.091     9.760 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.655    10.415    red_pitaya_scope/sys_clk
+                         net (fo=10891, unplaced)     0.655    10.415    red_pitaya_scope/sys_clk
                          FDRE                                         r  red_pitaya_scope/set_b_filt_bb_reg[0]/C
                          clock pessimism              0.000    10.415    
                          clock uncertainty           -0.235    10.180    
@@ -1066,7 +1066,7 @@ Slack (VIOLATED) :        -0.757ns  (arrival time - required time)
                                                      -1.485     0.952 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.800     1.752    clk_2
                          BUFG (Prop_bufg_I_O)         0.101     1.853 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.800     2.653    sys_clk
+                         net (fo=10891, unplaced)     0.800     2.653    sys_clk
                          FDRE                                         r  linienmodule_csr_adr_reg[0]/C
                          clock pessimism              0.000     2.653    
                          clock uncertainty            0.235     2.888    
@@ -1126,7 +1126,7 @@ Slack (MET) :             2.049ns  (required time - arrival time)
                                                      -1.485     0.952 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.800     1.752    clk_2
                          BUFG (Prop_bufg_I_O)         0.101     1.853 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.800     2.653    red_pitaya_scope/sys_clk
+                         net (fo=10891, unplaced)     0.800     2.653    red_pitaya_scope/sys_clk
                          RAMB36E1                                     r  red_pitaya_scope/adc_b_q_buf_reg_2/CLKBWRCLK
   -------------------------------------------------------------------    -------------------
                          RAMB36E1 (Prop_ramb36e1_CLKBWRCLK_DOBDO[0])
@@ -1195,7 +1195,7 @@ Slack (MET) :             0.271ns  (arrival time - required time)
                                                      -0.477     0.371 r  PLLE2_BASE/CLKOUT2
                          net (fo=1, unplaced)         0.337     0.708    clk_2
                          BUFG (Prop_bufg_I_O)         0.026     0.734 r  BUFG_4/O
-                         net (fo=10890, unplaced)     0.210     0.944    bus_clk_bridge/sys_clk
+                         net (fo=10891, unplaced)     0.210     0.944    bus_clk_bridge/sys_clk
                          FDRE                                         r  bus_clk_bridge/dst_done_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.147     1.091 r  bus_clk_bridge/dst_done_reg/Q

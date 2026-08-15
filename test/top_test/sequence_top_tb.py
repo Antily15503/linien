@@ -182,7 +182,7 @@ async def test1(dut):
     dut.i_awg_reg_w_en.value = 0
     dut.i_num_blocks.value = 0
     dut.i_start.value = 0
-    dut.i_init_v.value = 0
+    dut.i_init_v.value = volts_to_bits(1)
     dut.i_active.value = 0
     await ClockCycles(dut.clk, 3)
     dut.rst_n.value = 1
@@ -190,7 +190,7 @@ async def test1(dut):
     #
     instructions_1 = [
         {"en_sin": 0, "type": 0, "params": [0, 100]},
-        {"en_sin": 0, "type": 0, "params": [volts_to_bits(1), 200]},
+        {"en_sin": 0, "type": 2, "params": [volts_to_bits(1), 200]},
         {"en_sin": 0, "type": 0, "params": [volts_to_bits(0), 100]},
         {
             "en_sin": 0,
@@ -221,9 +221,9 @@ async def test1(dut):
     #
     instructions_3 = [
         {"en_sin": 0, "type": 0, "params": [0, 100]},
-        {"en_sin": 1, "type": 0, "params": [volts_to_bits(1), 200]},
+        {"en_sin": 1, "type": 2, "params": [volts_to_bits(1), 200]},
         {"en_sin": 0, "type": 0, "params": [volts_to_bits(0.5), 100]},
-        {"en_sin": 1, "type": 0, "params": [volts_to_bits(0.2), 100]},
+        {"en_sin": 1, "type": 2, "params": [volts_to_bits(0.2), 100]},
         {"en_sin": 0, "type": 0, "params": [volts_to_bits(0.8), 100]},
     ]
 
