@@ -8,3 +8,9 @@
 *.venv*
 ./gateware/build/*
 *xml*
+./gateware/build/
+*xpr
+*txt
+*rpt*
+*vivado
+
