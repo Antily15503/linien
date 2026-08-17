@@ -99,12 +99,15 @@ class LinienLogic(Module, AutoCSR):
         self.comb += [
             self.pid.i_ttl_active.eq(self.sequence.active),
             self.pid.running.eq(
-                self.autolock.lock_running.status & ~self.sequence.pid_pause
+                # self.autolock.lock_running.status & ~self.sequence.pid_pause
+                self.autolock.lock_running.status
             ),
             # freeze sweep while a sequence owns the DAC so it resumes from
             # the same position (the snapshot captures sweep_pos at trigger).
             self.sweep.hold.eq(
-                self.autolock.lock_running.status | self.sequence.pid_pause
+                # self.autolock.lock_running.status | self.sequence.pid_pause
+                # self.sequence.pid_pause
+                self.autolock.lock_running.status
             ),
             self.autolock.fast.sweep_value.eq(self.sweep.y),
             self.autolock.fast.sweep_up.eq(self.sweep.sweep.up),
