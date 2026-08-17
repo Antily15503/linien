@@ -162,6 +162,7 @@ module control #(
     endcase
   end
 
+
   // boundary flags
   // NOTE: this needs to be asserted 1 clock cycle earlier due to latency of
   // reads from the regfile. 
@@ -310,13 +311,15 @@ module control #(
     endcase
   end
 
-  // ========================= Output Logic ==============================
+  logic prev_abs;
+  always @(posedge clk) begin
+    if (~rst_n) prev_abs <= 1'b0;
+    if (state == CAPTURE_VDRIVE) prev_abs <= (cur_type == 3'd2);
+  end
 
-  // v_lock add: 14-bit signed offset (block or held) + 14-bit signed v_lock,
-  // saturated back to 14-bit signed [-8192, 8191]. 15-bit intermediate prevents
-  // wrap during the add.
   logic signed [14:0] block_plus_lock;
   logic signed [14:0] held_plus_lock;
+
   assign block_plus_lock = $signed(
       {active_block_drive[13], active_block_drive}
   ) + $signed(
@@ -327,16 +330,15 @@ module control #(
   ) + $signed(
       {i_init_v_drive[13], i_init_v_drive}
   );
-
   logic [13:0] block_drive_sat;
   logic [13:0] held_drive_sat;
-  // TODO: USE 551 LOGIC, i.e msb inspection for over/underflow or sm shi 
-  assign block_drive_sat = (block_plus_lock > 15'sd8191)  ? 14'sd8191  :
+  // TODO: USE 551 LOGIC, i.e msb inspection for over/underflow or sm shi
+  assign block_drive_sat =(cur_type==6'd2)?(active_block_drive):( (block_plus_lock > 15'sd8191)  ? 14'sd8191  :
                            (block_plus_lock < -15'sd8192) ? -14'sd8192 :
-                                                            block_plus_lock[13:0];
-  assign held_drive_sat  = (held_plus_lock  > 15'sd8191)  ? 14'sd8191  :
+                                                            block_plus_lock[13:0]);
+  assign held_drive_sat  = (prev_abs)?(prev_v_drive):((held_plus_lock  > 15'sd8191)  ? 14'sd8191  :
                            (held_plus_lock  < -15'sd8192) ? -14'sd8192 :
-                                                            held_plus_lock[13:0];
+                                                            held_plus_lock[13:0]);
 
   always_comb begin
     // defaults

@@ -439,8 +439,15 @@ class LinienModule(Module, AutoCSR):
             ).Else(
                 self.analog.dac_b.eq(self.logic.limit_fast2.y),
             ),
-            # NOTE: dac_a now outputs sinusoidal ref signal
             self.analog.dac_a.eq(self.logic.sequence.o_ref),
+            # in test mode, test to see if the input to dac_a is mirrored to adc_a
+            #            If(
+            #                ~self.test_mode,
+            #                self.analog.dac_a.eq(self.logic.sequence.o_ref).Else(
+            #                    self.analog.dac_a.eq(self.analog.adc_a)
+            #                ),
+            #            ),
+            #            # NOTE: dac_a now outputs sinusoidal ref signal
         ]
 
         # Having this in a comb statement caused errors. See PR #251.

@@ -46,9 +46,12 @@ class Sweep(Module):
             self.trigger.eq(self.turn & self.up),
             turning.eq(self.turn),
             dir.eq(self.up),
-            If(~self.run, self.y.eq(0)).Elif(
+            If((~self.run), self.y.eq(0)).Elif(
                 ~self.hold,
-                If(self.up, self.y.eq(self.y + self.step),).Else(
+                If(
+                    self.up,
+                    self.y.eq(self.y + self.step),
+                ).Else(
                     self.y.eq(self.y - self.step),
                 ),
             ),
