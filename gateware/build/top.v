@@ -279,6 +279,7 @@ reg linienmodule_sweep_sweep_turn = 1'd0;
 wire linienmodule_sweep_sweep_hold;
 reg signed [38:0] linienmodule_sweep_sweep_y = 39'sd0;
 reg linienmodule_sweep_sweep_trigger = 1'd0;
+wire linienmodule_sweep_sweep_sequence_stop;
 reg linienmodule_sweep_sweep_up;
 reg linienmodule_sweep_sweep_turning = 1'd0;
 reg linienmodule_sweep_sweep_dir = 1'd0;
@@ -3489,6 +3490,7 @@ assign linienmodule_sweep_hold = linienmodule_autolock_status;
 assign linienmodule_autolock_fast_sweep_value = linienmodule_sweep_y;
 assign linienmodule_autolock_fast_sweep_up = linienmodule_sweep_sweep_up;
 assign linienmodule_autolock_fast_sweep_step = (linienmodule_sweep_step_storage >>> 5'd24);
+assign linienmodule_sweep_sweep_sequence_stop = (linienmodule_sequenceexecutor_active != 1'd0);
 assign linienmodule_raw_acquisition_iir_x = linienmodule_combined_error_signal;
 assign linienmodule_raw_acquisition_iir_hold = 1'd0;
 assign linienmodule_raw_acquisition_iir_clear = 1'd0;
@@ -7160,7 +7162,7 @@ always @(posedge sys_clk) begin
 	linienmodule_sweep_sweep_trigger <= (linienmodule_sweep_sweep_turn & linienmodule_sweep_sweep_up);
 	linienmodule_sweep_sweep_turning <= linienmodule_sweep_sweep_turn;
 	linienmodule_sweep_sweep_dir <= linienmodule_sweep_sweep_up;
-	if ((~linienmodule_sweep_sweep_run)) begin
+	if (((~linienmodule_sweep_sweep_run) | linienmodule_sweep_sweep_sequence_stop)) begin
 		linienmodule_sweep_sweep_y <= 1'd0;
 	end else begin
 		if ((~linienmodule_sweep_sweep_hold)) begin
