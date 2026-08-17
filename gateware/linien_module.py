@@ -120,7 +120,8 @@ class LinienLogic(Module, AutoCSR):
     def connect_everything(self, width, signal_width, coeff_width):
         combined_error_signal = Signal((signal_width, True))
         self.control_signal = Signal((signal_width, True))
-
+        # NOTE: added to force sweep back to 0 each time
+        self.comb += [self.sweep.sweep.sequence_stop.eq(self.sequence.active != 0)]
         # additional IIR filter that prevents aliasing effects when recording PSD of
         # error signal
         self.submodules.raw_acquisition_iir = Iir(

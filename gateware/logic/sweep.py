@@ -29,6 +29,7 @@ class Sweep(Module):
         self.hold = Signal()
         self.y = Signal((width, True))
         self.trigger = Signal()
+        self.sequence_stop = Signal()
 
         ###
 
@@ -46,7 +47,7 @@ class Sweep(Module):
             self.trigger.eq(self.turn & self.up),
             turning.eq(self.turn),
             dir.eq(self.up),
-            If((~self.run), self.y.eq(0)).Elif(
+            If((~self.run | self.sequence_stop), self.y.eq(0)).Elif(
                 ~self.hold,
                 If(
                     self.up,
