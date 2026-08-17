@@ -107,7 +107,7 @@ class LinienLogic(Module, AutoCSR):
             self.sweep.hold.eq(
                 # self.autolock.lock_running.status | self.sequence.pid_pause
                 # self.sequence.pid_pause
-                self.autolock.lock_running.status
+                self.autolock.lock_running.status | self.sequence.pid_pause
             ),
             self.autolock.fast.sweep_value.eq(self.sweep.y),
             self.autolock.fast.sweep_up.eq(self.sweep.sweep.up),

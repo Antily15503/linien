@@ -3486,7 +3486,7 @@ assign linienmodule_sequenceexecutor_linien_sweep_pos = linienmodule_sweep_y;
 assign linienmodule_sequenceexecutor_linien_dac_out = linienmodule_limit_fast2_limitcsr_y;
 assign linienmodule_pid_i_ttl_active = linienmodule_sequenceexecutor_active;
 assign linienmodule_pid_running = linienmodule_autolock_status;
-assign linienmodule_sweep_hold = linienmodule_autolock_status;
+assign linienmodule_sweep_hold = (linienmodule_autolock_status | linienmodule_sequenceexecutor_pid_pause);
 assign linienmodule_autolock_fast_sweep_value = linienmodule_sweep_y;
 assign linienmodule_autolock_fast_sweep_up = linienmodule_sweep_sweep_up;
 assign linienmodule_autolock_fast_sweep_step = (linienmodule_sweep_step_storage >>> 5'd24);
@@ -3555,7 +3555,7 @@ reg dummy_d_6;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sweep_sweep_up <= 1'd0;
-	if (linienmodule_sweep_sweep_run) begin
+	if ((linienmodule_sweep_sweep_run & (~linienmodule_sweep_sweep_sequence_stop))) begin
 		if ((linienmodule_sweep_sweep_turn & (~linienmodule_sweep_sweep_turning))) begin
 			linienmodule_sweep_sweep_up <= (~linienmodule_sweep_sweep_dir);
 		end else begin

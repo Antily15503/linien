@@ -39,7 +39,7 @@ class Sweep(Module):
 
         self.comb += [
             If(
-                self.run,
+                (self.run & ~self.sequence_stop),
                 If(self.turn & ~turning, self.up.eq(~dir)).Else(self.up.eq(dir)),
             ).Else(self.up.eq(1))
         ]
