@@ -20,6 +20,8 @@ from misoc.interconnect.csr import AutoCSR, CSRStorage
 
 from .limit import Limit
 
+# modified sweep such that on exiting ttl_active (given by sequence_stop), restart the sweep from the top
+
 
 class Sweep(Module):
     def __init__(self, width):
@@ -30,7 +32,7 @@ class Sweep(Module):
         self.y = Signal((width, True))
         self.trigger = Signal()
         self.sequence_stop = Signal()
-
+        self.sequence_stop_reg = Signal()
         ###
 
         self.up = Signal()
@@ -44,10 +46,17 @@ class Sweep(Module):
             ).Else(self.up.eq(1))
         ]
         self.sync += [
+            # ONLY TRIGGERS ON RAILED (max or min) AND RISING
+            self.sequence_stop_reg.eq(self.sequence_stop),
             self.trigger.eq(self.turn & self.up),
             turning.eq(self.turn),
             dir.eq(self.up),
-            If((~self.run | self.sequence_stop), self.y.eq(0)).Elif(
+            If(
+                ~self.sequence_stop & self.sequence_stop_reg,
+                self.y.eq((1 << (width - 1)) - 10),
+            )
+            .Elif((~self.run), self.y.eq(0))
+            .Elif(
                 ~self.hold,
                 If(
                     self.up,

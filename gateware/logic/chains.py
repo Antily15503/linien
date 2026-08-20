@@ -61,7 +61,7 @@ class FastChain(Module, AutoCSR):
             self.demod.phase.eq(mod.phase),
         ]
         ya = Signal((width + 3, True))
-        self.sync += (ya.eq(((dy >> s))),)
+        self.sync += (ya.eq((dy >> s)),)
 
         ###
 
@@ -71,23 +71,23 @@ class FastChain(Module, AutoCSR):
         # iterate over in-phase and quadrature signal; both have filters and limits
         for sub_channel_idx in (0, 1):
             x_limit = LimitCSR(width=signal_width, guard=1)
-            setattr(self.submodules, f"x_limit_{sub_channel_idx+1}", x_limit)
+            setattr(self.submodules, f"x_limit_{sub_channel_idx + 1}", x_limit)
             iir_c = Iir(
                 width=signal_width,
                 coeff_width=coeff_width,
                 shift=coeff_width - 2,
                 order=1,
             )
-            setattr(self.submodules, f"iir_c_{sub_channel_idx+1}", iir_c)
+            setattr(self.submodules, f"iir_c_{sub_channel_idx + 1}", iir_c)
             iir_d = Iir(
                 width=signal_width,
                 coeff_width=coeff_width,
                 shift=coeff_width - 2,
                 order=2,
             )
-            setattr(self.submodules, f"iir_d_{sub_channel_idx+1}", iir_d)
+            setattr(self.submodules, f"iir_d_{sub_channel_idx + 1}", iir_d)
             y_limit = LimitCSR(width=signal_width, guard=3)
-            setattr(self.submodules, f"y_limit_{sub_channel_idx+1}", y_limit)
+            setattr(self.submodules, f"y_limit_{sub_channel_idx + 1}", y_limit)
 
             self.comb += [
                 x_limit.x.eq(([self.demod.i, self.demod.q][sub_channel_idx] << s) + dx),
