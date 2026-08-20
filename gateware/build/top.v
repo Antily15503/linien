@@ -280,6 +280,7 @@ wire linienmodule_sweep_sweep_hold;
 reg signed [38:0] linienmodule_sweep_sweep_y = 39'sd0;
 reg linienmodule_sweep_sweep_trigger = 1'd0;
 wire linienmodule_sweep_sweep_sequence_stop;
+reg linienmodule_sweep_sweep_sequence_stop_reg = 1'd0;
 reg linienmodule_sweep_sweep_up;
 reg linienmodule_sweep_sweep_turning = 1'd0;
 reg linienmodule_sweep_sweep_dir = 1'd0;
@@ -7159,17 +7160,22 @@ always @(posedge sys_clk) begin
 	end else begin
 		linienmodule_sweep_y <= linienmodule_sweep_limit_y;
 	end
+	linienmodule_sweep_sweep_sequence_stop_reg <= linienmodule_sweep_sweep_sequence_stop;
 	linienmodule_sweep_sweep_trigger <= (linienmodule_sweep_sweep_turn & linienmodule_sweep_sweep_up);
 	linienmodule_sweep_sweep_turning <= linienmodule_sweep_sweep_turn;
 	linienmodule_sweep_sweep_dir <= linienmodule_sweep_sweep_up;
-	if (((~linienmodule_sweep_sweep_run) | linienmodule_sweep_sweep_sequence_stop)) begin
-		linienmodule_sweep_sweep_y <= 1'd0;
+	if (((~linienmodule_sweep_sweep_sequence_stop) & linienmodule_sweep_sweep_sequence_stop_reg)) begin
+		linienmodule_sweep_sweep_y <= 38'd274877906934;
 	end else begin
-		if ((~linienmodule_sweep_sweep_hold)) begin
-			if (linienmodule_sweep_sweep_up) begin
-				linienmodule_sweep_sweep_y <= (linienmodule_sweep_sweep_y + $signed({1'd0, linienmodule_sweep_sweep_step}));
-			end else begin
-				linienmodule_sweep_sweep_y <= (linienmodule_sweep_sweep_y - $signed({1'd0, linienmodule_sweep_sweep_step}));
+		if ((~linienmodule_sweep_sweep_run)) begin
+			linienmodule_sweep_sweep_y <= 1'd0;
+		end else begin
+			if ((~linienmodule_sweep_sweep_hold)) begin
+				if (linienmodule_sweep_sweep_up) begin
+					linienmodule_sweep_sweep_y <= (linienmodule_sweep_sweep_y + $signed({1'd0, linienmodule_sweep_sweep_step}));
+				end else begin
+					linienmodule_sweep_sweep_y <= (linienmodule_sweep_sweep_y - $signed({1'd0, linienmodule_sweep_sweep_step}));
+				end
 			end
 		end
 	end
@@ -10965,6 +10971,7 @@ always @(posedge sys_clk) begin
 		linienmodule_sweep_sweep_turn <= 1'd0;
 		linienmodule_sweep_sweep_y <= 39'sd0;
 		linienmodule_sweep_sweep_trigger <= 1'd0;
+		linienmodule_sweep_sweep_sequence_stop_reg <= 1'd0;
 		linienmodule_sweep_sweep_turning <= 1'd0;
 		linienmodule_sweep_sweep_dir <= 1'd0;
 		linienmodule_sweep_limit_max <= 15'sd0;
