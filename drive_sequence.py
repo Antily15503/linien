@@ -99,30 +99,30 @@ while end != True:
             {
                 "en_sin": 0,
                 "type": 2,
-                "params": [volts_to_bits(0), ms_to_clock(1)],
+                "params": [volts_to_bits(0), ms_to_clock(10)],
             },
             {
                 "en_sin": 0,
                 "type": 2,
-                "params": [volts_to_bits(0.5), ms_to_clock(1)],
+                "params": [volts_to_bits(0.5), ms_to_clock(10)],
             },
             {
                 "en_sin": 0,
                 "type": 2,
-                "params": [volts_to_bits(1.0), ms_to_clock(2)],
+                "params": [volts_to_bits(1.0), ms_to_clock(20)],
             },
-            {
-                "en_sin": 0,
-                "type": 1,
-                "params": [
-                    volts_to_bits(jump_1),
-                    volts_to_bits(0.1),
-                    int(9999),
-                    ms_to_clock(12),
-                ],
-            },
-            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0.5), ms_to_clock(2)]},
-            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0), ms_to_clock(2)]},
+            # {
+            #     "en_sin": 0,
+            #     "type": 1,
+            #     "params": [
+            #         volts_to_bits(jump_1),
+            #         volts_to_bits(0.1),
+            #         int(9999),
+            #         ms_to_clock(12),
+            #     ],
+            # },
+            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0.5), ms_to_clock(20)]},
+            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0), ms_to_clock(20)]},
         ]
         client.control.write_sequence_config()
         print("==============================")

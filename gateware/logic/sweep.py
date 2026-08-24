@@ -101,8 +101,8 @@ class SweepCSR(Module, AutoCSR):
             # Shifting the output of the sweep back to its actual width.
             self.limit.x.eq(self.sweep.y >> self.step_shift),
             self.sweep.step.eq(self.step.storage),
-            self.sweep.max.eq(self.max.storage),
-            self.sweep.min.eq(self.min.storage),
+            self.sweep.max.eq(self.max.storage << self.step_shift),
+            self.sweep.min.eq(self.min.storage << self.step_shift),
         ]
         self.sync += [
             self.limit.min.eq(Cat(self.min.storage, self.min.storage[-1])),

@@ -3552,8 +3552,8 @@ assign linienmodule_sweep_sweep_run = ((~linienmodule_sweep_clear) & linienmodul
 assign linienmodule_sweep_sweep_hold = linienmodule_sweep_hold;
 assign linienmodule_sweep_limit_x = (linienmodule_sweep_sweep_y >>> 5'd24);
 assign linienmodule_sweep_sweep_step = linienmodule_sweep_step_storage;
-assign linienmodule_sweep_sweep_max = linienmodule_sweep_max_storage;
-assign linienmodule_sweep_sweep_min = linienmodule_sweep_min_storage;
+assign linienmodule_sweep_sweep_max = (linienmodule_sweep_max_storage <<< 5'd24);
+assign linienmodule_sweep_sweep_min = (linienmodule_sweep_min_storage <<< 5'd24);
 
 // synthesis translate_off
 reg dummy_d_6;
