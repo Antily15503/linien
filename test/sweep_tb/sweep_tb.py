@@ -50,6 +50,6 @@ async def simple_test(dut):
     await set_step(dut, step=0x00BB)
     await set_min_max(dut, 0x2200, 0x1AAA)
     await run(dut)
-    await ClockCycles(dut.clk, 10000)
+    await ClockCycles(dut.clk, 9500)
     await ttl_pulse(dut, 1000)
     await ClockCycles(dut.clk, 10000)

@@ -43,10 +43,14 @@ end
 
 always @(posedge sys_clk) begin
 	sequence_stop_reg <= sequence_stop;
-	trigger <= (turn & up);
+	trigger <= ((turn & up) | ((~sequence_stop) & sequence_stop_reg));
 	turning <= turn;
-	dir <= up;
-	if (((~sequence_stop) & sequence_stop_reg)) begin
+	if (sequence_stop) begin
+		dir <= 1'd0;
+	end else begin
+		dir <= up;
+	end
+	if (sequence_stop) begin
 		y <= 13'd8182;
 	end else begin
 		if ((~run)) begin

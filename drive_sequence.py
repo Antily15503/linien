@@ -74,7 +74,7 @@ client.parameters.sinusoid_params.value = [
     volts_to_bits(0),
     volts_to_bits(2),
     volts_to_bits(-2),
-    volts_to_bits(2),
+    volts_to_bits(0.5),
     freq_to_phase(6 * 10**2, CLOCK_FREQ),
 ]
 client.control.write_sinusoid_config()
@@ -98,8 +98,18 @@ while end != True:
             # {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
             {
                 "en_sin": 0,
-                "type": 0,
-                "params": [volts_to_bits(jump_1), ms_to_clock(20)],
+                "type": 2,
+                "params": [volts_to_bits(0), ms_to_clock(1)],
+            },
+            {
+                "en_sin": 0,
+                "type": 2,
+                "params": [volts_to_bits(0.5), ms_to_clock(1)],
+            },
+            {
+                "en_sin": 0,
+                "type": 2,
+                "params": [volts_to_bits(1.0), ms_to_clock(2)],
             },
             # {
             #    "en_sin": 1,
@@ -111,7 +121,8 @@ while end != True:
             #        ms_to_clock(12),
             #    ],
             # },
-            {"en_sin": 0, "type": 0, "params": [volts_to_bits(0.5), ms_to_clock(20)]},
+            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0.5), ms_to_clock(2)]},
+            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0), ms_to_clock(2)]},
         ]
         client.control.write_sequence_config()
         print("==============================")
