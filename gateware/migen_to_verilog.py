@@ -8,7 +8,7 @@ MODULE_REGISTRY = {
         "gateware.logic.sweep",
         "Sweep",
         {"width": 14},
-        {"run", "step", "turn", "hold", "sequence_stop", "y", "trigger"},
+        {"run", "step", "turn", "hold", "sequence_stop", "y", "trigger", "max", "min"},
     ),
     "sweep_csr": (
         "gateware.logic.sweep",

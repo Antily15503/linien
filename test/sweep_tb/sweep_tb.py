@@ -48,8 +48,15 @@ async def simple_test(dut):
     dut.rst.value = 0
 
     await set_step(dut, step=0x00BB)
-    await set_min_max(dut, 0x2200, 0x1AAA)
+    await set_min_max(dut, 0x3AAA, 0x0555)
     await run(dut)
     await ClockCycles(dut.clk, 9500)
-    await ttl_pulse(dut, 1000)
+    await ttl_pulse(dut, 100)
+    await ClockCycles(dut.clk, 100)
+    await set_min_max(dut, 0x3000, 0x1FFF)
+    await ttl_pulse(dut, 100)
+    await ClockCycles(dut.clk, 100)
+    await ttl_pulse(dut, 100)
+    await ClockCycles(dut.clk, 100)
+    await ttl_pulse(dut, 100)
     await ClockCycles(dut.clk, 10000)

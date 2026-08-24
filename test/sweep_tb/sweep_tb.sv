@@ -7,6 +7,8 @@ module sweep_tb ();
   logic sequence_stop;
   logic clk;
   logic rst;
+  logic signed [13:0] max;
+  logic signed [13:0] min;
 
   logic signed [13:0] y;
   logic trigger;
@@ -19,14 +21,14 @@ module sweep_tb ();
       .sequence_stop(sequence_stop),
       .sys_clk(clk),
       .sys_rst(rst),
+      .max(max),
+      .min(min),
 
       .y(y),
       .trigger(trigger)
   );
 
   //external module to emulate RAILED logic of csrlimit module. 
-  logic signed [13:0] max;
-  logic signed [13:0] min;
   logic signed [13:0] y_lim;
   logic railed;
 

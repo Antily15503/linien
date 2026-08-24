@@ -7,6 +7,8 @@ module sweep(
 	output reg signed [13:0] y,
 	output reg trigger,
 	input sequence_stop,
+	input [13:0] max,
+	input [13:0] min,
 	input sys_clk,
 	input sys_rst
 );
@@ -51,7 +53,7 @@ always @(posedge sys_clk) begin
 		dir <= up;
 	end
 	if (sequence_stop) begin
-		y <= 13'd8182;
+		y <= max;
 	end else begin
 		if ((~run)) begin
 			y <= 1'd0;

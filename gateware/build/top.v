@@ -281,6 +281,8 @@ reg signed [38:0] linienmodule_sweep_sweep_y = 39'sd0;
 reg linienmodule_sweep_sweep_trigger = 1'd0;
 wire linienmodule_sweep_sweep_sequence_stop;
 reg linienmodule_sweep_sweep_sequence_stop_reg = 1'd0;
+wire [38:0] linienmodule_sweep_sweep_max;
+wire [38:0] linienmodule_sweep_sweep_min;
 reg linienmodule_sweep_sweep_up;
 reg linienmodule_sweep_sweep_turning = 1'd0;
 reg linienmodule_sweep_sweep_dir = 1'd0;
@@ -3550,6 +3552,8 @@ assign linienmodule_sweep_sweep_run = ((~linienmodule_sweep_clear) & linienmodul
 assign linienmodule_sweep_sweep_hold = linienmodule_sweep_hold;
 assign linienmodule_sweep_limit_x = (linienmodule_sweep_sweep_y >>> 5'd24);
 assign linienmodule_sweep_sweep_step = linienmodule_sweep_step_storage;
+assign linienmodule_sweep_sweep_max = linienmodule_sweep_max_storage;
+assign linienmodule_sweep_sweep_min = linienmodule_sweep_min_storage;
 
 // synthesis translate_off
 reg dummy_d_6;
@@ -7169,7 +7173,7 @@ always @(posedge sys_clk) begin
 		linienmodule_sweep_sweep_dir <= linienmodule_sweep_sweep_up;
 	end
 	if (linienmodule_sweep_sweep_sequence_stop) begin
-		linienmodule_sweep_sweep_y <= 38'd274877906934;
+		linienmodule_sweep_sweep_y <= linienmodule_sweep_sweep_max;
 	end else begin
 		if ((~linienmodule_sweep_sweep_run)) begin
 			linienmodule_sweep_sweep_y <= 1'd0;

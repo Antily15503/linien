@@ -122,6 +122,8 @@ class LinienLogic(Module, AutoCSR):
         self.control_signal = Signal((signal_width, True))
         # NOTE: added to force sweep back to 0 each time
         self.comb += [self.sweep.sweep.sequence_stop.eq(self.sequence.active != 0)]
+
+        # NOTE: scuffed fix for sweep setting it too high.
         # additional IIR filter that prevents aliasing effects when recording PSD of
         # error signal
         self.submodules.raw_acquisition_iir = Iir(

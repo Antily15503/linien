@@ -33,6 +33,8 @@ class Sweep(Module):
         self.trigger = Signal(name="trigger")
         self.sequence_stop = Signal(name="sequence_stop")
         self.sequence_stop_reg = Signal(name="sequence_stop_reg")
+        self.max = Signal(width, name="max")
+        self.min = Signal(width, name="min")
         ###
 
         self.up = Signal(name="up")
@@ -53,7 +55,7 @@ class Sweep(Module):
             ),
             turning.eq(self.turn),
             If(self.sequence_stop, dir.eq(0)).Else(dir.eq(self.up)),
-            If(self.sequence_stop, (self.y.eq((1 << (width - 1)) - 10)))
+            If(self.sequence_stop, (self.y.eq(self.max)))
             .Elif((~self.run), self.y.eq(0))
             .Elif(
                 ~self.hold,
@@ -99,6 +101,8 @@ class SweepCSR(Module, AutoCSR):
             # Shifting the output of the sweep back to its actual width.
             self.limit.x.eq(self.sweep.y >> self.step_shift),
             self.sweep.step.eq(self.step.storage),
+            self.sweep.max.eq(self.max.storage),
+            self.sweep.min.eq(self.min.storage),
         ]
         self.sync += [
             self.limit.min.eq(Cat(self.min.storage, self.min.storage[-1])),
