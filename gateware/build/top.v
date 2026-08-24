@@ -3556,7 +3556,7 @@ reg dummy_d_6;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sweep_sweep_up <= 1'd0;
-	if ((linienmodule_sweep_sweep_run & (~linienmodule_sweep_sweep_sequence_stop))) begin
+	if (linienmodule_sweep_sweep_run) begin
 		if ((linienmodule_sweep_sweep_turn & (~linienmodule_sweep_sweep_turning))) begin
 			linienmodule_sweep_sweep_up <= (~linienmodule_sweep_sweep_dir);
 		end else begin

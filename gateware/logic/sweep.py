@@ -25,23 +25,23 @@ from .limit import Limit
 
 class Sweep(Module):
     def __init__(self, width):
-        self.run = Signal()
-        self.step = Signal(width - 1)
-        self.turn = Signal()
-        self.hold = Signal()
-        self.y = Signal((width, True))
-        self.trigger = Signal()
-        self.sequence_stop = Signal()
-        self.sequence_stop_reg = Signal()
+        self.run = Signal(name="run")
+        self.step = Signal(width - 1, name="step")
+        self.turn = Signal(name="turn")
+        self.hold = Signal(name="hold")
+        self.y = Signal((width, True), name="y")
+        self.trigger = Signal(name="trigger")
+        self.sequence_stop = Signal(name="sequence_stop")
+        self.sequence_stop_reg = Signal(name="sequence_stop_reg")
         ###
 
-        self.up = Signal()
-        turning = Signal()
-        dir = Signal()
+        self.up = Signal(name="up")
+        turning = Signal(name="turning")
+        dir = Signal(name="dir")
 
         self.comb += [
             If(
-                (self.run & ~self.sequence_stop),
+                (self.run),
                 If(self.turn & ~turning, self.up.eq(~dir)).Else(self.up.eq(dir)),
             ).Else(self.up.eq(1))
         ]

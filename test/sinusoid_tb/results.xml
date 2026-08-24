@@ -1,6 +1,8 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1783540212" />
-    <testcase name="test1" classname="sinusoid_tb" file="/home/vedaant/school/quantum_work/linien/test/sinusoid_tb/sinusoid_tb.py" lineno="67" time="63.33523917198181" sim_time_ns="24000104.0" ratio_time="378937.6074641421" />
+    <property name="random_seed" value="1787565731" />
+    <testcase name="test1" classname="sinusoid_tb" file="/home/vedaant/school/quantum_work/linien/test/sinusoid_tb/sinusoid_tb.py" lineno="67" time="10.466031551361084" sim_time_ns="2381452.0" ratio_time="227541.06829443845">
+      <failure error_type="SimFailure" error_msg="Simulator shut down prematurely" />
+    </testcase>
   </testsuite>
 </testsuites>
