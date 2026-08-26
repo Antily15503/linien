@@ -162,6 +162,7 @@ module control #(
     endcase
   end
 
+
   // boundary flags
   // NOTE: this needs to be asserted 1 clock cycle earlier due to latency of
   // reads from the regfile. 
@@ -310,7 +311,11 @@ module control #(
     endcase
   end
 
-  // ========================= Output Logic ==============================
+  logic prev_abs;
+  always @(posedge clk) begin
+    if (~rst_n) prev_abs <= 1'b0;
+    if (state == CAPTURE_VDRIVE) prev_abs <= (cur_type == 3'd2);
+  end
 
   // v_lock add: 14-bit signed offset (block or held) + 14-bit signed v_lock,
   // saturated back to 14-bit signed [-8192, 8191]. 15-bit intermediate prevents
@@ -322,6 +327,7 @@ module control #(
   end
   logic signed [14:0] block_plus_lock;
   logic signed [14:0] held_plus_lock;
+
   assign block_plus_lock = $signed(
       {active_block_drive[13], active_block_drive}
   ) + $signed(

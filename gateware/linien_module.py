@@ -107,7 +107,8 @@ class LinienLogic(Module, AutoCSR):
             # NOTE: possible to resume at same/correct phase by removing this feature?
             self.sweep.hold.eq(
                 # self.autolock.lock_running.status | self.sequence.pid_pause
-                self.autolock.lock_running.status
+                # self.sequence.pid_pause
+                self.autolock.lock_running.status | self.sequence.pid_pause
             ),
             self.autolock.fast.sweep_value.eq(self.sweep.y),
             self.autolock.fast.sweep_up.eq(self.sweep.sweep.up),
@@ -120,7 +121,10 @@ class LinienLogic(Module, AutoCSR):
     def connect_everything(self, width, signal_width, coeff_width):
         combined_error_signal = Signal((signal_width, True))
         self.control_signal = Signal((signal_width, True))
+        # NOTE: added to force sweep back to 0 each time
+        self.comb += [self.sweep.sweep.sequence_stop.eq(self.sequence.active != 0)]
 
+        # NOTE: scuffed fix for sweep setting it too high.
         # additional IIR filter that prevents aliasing effects when recording PSD of
         # error signal
         self.submodules.raw_acquisition_iir = Iir(
@@ -439,8 +443,15 @@ class LinienModule(Module, AutoCSR):
             ).Else(
                 self.analog.dac_b.eq(self.logic.limit_fast2.y),
             ),
-            # NOTE: dac_a now outputs sinusoidal ref signal
             self.analog.dac_a.eq(self.logic.sequence.o_ref),
+            # in test mode, test to see if the input to dac_a is mirrored to adc_a
+            #            If(
+            #                ~self.test_mode,
+            #                self.analog.dac_a.eq(self.logic.sequence.o_ref).Else(
+            #                    self.analog.dac_a.eq(self.analog.adc_a)
+            #                ),
+            #            ),
+            #            # NOTE: dac_a now outputs sinusoidal ref signal
         ]
 
         # Having this in a comb statement caused errors. See PR #251.

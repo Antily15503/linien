@@ -20,35 +20,49 @@ from misoc.interconnect.csr import AutoCSR, CSRStorage
 
 from .limit import Limit
 
+# modified sweep such that on exiting ttl_active (given by sequence_stop), restart the sweep from the top
+
 
 class Sweep(Module):
     def __init__(self, width):
-        self.run = Signal()
-        self.step = Signal(width - 1)
-        self.turn = Signal()
-        self.hold = Signal()
-        self.y = Signal((width, True))
-        self.trigger = Signal()
-
+        self.run = Signal(name="run")
+        self.step = Signal(width - 1, name="step")
+        self.turn = Signal(name="turn")
+        self.hold = Signal(name="hold")
+        self.y = Signal((width, True), name="y")
+        self.trigger = Signal(name="trigger")
+        self.sequence_stop = Signal(name="sequence_stop")
+        self.sequence_stop_reg = Signal(name="sequence_stop_reg")
+        self.max = Signal(width, name="max")
+        self.min = Signal(width, name="min")
         ###
 
-        self.up = Signal()
-        turning = Signal()
-        dir = Signal()
+        self.up = Signal(name="up")
+        turning = Signal(name="turning")
+        dir = Signal(name="dir")
 
         self.comb += [
             If(
-                self.run,
+                (self.run),
                 If(self.turn & ~turning, self.up.eq(~dir)).Else(self.up.eq(dir)),
             ).Else(self.up.eq(1))
         ]
         self.sync += [
-            self.trigger.eq(self.turn & self.up),
+            # ONLY TRIGGERS ON RAILED (max or min) AND RISING
+            self.sequence_stop_reg.eq(self.sequence_stop),
+            self.trigger.eq(
+                (self.turn & self.up) | (~self.sequence_stop & self.sequence_stop_reg)
+            ),
             turning.eq(self.turn),
-            dir.eq(self.up),
-            If(~self.run, self.y.eq(0)).Elif(
+            If(self.sequence_stop, dir.eq(0)).Else(dir.eq(self.up)),
+            If(self.sequence_stop, (self.y.eq(self.max)))
+            .Elif((~self.run), self.y.eq(0))
+            .Elif(
                 ~self.hold,
-                If(self.up, self.y.eq(self.y + self.step),).Else(
+                If(
+                    self.up,
+                    self.y.eq(self.y + self.step),
+                ).Else(
                     self.y.eq(self.y - self.step),
                 ),
             ),
@@ -87,6 +101,8 @@ class SweepCSR(Module, AutoCSR):
             # Shifting the output of the sweep back to its actual width.
             self.limit.x.eq(self.sweep.y >> self.step_shift),
             self.sweep.step.eq(self.step.storage),
+            self.sweep.max.eq(self.max.storage << self.step_shift),
+            self.sweep.min.eq(self.min.storage << self.step_shift),
         ]
         self.sync += [
             self.limit.min.eq(Cat(self.min.storage, self.min.storage[-1])),
