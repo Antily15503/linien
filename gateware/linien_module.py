@@ -344,6 +344,28 @@ class LinienModule(Module, AutoCSR):
             self.logic.slow_value.status.eq(self.slow_chain.output),
         ]
 
+        # NOTE: logic to modify i_init_v
+        # requires that during a sweep, all actions are performed relative to the *midpoint* of the sweep
+        # during the PID lock, requires all actions to be performed relative to the lock point
+        # both require IGNORING the modulation (given by mod.y)
+
+        # specifies which channel is being used for
+        # should be 1, since later we see dac_b being assigned fast_outs2, which is fast_outs[1]
+        channel = 1
+
+        self.i_init_v_mux = Signal((width, True))
+        self.comb += [
+            If(
+                self.logic.control_channel.storage == channel,
+                self.i_init_v_mux.eq(pid_out),
+            )
+            .Elif(
+                self.logic.sweep_channel.storage == channel,
+                self.i_init_v_mux.eq(self.logic.out_offset_signed),
+            )
+            .Else(self.i_init_v_mux.eq(self.logic.limit_fast2.y))
+        ]
+
         # FAST OUTPUTS -----------------------------------------------------------------
         fast_outs = [Signal((width + 4, True)), Signal((width + 4, True))]
         for n_channel, fast_out in enumerate(fast_outs):
@@ -471,7 +493,7 @@ class LinienModule(Module, AutoCSR):
             self.logic.sequence.linien_pid_out.eq(pid_out),
             self.logic.sequence.linien_integrator.eq(self.logic.pid.int_out),
             self.logic.sequence.linien_sweep_pos.eq(self.logic.sweep.y),
-            self.logic.sequence.linien_dac_out.eq(self.logic.limit_fast2.y),
+            self.logic.sequence.linien_dac_out.eq(self.i_init_v_mux),
         ]
 
 
