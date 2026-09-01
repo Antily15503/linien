@@ -621,6 +621,10 @@ class Parameters:
         # normal sequence output.
         self.sinusoid_params = Parameter(start=[], sync=True)
 
+        # Debug parameters
+        # used to debug various values
+        self.v_mux = Parameter(start=None, sync=True)
+
     def __iter__(self) -> Iterator[tuple[str, Parameter]]:
         for name, param in self.__dict__.items():
             if isinstance(param, Parameter):

@@ -10,7 +10,7 @@ VP = 1.1
 DAC_COUNTS = 8192
 # vout=gain*v_dac
 # vout/gain=v_dac
-GAIN = 5
+GAIN = 1
 V_MAX = VPP / 2
 V_MIN = -VPP / 2
 
@@ -81,50 +81,47 @@ client.control.write_sinusoid_config()
 client.control.activate_sinusoid()
 client.control.activate_sinusoid()
 
-end = False
-while end != True:
-    input_voltage = input("input new voltage to try")
-    if input_voltage == "q":
-        end = True
-    else:
-        print(f"jump given as {float(input_voltage)}")
-        jump_1 = float(input_voltage)
-        ramp = -1 * (jump_1) / 5
-        jump_2 = -1 * (jump_1 + ramp)
+print("==============================")
+print("Writing MOT lock sequence...")
+print("==============================")
 
-        client.parameters.sequence_blocks.value = [
-            1,
-            # {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(3)]},
-            # {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
-            {
-                "en_sin": 0,
-                "type": 2,
-                "params": [volts_to_bits(0), ms_to_clock(10)],
-            },
-            {
-                "en_sin": 0,
-                "type": 2,
-                "params": [volts_to_bits(0.5), ms_to_clock(10)],
-            },
-            {
-                "en_sin": 0,
-                "type": 2,
-                "params": [volts_to_bits(1.0), ms_to_clock(20)],
-            },
-            # {
-            #     "en_sin": 0,
-            #     "type": 1,
-            #     "params": [
-            #         volts_to_bits(jump_1),
-            #         volts_to_bits(0.1),
-            #         int(9999),
-            #         ms_to_clock(12),
-            #     ],
-            # },
-            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0.5), ms_to_clock(20)]},
-            {"en_sin": 0, "type": 2, "params": [volts_to_bits(0), ms_to_clock(20)]},
-        ]
-        client.control.write_sequence_config()
-        print("==============================")
-        print(f" MOT Locking Sequence Written with voltage:{input}")
-        print("==============================")
+# NOTE: testing to see difference between relative and absolute jumps.
+client.parameters.sequence_blocks.value = [
+    1,
+    # {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(3)]},
+    # {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
+    {
+        "en_sin": 0,
+        "type": 0,
+        "params": [volts_to_bits(0.2), ms_to_clock(10)],
+    },
+    {
+        "en_sin": 0,
+        "type": 2,
+        "params": [volts_to_bits(0), ms_to_clock(10)],
+    },
+    {
+        "en_sin": 0,
+        "type": 0,
+        "params": [volts_to_bits(0.7), ms_to_clock(10)],
+    },
+    {
+        "en_sin": 0,
+        "type": 2,
+        "params": [volts_to_bits(1.0), ms_to_clock(20)],
+    },
+    {"en_sin": 0, "type": 0, "params": [volts_to_bits(-0.5), ms_to_clock(20)]},
+    {"en_sin": 0, "type": 2, "params": [volts_to_bits(0), ms_to_clock(20)]},
+]
+
+# monitor values
+control_channel = 0
+sweep_channel = 0
+
+while True:
+    control_channel
+    pass
+client.control.write_sequence_config()
+print("==============================")
+print(" MOT Locking Sequence Written ")
+print("==============================")

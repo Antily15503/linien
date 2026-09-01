@@ -351,16 +351,28 @@ class LinienModule(Module, AutoCSR):
 
         # specifies which channel is being used for
         # should be 1, since later we see dac_b being assigned fast_outs2, which is fast_outs[1]
-        channel = 1
+        #
+        # TODO: instead of selecting each output to yield the result, take
+        # the output and subtract the modulation from it.
+        # demodulated_reference_signal = Signal((14, True))
+
+        # self.comb += [
+        #     If(
+        #         self.logic.control_channel.storage == 1,
+        #         demodulated_reference_signal.eq(
+        #             self.logic.limit_fast2.y - self.logic.mod.y
+        #         ),
+        #     )
+        # ]
 
         self.i_init_v_mux = Signal((width, True))
         self.comb += [
             If(
-                self.logic.control_channel.storage == channel,
+                self.logic.autolock.lock_running.status,
                 self.i_init_v_mux.eq(pid_out),
             )
             .Elif(
-                self.logic.sweep_channel.storage == channel,
+                self.logic.sweep.sweep.run,
                 self.i_init_v_mux.eq(self.logic.out_offset_signed),
             )
             .Else(self.i_init_v_mux.eq(self.logic.limit_fast2.y))

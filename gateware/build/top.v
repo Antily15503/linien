@@ -3447,10 +3447,10 @@ reg dummy_d_3;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_i_init_v_mux <= 14'sd0;
-	if ((linienmodule_control_channel_storage == 1'd1)) begin
+	if (linienmodule_autolock_status) begin
 		linienmodule_i_init_v_mux <= linienmodule_pid_out;
 	end else begin
-		if ((linienmodule_sweep_channel_storage == 1'd1)) begin
+		if (linienmodule_sweep_sweep_run) begin
 			linienmodule_i_init_v_mux <= linienmodule_out_offset_signed;
 		end else begin
 			linienmodule_i_init_v_mux <= linienmodule_limit_fast2_limitcsr_y;
