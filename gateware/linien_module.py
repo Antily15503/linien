@@ -366,16 +366,31 @@ class LinienModule(Module, AutoCSR):
         # ]
 
         self.i_init_v_mux = Signal((width, True))
+        self.i_init_v_mux_pad = Signal((width + 2, True))
         self.comb += [
             If(
                 self.logic.autolock.lock_running.status,
-                self.i_init_v_mux.eq(pid_out),
+                self.i_init_v_mux_pad.eq(
+                    pid_out + self.logic.out_offset_signed + self.logic.sweep.sweep.y
+                ),
             )
             .Elif(
                 self.logic.sweep.sweep.run,
-                self.i_init_v_mux.eq(self.logic.out_offset_signed),
+                self.i_init_v_mux_pad.eq(self.logic.out_offset_signed),
             )
-            .Else(self.i_init_v_mux.eq(self.logic.limit_fast2.y))
+            .Else(self.i_init_v_mux_pad.eq(self.logic.limit_fast2.y))
+        ]
+
+        self.comb += [
+            If(
+                self.i_init_v_mux_pad > (1 << (width - 1)) - 1,
+                self.i_init_v_mux.eq((1 << (width - 1)) - 1),
+            )
+            .Elif(
+                self.i_init_v_mux_pad < -(1 << (width - 1)),
+                self.i_init_v_mux.eq(-(1 << (width - 1))),
+            )
+            .Else(self.i_init_v_mux.eq(self.i_init_v_mux_pad))
         ]
 
         # FAST OUTPUTS -----------------------------------------------------------------
