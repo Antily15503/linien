@@ -7213,10 +7213,10 @@ always @(posedge sys_clk) begin
 		linienmodule_sweep_sweep_dir <= linienmodule_sweep_sweep_up;
 	end
 	if (linienmodule_sweep_sweep_sequence_stop) begin
-		linienmodule_sweep_sweep_y <= 1'd0;
+		linienmodule_sweep_sweep_y <= linienmodule_sweep_sweep_min;
 	end else begin
 		if ((~linienmodule_sweep_sweep_run)) begin
-			linienmodule_sweep_sweep_y <= 1'd0;
+			linienmodule_sweep_sweep_y <= linienmodule_sweep_sweep_min;
 		end else begin
 			if ((~linienmodule_sweep_sweep_hold)) begin
 				if (linienmodule_sweep_sweep_up) begin

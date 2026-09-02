@@ -55,8 +55,8 @@ class Sweep(Module):
             ),
             turning.eq(self.turn),
             If(self.sequence_stop, dir.eq(1)).Else(dir.eq(self.up)),
-            If(self.sequence_stop, (self.y.eq(0)))
-            .Elif((~self.run), self.y.eq(0))
+            If(self.sequence_stop, (self.y.eq(self.min)))
+            .Elif((~self.run), self.y.eq(self.min))
             .Elif(
                 ~self.hold,
                 If(
