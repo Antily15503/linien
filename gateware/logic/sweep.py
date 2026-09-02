@@ -50,12 +50,10 @@ class Sweep(Module):
         self.sync += [
             # ONLY TRIGGERS ON RAILED (max or min) AND RISING
             self.sequence_stop_reg.eq(self.sequence_stop),
-            self.trigger.eq(
-                (self.turn & self.up) | (~self.sequence_stop & self.sequence_stop_reg)
-            ),
+            self.trigger.eq((self.turn & self.up)),
             turning.eq(self.turn),
-            If(self.sequence_stop, dir.eq(1)).Else(dir.eq(self.up)),
-            If(self.sequence_stop, (self.y.eq(self.min)))
+            If(self.sequence_stop, dir.eq(0)).Else(dir.eq(self.up)),
+            If(self.sequence_stop, (self.y.eq(self.min + 20)))
             .Elif((~self.run), self.y.eq(self.min))
             .Elif(
                 ~self.hold,
