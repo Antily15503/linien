@@ -30,6 +30,10 @@ add_files {imports\UW-Madison\RA\linien\src\sequence_top.sv}
 set_property library work [get_files {imports\UW-Madison\RA\linien\src\sequence_top.sv}]
 add_files {imports\UW-Madison\RA\linien\src\sinusoid.sv}
 set_property library work [get_files {imports\UW-Madison\RA\linien\src\sinusoid.sv}]
+add_files {imports\UW-Madison\RA\linien\src\temp_pwm.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\temp_pwm.sv}]
+add_files {imports\UW-Madison\RA\linien\src\temp_sampler.sv}
+set_property library work [get_files {imports\UW-Madison\RA\linien\src\temp_sampler.sv}]
 add_files {top.v}
 set_property library work [get_files {top.v}]
 read_xdc top.xdc

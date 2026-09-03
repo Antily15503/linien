@@ -40,6 +40,7 @@ from .logic.limit import LimitCSR
 from .logic.modulate import Modulate
 from .logic.pid import PID
 from .logic.sweep import SweepCSR
+from .logic.temp_control import TempControl
 from .lowlevel.analog import PitayaAnalog
 from .lowlevel.crg import CRG
 from .lowlevel.dna import DNA
@@ -240,6 +241,10 @@ class LinienModule(Module, AutoCSR):
 
         self.submodules.scopegen = ScopeGen(signal_width)
 
+        # Slow temperature loop: heater PWM + one averaged sample of the PZT
+        # control signal per PID-state entry. Wired up in connect_everything().
+        self.submodules.temp_control = TempControl(width=width)
+
         self.state_names, self.signal_names = cross_connect(
             self.gpio_n,
             [
@@ -264,6 +269,7 @@ class LinienModule(Module, AutoCSR):
             "noise": 7,
             "logic": 8,
             "sequence": 9,
+            "temp_control": 10,
         }
 
         self.submodules.csrbanks = csr_bus.CSRBankArray(
@@ -394,9 +400,40 @@ class LinienModule(Module, AutoCSR):
         ]
         # NOTE: not sure why limit is used
         self.comb += self.slow_chain.limit.x.eq(analog_out)
-        # ds0 apparently has 16 bit, but only allowing positive  values --> "15 bit"?
+
+        # ANALOG OUT 0 mirrors the PZT control signal that OUT2 (dac_b) drives:
+        # the sequence FSM output while a sequence runs, otherwise the normal
+        # linien fast output. ds0 takes 15-bit unsigned, so the signed 14-bit
+        # value is shifted into [0, 2**15) -- 0 counts lands at mid-scale.
+        pzt_control = Signal((width, True))
+        self.comb += If(
+            self.logic.sequence.active != 0,
+            pzt_control.eq(self.logic.sequence.dac_out),
+        ).Else(
+            pzt_control.eq(self.logic.limit_fast2.y),
+        )
+
+        # Slow temperature loop. Sample the PZT control signal once per PID-state
+        # entry and drive the heater PWM on GPIO_P[5].
+        self.comb += [
+            self.temp_control.control_in.eq(pzt_control),
+            self.temp_control.pid_active.eq(
+                self.logic.autolock.lock_running.status
+                & ~self.logic.sequence.pid_pause
+                & (self.logic.sequence.active == 0)
+            ),
+            # NOTE: Gpio drives each pin from (outs.storage | o) -- see
+            # lowlevel/gpio.py. Bit 5 of the gpio_p_out parameter MUST stay
+            # clear: setting it latches the heater fully on regardless of the
+            # PWM, and the symptom (PWM apparently ignored) is baffling.
+            # gpio_p_oes already has bit 5 set in the server
+            # (registers.py: gpio_p_oes=0b11100000), so the output is enabled
+            # without any server-side change.
+            self.gpio_p.o[5].eq(self.temp_control.pwm_o),
+        ]
+
         slow_out_shifted = Signal(15)
-        self.sync += slow_out_shifted.eq((self.slow_chain.limit.y << 1) + (1 << 14))
+        self.sync += slow_out_shifted.eq((pzt_control << 1) + (1 << 14))
         self.comb += self.ds0.data.eq(slow_out_shifted)
 
         # connect other analog outputs

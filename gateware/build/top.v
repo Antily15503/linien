@@ -635,7 +635,7 @@ wire linienmodule_gpio_n_tstriple7_o;
 wire linienmodule_gpio_n_tstriple7_oe;
 wire linienmodule_gpio_n_tstriple7_i;
 wire [7:0] linienmodule_gpio_p_i;
-reg [7:0] linienmodule_gpio_p_o = 8'd0;
+wire [7:0] linienmodule_gpio_p_o;
 wire [7:0] linienmodule_gpio_p_status;
 reg [7:0] linienmodule_gpio_p_outs_storage_full = 8'd0;
 wire [7:0] linienmodule_gpio_p_outs_storage;
@@ -1380,6 +1380,16 @@ reg linienmodule_scopegen_asg_trig = 1'd0;
 wire linienmodule_scopegen_writing_data_now;
 wire signed [13:0] linienmodule_scopegen_scope_written_data;
 wire [13:0] linienmodule_scopegen_scope_position;
+reg [11:0] linienmodule_temp_control_storage_full = 12'd0;
+wire [11:0] linienmodule_temp_control_storage;
+reg linienmodule_temp_control_re = 1'd0;
+wire [17:0] linienmodule_temp_control_sample_data_status;
+wire [7:0] linienmodule_temp_control_sample_count_status;
+wire signed [13:0] linienmodule_temp_control_control_in;
+wire linienmodule_temp_control_pid_active;
+wire linienmodule_temp_control_pwm_o;
+wire signed [17:0] linienmodule_temp_control_sample;
+wire [7:0] linienmodule_temp_control_count;
 wire [24:0] linienmodule_sig_status0;
 wire linienmodule_csr0_x_clr_re;
 wire linienmodule_csr0_x_clr_r;
@@ -3205,43 +3215,66 @@ wire [13:0] linienmodule_interface8_bank_bus_adr;
 wire linienmodule_interface8_bank_bus_we;
 wire [7:0] linienmodule_interface8_bank_bus_dat_w;
 reg [7:0] linienmodule_interface8_bank_bus_dat_r = 8'd0;
-wire linienmodule_csrbank8_temp1_re;
-wire [3:0] linienmodule_csrbank8_temp1_r;
-wire [3:0] linienmodule_csrbank8_temp1_w;
-wire linienmodule_csrbank8_temp0_re;
-wire [7:0] linienmodule_csrbank8_temp0_r;
-wire [7:0] linienmodule_csrbank8_temp0_w;
-wire linienmodule_csrbank8_v1_re;
-wire [3:0] linienmodule_csrbank8_v1_r;
-wire [3:0] linienmodule_csrbank8_v1_w;
-wire linienmodule_csrbank8_v0_re;
-wire [7:0] linienmodule_csrbank8_v0_r;
-wire [7:0] linienmodule_csrbank8_v0_w;
-wire linienmodule_csrbank8_a1_re;
-wire [3:0] linienmodule_csrbank8_a1_r;
-wire [3:0] linienmodule_csrbank8_a1_w;
-wire linienmodule_csrbank8_a0_re;
-wire [7:0] linienmodule_csrbank8_a0_r;
-wire [7:0] linienmodule_csrbank8_a0_w;
-wire linienmodule_csrbank8_b1_re;
-wire [3:0] linienmodule_csrbank8_b1_r;
-wire [3:0] linienmodule_csrbank8_b1_w;
-wire linienmodule_csrbank8_b0_re;
-wire [7:0] linienmodule_csrbank8_b0_r;
-wire [7:0] linienmodule_csrbank8_b0_w;
-wire linienmodule_csrbank8_c1_re;
-wire [3:0] linienmodule_csrbank8_c1_r;
-wire [3:0] linienmodule_csrbank8_c1_w;
-wire linienmodule_csrbank8_c0_re;
-wire [7:0] linienmodule_csrbank8_c0_r;
-wire [7:0] linienmodule_csrbank8_c0_w;
-wire linienmodule_csrbank8_d1_re;
-wire [3:0] linienmodule_csrbank8_d1_r;
-wire [3:0] linienmodule_csrbank8_d1_w;
-wire linienmodule_csrbank8_d0_re;
-wire [7:0] linienmodule_csrbank8_d0_r;
-wire [7:0] linienmodule_csrbank8_d0_w;
+wire linienmodule_csrbank8_duty1_re;
+wire [3:0] linienmodule_csrbank8_duty1_r;
+wire [3:0] linienmodule_csrbank8_duty1_w;
+wire linienmodule_csrbank8_duty0_re;
+wire [7:0] linienmodule_csrbank8_duty0_r;
+wire [7:0] linienmodule_csrbank8_duty0_w;
+wire linienmodule_csrbank8_sample_data2_re;
+wire [1:0] linienmodule_csrbank8_sample_data2_r;
+wire [1:0] linienmodule_csrbank8_sample_data2_w;
+wire linienmodule_csrbank8_sample_data1_re;
+wire [7:0] linienmodule_csrbank8_sample_data1_r;
+wire [7:0] linienmodule_csrbank8_sample_data1_w;
+wire linienmodule_csrbank8_sample_data0_re;
+wire [7:0] linienmodule_csrbank8_sample_data0_r;
+wire [7:0] linienmodule_csrbank8_sample_data0_w;
+wire linienmodule_csrbank8_sample_count_re;
+wire [7:0] linienmodule_csrbank8_sample_count_r;
+wire [7:0] linienmodule_csrbank8_sample_count_w;
 wire linienmodule_csrbank8_sel;
+wire [13:0] linienmodule_interface9_bank_bus_adr;
+wire linienmodule_interface9_bank_bus_we;
+wire [7:0] linienmodule_interface9_bank_bus_dat_w;
+reg [7:0] linienmodule_interface9_bank_bus_dat_r = 8'd0;
+wire linienmodule_csrbank9_temp1_re;
+wire [3:0] linienmodule_csrbank9_temp1_r;
+wire [3:0] linienmodule_csrbank9_temp1_w;
+wire linienmodule_csrbank9_temp0_re;
+wire [7:0] linienmodule_csrbank9_temp0_r;
+wire [7:0] linienmodule_csrbank9_temp0_w;
+wire linienmodule_csrbank9_v1_re;
+wire [3:0] linienmodule_csrbank9_v1_r;
+wire [3:0] linienmodule_csrbank9_v1_w;
+wire linienmodule_csrbank9_v0_re;
+wire [7:0] linienmodule_csrbank9_v0_r;
+wire [7:0] linienmodule_csrbank9_v0_w;
+wire linienmodule_csrbank9_a1_re;
+wire [3:0] linienmodule_csrbank9_a1_r;
+wire [3:0] linienmodule_csrbank9_a1_w;
+wire linienmodule_csrbank9_a0_re;
+wire [7:0] linienmodule_csrbank9_a0_r;
+wire [7:0] linienmodule_csrbank9_a0_w;
+wire linienmodule_csrbank9_b1_re;
+wire [3:0] linienmodule_csrbank9_b1_r;
+wire [3:0] linienmodule_csrbank9_b1_w;
+wire linienmodule_csrbank9_b0_re;
+wire [7:0] linienmodule_csrbank9_b0_r;
+wire [7:0] linienmodule_csrbank9_b0_w;
+wire linienmodule_csrbank9_c1_re;
+wire [3:0] linienmodule_csrbank9_c1_r;
+wire [3:0] linienmodule_csrbank9_c1_w;
+wire linienmodule_csrbank9_c0_re;
+wire [7:0] linienmodule_csrbank9_c0_r;
+wire [7:0] linienmodule_csrbank9_c0_w;
+wire linienmodule_csrbank9_d1_re;
+wire [3:0] linienmodule_csrbank9_d1_r;
+wire [3:0] linienmodule_csrbank9_d1_w;
+wire linienmodule_csrbank9_d0_re;
+wire [7:0] linienmodule_csrbank9_d0_r;
+wire [7:0] linienmodule_csrbank9_d0_w;
+wire linienmodule_csrbank9_sel;
 reg [13:0] linienmodule_csr_adr = 14'd0;
 reg linienmodule_csr_we = 1'd0;
 reg [7:0] linienmodule_csr_dat_w = 8'd0;
@@ -3283,6 +3316,7 @@ wire signed [13:0] linienmodule_pid_out;
 wire signed [17:0] linienmodule;
 wire signed [17:0] linienmodule_fast_outs;
 wire signed [16:0] linienmodule_analog_out;
+reg signed [13:0] linienmodule_pzt_control;
 reg [14:0] linienmodule_slow_out_shifted = 15'd0;
 reg [3:0] linienmodule_self;
 reg dummyhk_status = 1'd1;
@@ -3440,6 +3474,24 @@ assign linienmodule = ((((((linienmodule_control_channel_storage == 1'd0) ? lini
 assign linienmodule_fast_outs = ((((((linienmodule_control_channel_storage == 1'd1) ? linienmodule_pid_out : $signed({1'd0, 1'd0})) + ((linienmodule_mod_channel_storage == 1'd1) ? linienmodule_mod_modulate_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd1) ? linienmodule_sweep_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd1) ? linienmodule_out_offset_signed : $signed({1'd0, 1'd0}))) + ((linienmodule_slow_control_channel_storage == 1'd1) ? linienmodule_slowchain_output : $signed({1'd0, 1'd0})));
 assign linienmodule_analog_out = ((((linienmodule_sweep_channel_storage == 2'd2) ? linienmodule_sweep_y : $signed({1'd0, 1'd0})) + ((linienmodule_sweep_channel_storage == 2'd2) ? linienmodule_out_offset_signed : $signed({1'd0, 1'd0}))) + ((linienmodule_slow_control_channel_storage == 2'd2) ? linienmodule_slowchain_output : $signed({1'd0, 1'd0})));
 assign linienmodule_slowchain_x = linienmodule_analog_out;
+
+// synthesis translate_off
+reg dummy_d_3;
+// synthesis translate_on
+always @(*) begin
+	linienmodule_pzt_control <= 14'sd0;
+	if ((linienmodule_sequenceexecutor_active != 1'd0)) begin
+		linienmodule_pzt_control <= linienmodule_sequenceexecutor_dac_out;
+	end else begin
+		linienmodule_pzt_control <= linienmodule_limit_fast2_limitcsr_y;
+	end
+// synthesis translate_off
+	dummy_d_3 <= dummy_s;
+// synthesis translate_on
+end
+assign linienmodule_temp_control_control_in = linienmodule_pzt_control;
+assign linienmodule_temp_control_pid_active = ((linienmodule_autolock_status & (~linienmodule_sequenceexecutor_pid_pause)) & (linienmodule_sequenceexecutor_active == 1'd0));
+assign linienmodule_gpio_p_o[5] = linienmodule_temp_control_pwm_o;
 assign linienmodule_deltasigma0_data = linienmodule_slow_out_shifted;
 assign linienmodule_deltasigma1_data = linienmodule_csrstorage0_storage0;
 assign linienmodule_deltasigma2_data = linienmodule_csrstorage1_storage0;
@@ -3450,7 +3502,7 @@ assign linienmodule_scopegen_automatically_rearm = (linienmodule_autolock_reques
 assign linienmodule_scopegen_automatically_trigger = linienmodule_autolock_status;
 
 // synthesis translate_off
-reg dummy_d_3;
+reg dummy_d_4;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_analog_dac_b <= 14'sd0;
@@ -3460,13 +3512,13 @@ always @(*) begin
 		linienmodule_analog_dac_b <= linienmodule_limit_fast2_limitcsr_y;
 	end
 // synthesis translate_off
-	dummy_d_3 <= dummy_s;
+	dummy_d_4 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_analog_dac_a = linienmodule_sequenceexecutor_o_ref;
 
 // synthesis translate_off
-reg dummy_d_4;
+reg dummy_d_5;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_self <= 4'd0;
@@ -3475,7 +3527,7 @@ always @(*) begin
 	linienmodule_self[2] <= linienmodule_gpio_p_i[3];
 	linienmodule_self[3] <= linienmodule_gpio_p_i[4];
 // synthesis translate_off
-	dummy_d_4 <= dummy_s;
+	dummy_d_5 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sequenceexecutor_ttl_in = linienmodule_self;
@@ -3528,7 +3580,7 @@ assign linienmodule_mod_cordic_dir14 = (linienmodule_mod_cordic_z14 < $signed({1
 assign linienmodule_mod_cordic_q = (linienmodule_mod_cordic_zi1[13] ^ linienmodule_mod_cordic_zi1[14]);
 
 // synthesis translate_off
-reg dummy_d_5;
+reg dummy_d_6;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_mod_cordic_xi0 <= 15'sd0;
@@ -3540,7 +3592,7 @@ always @(*) begin
 		{linienmodule_mod_cordic_zi0, linienmodule_mod_cordic_yi0, linienmodule_mod_cordic_xi0} <= {linienmodule_mod_cordic_zi1, linienmodule_mod_cordic_yi1, linienmodule_mod_cordic_xi1};
 	end
 // synthesis translate_off
-	dummy_d_5 <= dummy_s;
+	dummy_d_6 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sweep_sweep_run = ((~linienmodule_sweep_clear) & linienmodule_sweep_run_storage);
@@ -3549,7 +3601,7 @@ assign linienmodule_sweep_limit_x = (linienmodule_sweep_sweep_y >>> 5'd24);
 assign linienmodule_sweep_sweep_step = linienmodule_sweep_step_storage;
 
 // synthesis translate_off
-reg dummy_d_6;
+reg dummy_d_7;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sweep_sweep_up <= 1'd0;
@@ -3563,12 +3615,12 @@ always @(*) begin
 		linienmodule_sweep_sweep_up <= 1'd1;
 	end
 // synthesis translate_off
-	dummy_d_6 <= dummy_s;
+	dummy_d_7 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_7;
+reg dummy_d_8;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sweep_limit_y <= 15'sd0;
@@ -3586,13 +3638,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_7 <= dummy_s;
+	dummy_d_8 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_limit_error_signal_limit_x = linienmodule_limit_error_signal_x;
 
 // synthesis translate_off
-reg dummy_d_8;
+reg dummy_d_9;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_limit_error_signal_limit_y <= 29'sd0;
@@ -3610,13 +3662,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_8 <= dummy_s;
+	dummy_d_9 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_limit_fast1_limit_x = linienmodule_limit_fast1_x;
 
 // synthesis translate_off
-reg dummy_d_9;
+reg dummy_d_10;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_limit_fast1_limit_y <= 19'sd0;
@@ -3634,13 +3686,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_9 <= dummy_s;
+	dummy_d_10 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_limit_fast2_limit_x = linienmodule_limit_fast2_x;
 
 // synthesis translate_off
-reg dummy_d_10;
+reg dummy_d_11;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_limit_fast2_limit_y <= 19'sd0;
@@ -3658,13 +3710,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_10 <= dummy_s;
+	dummy_d_11 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_pid_setpoint_signed = linienmodule_pid_setpoint_storage;
 
 // synthesis translate_off
-reg dummy_d_11;
+reg dummy_d_12;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_pid_error <= 26'sd0;
@@ -3674,7 +3726,7 @@ always @(*) begin
 		linienmodule_pid_error <= 1'd0;
 	end
 // synthesis translate_off
-	dummy_d_11 <= dummy_s;
+	dummy_d_12 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_pid_kp_signed = linienmodule_pid_kp_storage;
@@ -3688,7 +3740,7 @@ assign linienmodule_pid_kd_signed = linienmodule_pid_kd_storage;
 assign linienmodule_pid_kd_mult = (linienmodule_pid_error * linienmodule_pid_kd_signed);
 
 // synthesis translate_off
-reg dummy_d_12;
+reg dummy_d_13;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_pid_pid_out <= 25'sd0;
@@ -3702,7 +3754,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_12 <= dummy_s;
+	dummy_d_13 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_autolock_fast_request_lock = linienmodule_autolock_request_lock_storage;
@@ -3727,7 +3779,7 @@ assign linienmodule_sequenceexecutor_saved_sweep_pos_status = linienmodule_seque
 assign linienmodule_sequenceexecutor_saved_dac_out_status = linienmodule_sequenceexecutor_o_saved_dac_out;
 
 // synthesis translate_off
-reg dummy_d_13;
+reg dummy_d_14;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sequenceexecutor_num_blocks <= 4'd0;
@@ -3749,14 +3801,14 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_13 <= dummy_s;
+	dummy_d_14 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sequenceexecutor_rising_edge = (linienmodule_sequenceexecutor_ttl_sync1 & (~linienmodule_sequenceexecutor_ttl_prev));
 assign linienmodule_sequenceexecutor_armed = (linienmodule_sequenceexecutor_i_enable & (~linienmodule_sequenceexecutor_o_active));
 
 // synthesis translate_off
-reg dummy_d_14;
+reg dummy_d_15;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sequenceexecutor_priority_rising_edge <= 4'd0;
@@ -3777,7 +3829,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_14 <= dummy_s;
+	dummy_d_15 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sequenceexecutor_o_status0 = {linienmodule_sequenceexecutor_armed[0], linienmodule_sequenceexecutor_o_active_offset[0]};
@@ -3786,7 +3838,7 @@ assign linienmodule_sequenceexecutor_o_status2 = {linienmodule_sequenceexecutor_
 assign linienmodule_sequenceexecutor_o_status3 = {linienmodule_sequenceexecutor_armed[3], linienmodule_sequenceexecutor_o_active_offset[3]};
 
 // synthesis translate_off
-reg dummy_d_15;
+reg dummy_d_16;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sequenceexecutor_o_fsm_start <= 1'd0;
@@ -3842,13 +3894,13 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_15 <= dummy_s;
+	dummy_d_16 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_raw_acquisition_iir_railed = (~((linienmodule_raw_acquisition_iir_y_next[49:47] == $signed({1'd0, linienmodule_raw_acquisition_iir_y_pat})) | (linienmodule_raw_acquisition_iir_y_next[49:47] == $signed({1'd0, (~linienmodule_raw_acquisition_iir_y_pat)}))));
 
 // synthesis translate_off
-reg dummy_d_16;
+reg dummy_d_17;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_raw_acquisition_iir_y_lim <= 25'sd0;
@@ -3858,7 +3910,7 @@ always @(*) begin
 		linienmodule_raw_acquisition_iir_y_lim <= linienmodule_raw_acquisition_iir_y_next[49:23];
 	end
 // synthesis translate_off
-	dummy_d_16 <= dummy_s;
+	dummy_d_17 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_raw_acquisition_iir_z0 = (linienmodule_raw_acquisition_iir_zr0 + (linienmodule_raw_acquisition_iir_x * linienmodule_raw_acquisition_iir_b5));
@@ -3951,7 +4003,7 @@ assign linienmodule_fast_a_dir14 = (linienmodule_fast_a_z14 < $signed({1'd0, 1'd
 assign linienmodule_fast_a_q1 = (linienmodule_fast_a_zi1[13] ^ linienmodule_fast_a_zi1[14]);
 
 // synthesis translate_off
-reg dummy_d_17;
+reg dummy_d_18;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_xi0 <= 15'sd0;
@@ -3963,13 +4015,13 @@ always @(*) begin
 		{linienmodule_fast_a_zi0, linienmodule_fast_a_yi0, linienmodule_fast_a_xi0} <= {linienmodule_fast_a_zi1, linienmodule_fast_a_yi1, linienmodule_fast_a_xi1};
 	end
 // synthesis translate_off
-	dummy_d_17 <= dummy_s;
+	dummy_d_18 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_limitcsr0_limit_x0 = linienmodule_fast_a_limitcsr0_x0;
 
 // synthesis translate_off
-reg dummy_d_18;
+reg dummy_d_19;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr0_limit_y0 <= 26'sd0;
@@ -3987,13 +4039,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_18 <= dummy_s;
+	dummy_d_19 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir0_railed0 = (~((linienmodule_fast_a_iir0_y_next0[49:47] == $signed({1'd0, linienmodule_fast_a_iir0_y_pat0})) | (linienmodule_fast_a_iir0_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir0_y_pat0)}))));
 
 // synthesis translate_off
-reg dummy_d_19;
+reg dummy_d_20;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir0_y_lim0 <= 25'sd0;
@@ -4003,7 +4055,7 @@ always @(*) begin
 		linienmodule_fast_a_iir0_y_lim0 <= linienmodule_fast_a_iir0_y_next0[49:23];
 	end
 // synthesis translate_off
-	dummy_d_19 <= dummy_s;
+	dummy_d_20 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir0_z0 = (linienmodule_fast_a_iir0_zr0 + (linienmodule_fast_a_iir0_x0 * linienmodule_fast_a_iir0_b10));
@@ -4013,7 +4065,7 @@ assign linienmodule_fast_a_iir0_y_next0 = linienmodule_fast_a_iir0_z2;
 assign linienmodule_fast_a_iir0_railed1 = (~((linienmodule_fast_a_iir0_y_next1[49:47] == $signed({1'd0, linienmodule_fast_a_iir0_y_pat1})) | (linienmodule_fast_a_iir0_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir0_y_pat1)}))));
 
 // synthesis translate_off
-reg dummy_d_20;
+reg dummy_d_21;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir0_y_lim1 <= 25'sd0;
@@ -4023,7 +4075,7 @@ always @(*) begin
 		linienmodule_fast_a_iir0_y_lim1 <= linienmodule_fast_a_iir0_y_next1[49:23];
 	end
 // synthesis translate_off
-	dummy_d_20 <= dummy_s;
+	dummy_d_21 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir0_z3 = (linienmodule_fast_a_iir0_zr3 + (linienmodule_fast_a_iir0_x1 * linienmodule_fast_a_iir0_b2));
@@ -4035,7 +4087,7 @@ assign linienmodule_fast_a_iir0_y_next1 = linienmodule_fast_a_iir0_z7;
 assign linienmodule_fast_a_limitcsr0_limit_x1 = linienmodule_fast_a_limitcsr0_x1;
 
 // synthesis translate_off
-reg dummy_d_21;
+reg dummy_d_22;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr0_limit_y1 <= 28'sd0;
@@ -4053,13 +4105,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_21 <= dummy_s;
+	dummy_d_22 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_limitcsr1_limit_x0 = linienmodule_fast_a_limitcsr1_x0;
 
 // synthesis translate_off
-reg dummy_d_22;
+reg dummy_d_23;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr1_limit_y0 <= 26'sd0;
@@ -4077,13 +4129,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_22 <= dummy_s;
+	dummy_d_23 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir1_railed0 = (~((linienmodule_fast_a_iir1_y_next0[49:47] == $signed({1'd0, linienmodule_fast_a_iir1_y_pat0})) | (linienmodule_fast_a_iir1_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir1_y_pat0)}))));
 
 // synthesis translate_off
-reg dummy_d_23;
+reg dummy_d_24;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir1_y_lim0 <= 25'sd0;
@@ -4093,7 +4145,7 @@ always @(*) begin
 		linienmodule_fast_a_iir1_y_lim0 <= linienmodule_fast_a_iir1_y_next0[49:23];
 	end
 // synthesis translate_off
-	dummy_d_23 <= dummy_s;
+	dummy_d_24 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir1_z0 = (linienmodule_fast_a_iir1_zr0 + (linienmodule_fast_a_iir1_x0 * linienmodule_fast_a_iir1_b10));
@@ -4103,7 +4155,7 @@ assign linienmodule_fast_a_iir1_y_next0 = linienmodule_fast_a_iir1_z2;
 assign linienmodule_fast_a_iir1_railed1 = (~((linienmodule_fast_a_iir1_y_next1[49:47] == $signed({1'd0, linienmodule_fast_a_iir1_y_pat1})) | (linienmodule_fast_a_iir1_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir1_y_pat1)}))));
 
 // synthesis translate_off
-reg dummy_d_24;
+reg dummy_d_25;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir1_y_lim1 <= 25'sd0;
@@ -4113,7 +4165,7 @@ always @(*) begin
 		linienmodule_fast_a_iir1_y_lim1 <= linienmodule_fast_a_iir1_y_next1[49:23];
 	end
 // synthesis translate_off
-	dummy_d_24 <= dummy_s;
+	dummy_d_25 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir1_z3 = (linienmodule_fast_a_iir1_zr3 + (linienmodule_fast_a_iir1_x1 * linienmodule_fast_a_iir1_b2));
@@ -4125,7 +4177,7 @@ assign linienmodule_fast_a_iir1_y_next1 = linienmodule_fast_a_iir1_z7;
 assign linienmodule_fast_a_limitcsr1_limit_x1 = linienmodule_fast_a_limitcsr1_x1;
 
 // synthesis translate_off
-reg dummy_d_25;
+reg dummy_d_26;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr1_limit_y1 <= 28'sd0;
@@ -4143,7 +4195,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_25 <= dummy_s;
+	dummy_d_26 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_x0 = (linienmodule_fast_b_adc <<< 4'd11);
@@ -4200,7 +4252,7 @@ assign linienmodule_fast_b_dir14 = (linienmodule_fast_b_z14 < $signed({1'd0, 1'd
 assign linienmodule_fast_b_q1 = (linienmodule_fast_b_zi1[13] ^ linienmodule_fast_b_zi1[14]);
 
 // synthesis translate_off
-reg dummy_d_26;
+reg dummy_d_27;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_xi0 <= 15'sd0;
@@ -4212,13 +4264,13 @@ always @(*) begin
 		{linienmodule_fast_b_zi0, linienmodule_fast_b_yi0, linienmodule_fast_b_xi0} <= {linienmodule_fast_b_zi1, linienmodule_fast_b_yi1, linienmodule_fast_b_xi1};
 	end
 // synthesis translate_off
-	dummy_d_26 <= dummy_s;
+	dummy_d_27 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_limitcsr0_limit_x0 = linienmodule_fast_b_limitcsr0_x0;
 
 // synthesis translate_off
-reg dummy_d_27;
+reg dummy_d_28;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr0_limit_y0 <= 26'sd0;
@@ -4236,13 +4288,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_27 <= dummy_s;
+	dummy_d_28 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir0_railed0 = (~((linienmodule_fast_b_iir0_y_next0[49:47] == $signed({1'd0, linienmodule_fast_b_iir0_y_pat0})) | (linienmodule_fast_b_iir0_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir0_y_pat0)}))));
 
 // synthesis translate_off
-reg dummy_d_28;
+reg dummy_d_29;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir0_y_lim0 <= 25'sd0;
@@ -4252,7 +4304,7 @@ always @(*) begin
 		linienmodule_fast_b_iir0_y_lim0 <= linienmodule_fast_b_iir0_y_next0[49:23];
 	end
 // synthesis translate_off
-	dummy_d_28 <= dummy_s;
+	dummy_d_29 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir0_z0 = (linienmodule_fast_b_iir0_zr0 + (linienmodule_fast_b_iir0_x0 * linienmodule_fast_b_iir0_b10));
@@ -4262,7 +4314,7 @@ assign linienmodule_fast_b_iir0_y_next0 = linienmodule_fast_b_iir0_z2;
 assign linienmodule_fast_b_iir0_railed1 = (~((linienmodule_fast_b_iir0_y_next1[49:47] == $signed({1'd0, linienmodule_fast_b_iir0_y_pat1})) | (linienmodule_fast_b_iir0_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir0_y_pat1)}))));
 
 // synthesis translate_off
-reg dummy_d_29;
+reg dummy_d_30;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir0_y_lim1 <= 25'sd0;
@@ -4272,7 +4324,7 @@ always @(*) begin
 		linienmodule_fast_b_iir0_y_lim1 <= linienmodule_fast_b_iir0_y_next1[49:23];
 	end
 // synthesis translate_off
-	dummy_d_29 <= dummy_s;
+	dummy_d_30 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir0_z3 = (linienmodule_fast_b_iir0_zr3 + (linienmodule_fast_b_iir0_x1 * linienmodule_fast_b_iir0_b2));
@@ -4284,7 +4336,7 @@ assign linienmodule_fast_b_iir0_y_next1 = linienmodule_fast_b_iir0_z7;
 assign linienmodule_fast_b_limitcsr0_limit_x1 = linienmodule_fast_b_limitcsr0_x1;
 
 // synthesis translate_off
-reg dummy_d_30;
+reg dummy_d_31;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr0_limit_y1 <= 28'sd0;
@@ -4302,13 +4354,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_30 <= dummy_s;
+	dummy_d_31 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_limitcsr1_limit_x0 = linienmodule_fast_b_limitcsr1_x0;
 
 // synthesis translate_off
-reg dummy_d_31;
+reg dummy_d_32;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr1_limit_y0 <= 26'sd0;
@@ -4326,13 +4378,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_31 <= dummy_s;
+	dummy_d_32 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir1_railed0 = (~((linienmodule_fast_b_iir1_y_next0[49:47] == $signed({1'd0, linienmodule_fast_b_iir1_y_pat0})) | (linienmodule_fast_b_iir1_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir1_y_pat0)}))));
 
 // synthesis translate_off
-reg dummy_d_32;
+reg dummy_d_33;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir1_y_lim0 <= 25'sd0;
@@ -4342,7 +4394,7 @@ always @(*) begin
 		linienmodule_fast_b_iir1_y_lim0 <= linienmodule_fast_b_iir1_y_next0[49:23];
 	end
 // synthesis translate_off
-	dummy_d_32 <= dummy_s;
+	dummy_d_33 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir1_z0 = (linienmodule_fast_b_iir1_zr0 + (linienmodule_fast_b_iir1_x0 * linienmodule_fast_b_iir1_b10));
@@ -4352,7 +4404,7 @@ assign linienmodule_fast_b_iir1_y_next0 = linienmodule_fast_b_iir1_z2;
 assign linienmodule_fast_b_iir1_railed1 = (~((linienmodule_fast_b_iir1_y_next1[49:47] == $signed({1'd0, linienmodule_fast_b_iir1_y_pat1})) | (linienmodule_fast_b_iir1_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir1_y_pat1)}))));
 
 // synthesis translate_off
-reg dummy_d_33;
+reg dummy_d_34;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir1_y_lim1 <= 25'sd0;
@@ -4362,7 +4414,7 @@ always @(*) begin
 		linienmodule_fast_b_iir1_y_lim1 <= linienmodule_fast_b_iir1_y_next1[49:23];
 	end
 // synthesis translate_off
-	dummy_d_33 <= dummy_s;
+	dummy_d_34 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir1_z3 = (linienmodule_fast_b_iir1_zr3 + (linienmodule_fast_b_iir1_x1 * linienmodule_fast_b_iir1_b2));
@@ -4374,7 +4426,7 @@ assign linienmodule_fast_b_iir1_y_next1 = linienmodule_fast_b_iir1_z7;
 assign linienmodule_fast_b_limitcsr1_limit_x1 = linienmodule_fast_b_limitcsr1_x1;
 
 // synthesis translate_off
-reg dummy_d_34;
+reg dummy_d_35;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr1_limit_y1 <= 28'sd0;
@@ -4392,7 +4444,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_34 <= dummy_s;
+	dummy_d_35 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_slowchain_input1 = linienmodule_slowchain_input0;
@@ -4402,7 +4454,7 @@ assign linienmodule_sig_status6 = linienmodule_slowchain_out;
 assign linienmodule_slowchain_setpoint_signed = linienmodule_slowchain_setpoint_storage;
 
 // synthesis translate_off
-reg dummy_d_35;
+reg dummy_d_36;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_slowchain_error <= 15'sd0;
@@ -4412,7 +4464,7 @@ always @(*) begin
 		linienmodule_slowchain_error <= 1'd0;
 	end
 // synthesis translate_off
-	dummy_d_35 <= dummy_s;
+	dummy_d_36 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_slowchain_kp_signed = linienmodule_slowchain_kp_storage;
@@ -4426,7 +4478,7 @@ assign linienmodule_slowchain_kd_signed = linienmodule_slowchain_kd_storage;
 assign linienmodule_slowchain_kd_mult = (linienmodule_slowchain_error * linienmodule_slowchain_kd_signed);
 
 // synthesis translate_off
-reg dummy_d_36;
+reg dummy_d_37;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_slowchain_pid_out <= 14'sd0;
@@ -4440,13 +4492,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_36 <= dummy_s;
+	dummy_d_37 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_slowchain_limit_x = linienmodule_slowchain_x;
 
 // synthesis translate_off
-reg dummy_d_37;
+reg dummy_d_38;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_slowchain_limit_y <= 19'sd0;
@@ -4464,13 +4516,15 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-	dummy_d_37 <= dummy_s;
+	dummy_d_38 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_scopegen_dac_a = (linienmodule_scopegen_asg_a <<< 4'd11);
 assign linienmodule_scopegen_dac_b = (linienmodule_scopegen_asg_b <<< 4'd11);
 assign linienmodule_sig_status7 = linienmodule_scopegen_dac_a;
 assign linienmodule_sig_status8 = linienmodule_scopegen_dac_b;
+assign linienmodule_temp_control_sample_data_status = linienmodule_temp_control_sample;
+assign linienmodule_temp_control_sample_count_status = linienmodule_temp_control_count;
 assign linienmodule_csrbank0_sel = (linienmodule_interface0_bank_bus_adr[13:9] == 5'd28);
 assign linienmodule_csrbank0_dna7_r = linienmodule_interface0_bank_bus_dat_w[7:0];
 assign linienmodule_csrbank0_dna7_re = ((linienmodule_csrbank0_sel & linienmodule_interface0_bank_bus_we) & (linienmodule_interface0_bank_bus_adr[2:0] == 1'd0));
@@ -6319,43 +6373,63 @@ assign linienmodule_csrbank7_out_min3_w = linienmodule_min_status6[24];
 assign linienmodule_csrbank7_out_min2_w = linienmodule_min_status6[23:16];
 assign linienmodule_csrbank7_out_min1_w = linienmodule_min_status6[15:8];
 assign linienmodule_csrbank7_out_min0_w = linienmodule_min_status6[7:0];
-assign linienmodule_csrbank8_sel = (linienmodule_interface8_bank_bus_adr[13:9] == 5'd29);
-assign linienmodule_csrbank8_temp1_r = linienmodule_interface8_bank_bus_dat_w[3:0];
-assign linienmodule_csrbank8_temp1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 1'd0));
-assign linienmodule_csrbank8_temp0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
-assign linienmodule_csrbank8_temp0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 1'd1));
-assign linienmodule_csrbank8_v1_r = linienmodule_interface8_bank_bus_dat_w[3:0];
-assign linienmodule_csrbank8_v1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 2'd2));
-assign linienmodule_csrbank8_v0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
-assign linienmodule_csrbank8_v0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 2'd3));
-assign linienmodule_csrbank8_a1_r = linienmodule_interface8_bank_bus_dat_w[3:0];
-assign linienmodule_csrbank8_a1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 3'd4));
-assign linienmodule_csrbank8_a0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
-assign linienmodule_csrbank8_a0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 3'd5));
-assign linienmodule_csrbank8_b1_r = linienmodule_interface8_bank_bus_dat_w[3:0];
-assign linienmodule_csrbank8_b1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 3'd6));
-assign linienmodule_csrbank8_b0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
-assign linienmodule_csrbank8_b0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 3'd7));
-assign linienmodule_csrbank8_c1_r = linienmodule_interface8_bank_bus_dat_w[3:0];
-assign linienmodule_csrbank8_c1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 4'd8));
-assign linienmodule_csrbank8_c0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
-assign linienmodule_csrbank8_c0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 4'd9));
-assign linienmodule_csrbank8_d1_r = linienmodule_interface8_bank_bus_dat_w[3:0];
-assign linienmodule_csrbank8_d1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 4'd10));
-assign linienmodule_csrbank8_d0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
-assign linienmodule_csrbank8_d0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[3:0] == 4'd11));
-assign linienmodule_csrbank8_temp1_w = linienmodule_xadc_temp_status[11:8];
-assign linienmodule_csrbank8_temp0_w = linienmodule_xadc_temp_status[7:0];
-assign linienmodule_csrbank8_v1_w = linienmodule_xadc_v_status[11:8];
-assign linienmodule_csrbank8_v0_w = linienmodule_xadc_v_status[7:0];
-assign linienmodule_csrbank8_a1_w = linienmodule_xadc_a_status[11:8];
-assign linienmodule_csrbank8_a0_w = linienmodule_xadc_a_status[7:0];
-assign linienmodule_csrbank8_b1_w = linienmodule_xadc_b_status[11:8];
-assign linienmodule_csrbank8_b0_w = linienmodule_xadc_b_status[7:0];
-assign linienmodule_csrbank8_c1_w = linienmodule_xadc_c_status[11:8];
-assign linienmodule_csrbank8_c0_w = linienmodule_xadc_c_status[7:0];
-assign linienmodule_csrbank8_d1_w = linienmodule_xadc_d_status[11:8];
-assign linienmodule_csrbank8_d0_w = linienmodule_xadc_d_status[7:0];
+assign linienmodule_csrbank8_sel = (linienmodule_interface8_bank_bus_adr[13:9] == 4'd10);
+assign linienmodule_csrbank8_duty1_r = linienmodule_interface8_bank_bus_dat_w[3:0];
+assign linienmodule_csrbank8_duty1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[2:0] == 1'd0));
+assign linienmodule_csrbank8_duty0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank8_duty0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[2:0] == 1'd1));
+assign linienmodule_csrbank8_sample_data2_r = linienmodule_interface8_bank_bus_dat_w[1:0];
+assign linienmodule_csrbank8_sample_data2_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[2:0] == 2'd2));
+assign linienmodule_csrbank8_sample_data1_r = linienmodule_interface8_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank8_sample_data1_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[2:0] == 2'd3));
+assign linienmodule_csrbank8_sample_data0_r = linienmodule_interface8_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank8_sample_data0_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[2:0] == 3'd4));
+assign linienmodule_csrbank8_sample_count_r = linienmodule_interface8_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank8_sample_count_re = ((linienmodule_csrbank8_sel & linienmodule_interface8_bank_bus_we) & (linienmodule_interface8_bank_bus_adr[2:0] == 3'd5));
+assign linienmodule_temp_control_storage = linienmodule_temp_control_storage_full[11:0];
+assign linienmodule_csrbank8_duty1_w = linienmodule_temp_control_storage_full[11:8];
+assign linienmodule_csrbank8_duty0_w = linienmodule_temp_control_storage_full[7:0];
+assign linienmodule_csrbank8_sample_data2_w = linienmodule_temp_control_sample_data_status[17:16];
+assign linienmodule_csrbank8_sample_data1_w = linienmodule_temp_control_sample_data_status[15:8];
+assign linienmodule_csrbank8_sample_data0_w = linienmodule_temp_control_sample_data_status[7:0];
+assign linienmodule_csrbank8_sample_count_w = linienmodule_temp_control_sample_count_status[7:0];
+assign linienmodule_csrbank9_sel = (linienmodule_interface9_bank_bus_adr[13:9] == 5'd29);
+assign linienmodule_csrbank9_temp1_r = linienmodule_interface9_bank_bus_dat_w[3:0];
+assign linienmodule_csrbank9_temp1_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 1'd0));
+assign linienmodule_csrbank9_temp0_r = linienmodule_interface9_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank9_temp0_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 1'd1));
+assign linienmodule_csrbank9_v1_r = linienmodule_interface9_bank_bus_dat_w[3:0];
+assign linienmodule_csrbank9_v1_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 2'd2));
+assign linienmodule_csrbank9_v0_r = linienmodule_interface9_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank9_v0_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 2'd3));
+assign linienmodule_csrbank9_a1_r = linienmodule_interface9_bank_bus_dat_w[3:0];
+assign linienmodule_csrbank9_a1_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 3'd4));
+assign linienmodule_csrbank9_a0_r = linienmodule_interface9_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank9_a0_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 3'd5));
+assign linienmodule_csrbank9_b1_r = linienmodule_interface9_bank_bus_dat_w[3:0];
+assign linienmodule_csrbank9_b1_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 3'd6));
+assign linienmodule_csrbank9_b0_r = linienmodule_interface9_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank9_b0_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 3'd7));
+assign linienmodule_csrbank9_c1_r = linienmodule_interface9_bank_bus_dat_w[3:0];
+assign linienmodule_csrbank9_c1_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 4'd8));
+assign linienmodule_csrbank9_c0_r = linienmodule_interface9_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank9_c0_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 4'd9));
+assign linienmodule_csrbank9_d1_r = linienmodule_interface9_bank_bus_dat_w[3:0];
+assign linienmodule_csrbank9_d1_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 4'd10));
+assign linienmodule_csrbank9_d0_r = linienmodule_interface9_bank_bus_dat_w[7:0];
+assign linienmodule_csrbank9_d0_re = ((linienmodule_csrbank9_sel & linienmodule_interface9_bank_bus_we) & (linienmodule_interface9_bank_bus_adr[3:0] == 4'd11));
+assign linienmodule_csrbank9_temp1_w = linienmodule_xadc_temp_status[11:8];
+assign linienmodule_csrbank9_temp0_w = linienmodule_xadc_temp_status[7:0];
+assign linienmodule_csrbank9_v1_w = linienmodule_xadc_v_status[11:8];
+assign linienmodule_csrbank9_v0_w = linienmodule_xadc_v_status[7:0];
+assign linienmodule_csrbank9_a1_w = linienmodule_xadc_a_status[11:8];
+assign linienmodule_csrbank9_a0_w = linienmodule_xadc_a_status[7:0];
+assign linienmodule_csrbank9_b1_w = linienmodule_xadc_b_status[11:8];
+assign linienmodule_csrbank9_b0_w = linienmodule_xadc_b_status[7:0];
+assign linienmodule_csrbank9_c1_w = linienmodule_xadc_c_status[11:8];
+assign linienmodule_csrbank9_c0_w = linienmodule_xadc_c_status[7:0];
+assign linienmodule_csrbank9_d1_w = linienmodule_xadc_d_status[11:8];
+assign linienmodule_csrbank9_d0_w = linienmodule_xadc_d_status[7:0];
 assign linienmodule_interface0_bank_bus_adr = linienmodule_csr_adr;
 assign linienmodule_interface1_bank_bus_adr = linienmodule_csr_adr;
 assign linienmodule_interface2_bank_bus_adr = linienmodule_csr_adr;
@@ -6365,6 +6439,7 @@ assign linienmodule_interface5_bank_bus_adr = linienmodule_csr_adr;
 assign linienmodule_interface6_bank_bus_adr = linienmodule_csr_adr;
 assign linienmodule_interface7_bank_bus_adr = linienmodule_csr_adr;
 assign linienmodule_interface8_bank_bus_adr = linienmodule_csr_adr;
+assign linienmodule_interface9_bank_bus_adr = linienmodule_csr_adr;
 assign linienmodule_interface0_bank_bus_we = linienmodule_csr_we;
 assign linienmodule_interface1_bank_bus_we = linienmodule_csr_we;
 assign linienmodule_interface2_bank_bus_we = linienmodule_csr_we;
@@ -6374,6 +6449,7 @@ assign linienmodule_interface5_bank_bus_we = linienmodule_csr_we;
 assign linienmodule_interface6_bank_bus_we = linienmodule_csr_we;
 assign linienmodule_interface7_bank_bus_we = linienmodule_csr_we;
 assign linienmodule_interface8_bank_bus_we = linienmodule_csr_we;
+assign linienmodule_interface9_bank_bus_we = linienmodule_csr_we;
 assign linienmodule_interface0_bank_bus_dat_w = linienmodule_csr_dat_w;
 assign linienmodule_interface1_bank_bus_dat_w = linienmodule_csr_dat_w;
 assign linienmodule_interface2_bank_bus_dat_w = linienmodule_csr_dat_w;
@@ -6383,7 +6459,8 @@ assign linienmodule_interface5_bank_bus_dat_w = linienmodule_csr_dat_w;
 assign linienmodule_interface6_bank_bus_dat_w = linienmodule_csr_dat_w;
 assign linienmodule_interface7_bank_bus_dat_w = linienmodule_csr_dat_w;
 assign linienmodule_interface8_bank_bus_dat_w = linienmodule_csr_dat_w;
-assign linienmodule_csr_dat_r = ((((((((linienmodule_interface0_bank_bus_dat_r | linienmodule_interface1_bank_bus_dat_r) | linienmodule_interface2_bank_bus_dat_r) | linienmodule_interface3_bank_bus_dat_r) | linienmodule_interface4_bank_bus_dat_r) | linienmodule_interface5_bank_bus_dat_r) | linienmodule_interface6_bank_bus_dat_r) | linienmodule_interface7_bank_bus_dat_r) | linienmodule_interface8_bank_bus_dat_r);
+assign linienmodule_interface9_bank_bus_dat_w = linienmodule_csr_dat_w;
+assign linienmodule_csr_dat_r = (((((((((linienmodule_interface0_bank_bus_dat_r | linienmodule_interface1_bank_bus_dat_r) | linienmodule_interface2_bank_bus_dat_r) | linienmodule_interface3_bank_bus_dat_r) | linienmodule_interface4_bank_bus_dat_r) | linienmodule_interface5_bank_bus_dat_r) | linienmodule_interface6_bank_bus_dat_r) | linienmodule_interface7_bank_bus_dat_r) | linienmodule_interface8_bank_bus_dat_r) | linienmodule_interface9_bank_bus_dat_r);
 assign linienmodule_target_clk = sys_clk;
 assign linienmodule_target_rstn = (~sys_rst);
 assign dummyhk_sel = (dummyhk_bank_bus_adr[13:9] == 1'd0);
@@ -6434,7 +6511,7 @@ assign slice_proxy2 = {xadc_n[4], {6{1'd0}}, xadc_n[3:2], {6{1'd0}}, xadc_n[1:0]
 assign slice_proxy3 = {xadc_p[4], {6{1'd0}}, xadc_p[3:2], {6{1'd0}}, xadc_p[1:0]};
 
 // synthesis translate_off
-reg dummy_d_38;
+reg dummy_d_39;
 // synthesis translate_on
 always @(*) begin
 	comb_self0 <= 14'sd0;
@@ -6447,12 +6524,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_38 <= dummy_s;
+	dummy_d_39 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_39;
+reg dummy_d_40;
 // synthesis translate_on
 always @(*) begin
 	comb_self1 <= 25'sd0;
@@ -6468,12 +6545,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_39 <= dummy_s;
+	dummy_d_40 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_40;
+reg dummy_d_41;
 // synthesis translate_on
 always @(*) begin
 	comb_self2 <= 25'sd0;
@@ -6489,12 +6566,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_40 <= dummy_s;
+	dummy_d_41 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_41;
+reg dummy_d_42;
 // synthesis translate_on
 always @(*) begin
 	comb_self3 <= 25'sd0;
@@ -6510,12 +6587,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_41 <= dummy_s;
+	dummy_d_42 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_42;
+reg dummy_d_43;
 // synthesis translate_on
 always @(*) begin
 	comb_self4 <= 25'sd0;
@@ -6531,12 +6608,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_42 <= dummy_s;
+	dummy_d_43 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_43;
+reg dummy_d_44;
 // synthesis translate_on
 always @(*) begin
 	sync_self0 <= 25'sd0;
@@ -6582,12 +6659,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_43 <= dummy_s;
+	dummy_d_44 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_44;
+reg dummy_d_45;
 // synthesis translate_on
 always @(*) begin
 	sync_self1 <= 25'sd0;
@@ -6633,12 +6710,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_44 <= dummy_s;
+	dummy_d_45 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_45;
+reg dummy_d_46;
 // synthesis translate_on
 always @(*) begin
 	sync_self2 <= 25'sd0;
@@ -6684,12 +6761,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_45 <= dummy_s;
+	dummy_d_46 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_46;
+reg dummy_d_47;
 // synthesis translate_on
 always @(*) begin
 	sync_self3 <= 25'sd0;
@@ -6735,12 +6812,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_46 <= dummy_s;
+	dummy_d_47 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_47;
+reg dummy_d_48;
 // synthesis translate_on
 always @(*) begin
 	sync_self4 <= 25'sd0;
@@ -6786,12 +6863,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_47 <= dummy_s;
+	dummy_d_48 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_48;
+reg dummy_d_49;
 // synthesis translate_on
 always @(*) begin
 	sync_self5 <= 25'sd0;
@@ -6837,12 +6914,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_48 <= dummy_s;
+	dummy_d_49 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_49;
+reg dummy_d_50;
 // synthesis translate_on
 always @(*) begin
 	sync_self6 <= 25'sd0;
@@ -6888,12 +6965,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_49 <= dummy_s;
+	dummy_d_50 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_50;
+reg dummy_d_51;
 // synthesis translate_on
 always @(*) begin
 	sync_self7 <= 25'sd0;
@@ -6939,12 +7016,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_50 <= dummy_s;
+	dummy_d_51 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_51;
+reg dummy_d_52;
 // synthesis translate_on
 always @(*) begin
 	sync_self8 <= 1'd0;
@@ -6999,12 +7076,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_51 <= dummy_s;
+	dummy_d_52 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_52;
+reg dummy_d_53;
 // synthesis translate_on
 always @(*) begin
 	self <= 1'd0;
@@ -7017,7 +7094,7 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_52 <= dummy_s;
+	dummy_d_53 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_gpio_n_i = xilinxmultiregimpl0_regs1;
@@ -7073,7 +7150,7 @@ always @(posedge decimated_clock_clk) begin
 end
 
 always @(posedge sys_clk) begin
-	linienmodule_slow_out_shifted <= ((linienmodule_slowchain_limitcsr_y <<< 1'd1) + $signed({1'd0, 15'd16384}));
+	linienmodule_slow_out_shifted <= ((linienmodule_pzt_control <<< 1'd1) + $signed({1'd0, 15'd16384}));
 	linienmodule_limit_fast1_x <= linienmodule;
 	linienmodule_limit_fast2_x <= linienmodule_fast_outs;
 	linienmodule_chain_a_offset_signed <= linienmodule_chain_a_offset_storage;
@@ -10816,42 +10893,72 @@ always @(posedge sys_clk) begin
 	linienmodule_slowchain_max_re <= linienmodule_csrbank7_limit_max0_re;
 	linienmodule_interface8_bank_bus_dat_r <= 1'd0;
 	if (linienmodule_csrbank8_sel) begin
-		case (linienmodule_interface8_bank_bus_adr[3:0])
+		case (linienmodule_interface8_bank_bus_adr[2:0])
 			1'd0: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_temp1_w;
+				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_duty1_w;
 			end
 			1'd1: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_temp0_w;
+				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_duty0_w;
 			end
 			2'd2: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_v1_w;
+				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_sample_data2_w;
 			end
 			2'd3: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_v0_w;
+				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_sample_data1_w;
 			end
 			3'd4: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_a1_w;
+				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_sample_data0_w;
 			end
 			3'd5: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_a0_w;
+				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_sample_count_w;
+			end
+		endcase
+	end
+	if (linienmodule_csrbank8_duty1_re) begin
+		linienmodule_temp_control_storage_full[11:8] <= linienmodule_csrbank8_duty1_r;
+	end
+	if (linienmodule_csrbank8_duty0_re) begin
+		linienmodule_temp_control_storage_full[7:0] <= linienmodule_csrbank8_duty0_r;
+	end
+	linienmodule_temp_control_re <= linienmodule_csrbank8_duty0_re;
+	linienmodule_interface9_bank_bus_dat_r <= 1'd0;
+	if (linienmodule_csrbank9_sel) begin
+		case (linienmodule_interface9_bank_bus_adr[3:0])
+			1'd0: begin
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_temp1_w;
+			end
+			1'd1: begin
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_temp0_w;
+			end
+			2'd2: begin
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_v1_w;
+			end
+			2'd3: begin
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_v0_w;
+			end
+			3'd4: begin
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_a1_w;
+			end
+			3'd5: begin
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_a0_w;
 			end
 			3'd6: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_b1_w;
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_b1_w;
 			end
 			3'd7: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_b0_w;
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_b0_w;
 			end
 			4'd8: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_c1_w;
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_c1_w;
 			end
 			4'd9: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_c0_w;
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_c0_w;
 			end
 			4'd10: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_d1_w;
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_d1_w;
 			end
 			4'd11: begin
-				linienmodule_interface8_bank_bus_dat_r <= linienmodule_csrbank8_d0_w;
+				linienmodule_interface9_bank_bus_dat_r <= linienmodule_csrbank9_d0_w;
 			end
 		endcase
 	end
@@ -11502,6 +11609,8 @@ always @(posedge sys_clk) begin
 		linienmodule_scopegen_adc_a_q <= 25'sd0;
 		linienmodule_scopegen_adc_b <= 25'sd0;
 		linienmodule_scopegen_adc_b_q <= 25'sd0;
+		linienmodule_temp_control_storage_full <= 12'd0;
+		linienmodule_temp_control_re <= 1'd0;
 		linienmodule_max_status0 <= 25'd0;
 		linienmodule_min_status0 <= 25'd0;
 		linienmodule_max_status1 <= 25'd0;
@@ -11566,6 +11675,7 @@ always @(posedge sys_clk) begin
 		linienmodule_interface6_bank_bus_dat_r <= 8'd0;
 		linienmodule_interface7_bank_bus_dat_r <= 8'd0;
 		linienmodule_interface8_bank_bus_dat_r <= 8'd0;
+		linienmodule_interface9_bank_bus_dat_r <= 8'd0;
 		linienmodule_csr_adr <= 14'd0;
 		linienmodule_csr_we <= 1'd0;
 		linienmodule_csr_dat_w <= 8'd0;
@@ -12160,6 +12270,26 @@ red_pitaya_scope red_pitaya_scope(
 	.sys_err_o(linienmodule_scopegen_scope_sys_err),
 	.sys_rdata_o(linienmodule_scopegen_scope_sys_rdata),
 	.written_data(linienmodule_scopegen_scope_written_data)
+);
+
+temp_pwm temp_pwm(
+	.clk_i(sys_clk),
+	.duty_i(linienmodule_temp_control_storage),
+	.rst_i(sys_rst),
+	.pwm_o(linienmodule_temp_control_pwm_o)
+);
+
+temp_sampler #(
+	.DELAY_CLKS(18'd250000),
+	.FRAC_BITS(3'd4),
+	.WINDOW_LOG2(5'd16)
+) temp_sampler (
+	.clk_i(sys_clk),
+	.control_i(linienmodule_temp_control_control_in),
+	.pid_active_i(linienmodule_temp_control_pid_active),
+	.rst_i(sys_rst),
+	.count_o(linienmodule_temp_control_count),
+	.sample_o(linienmodule_temp_control_sample)
 );
 
 bus_clk_bridge bus_clk_bridge(

@@ -168,7 +168,10 @@ class Platform(XilinxPlatform):
     default_clk_period = 8.0
 
     def __init__(self):
-        XilinxPlatform.__init__(self, "xc7z010-clg400-1", _io, toolchain="vivado")
+        # Red Pitaya STEMlab 125-14 Z7020. Same clg400 package as the 7010
+        # variant, so the _io constraints above are unchanged; the 7020 just has
+        # a substantially larger resource pool.
+        XilinxPlatform.__init__(self, "xc7z020-clg400-1", _io, toolchain="vivado")
         self.toolchain.pre_synthesis_commands.append(
             "read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc",  # noqa: E501
         )
