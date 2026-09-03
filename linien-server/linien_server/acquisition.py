@@ -112,15 +112,16 @@ class AcquisitionService(Service):
             if seq_active:
                 self._sequence_was_active = True
 
-            if self._sequence_was_active and not seq_active:
-                self._sequence_was_active = False
-                logger.debug("sequence finished, attempting relock")
-                success = self.sequence_relock.handle_sequence_done()
-                if not success:
-                    logger.error("sequence relock failed: PID did not recover lock")
-                # skip next data — PID is settling, don't send garbage to GUI
-                skip_next_data_event.set()
-                continue
+                # NOTE: removed for testing
+            # if self._sequence_was_active and not seq_active:
+            #    self._sequence_was_active = False
+            #    logger.debug("sequence finished, attempting relock")
+            #    # success = self.sequence_relock.handle_sequence_done()
+            #    if not success:
+            #        logger.error("sequence relock failed: PID did not recover lock")
+            #    # skip next data — PID is settling, don't send garbage to GUI
+            #    skip_next_data_event.set()
+            #    continue
 
             if self.locked and not self.confirmed_that_in_lock:
                 self.confirmed_that_in_lock = bool(
