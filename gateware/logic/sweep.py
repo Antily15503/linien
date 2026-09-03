@@ -43,7 +43,7 @@ class Sweep(Module):
 
         self.comb += [
             If(
-                (self.run),
+                (self.run & ~self.sequence_stop),
                 If(self.turn & ~turning, self.up.eq(~dir)).Else(self.up.eq(dir)),
             ).Else(self.up.eq(1))
         ]
@@ -54,7 +54,7 @@ class Sweep(Module):
             turning.eq(self.turn),
             If(self.sequence_stop, dir.eq(1)).Else(dir.eq(self.up)),
             If(self.sequence_stop, (self.y.eq(self.min)))
-            .Elif((~self.run), self.y.eq(self.min))
+            .Elif((~self.run), self.y.eq(0))
             .Elif(
                 ~self.hold,
                 If(
