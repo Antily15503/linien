@@ -222,7 +222,15 @@ module sequence_top #(
       .i_en_dac_b(en_dac_b)
   );
 
-  assign o_dac_drive = o_dac_drive_raw + sinusoid_v_out;
+
+  //overfow in 2's complement occurs when 2 positives yield a negative, or
+  //2 negatives yield a positive.
+  logic [13:0] o_dac_drive_sat;
+  assign o_dac_drive_sat = o_dac_drive_raw + sinusoid_v_out;
+
+  assign o_dac_drive=((o_dac_drive_raw[13]==sinusoid_v_out[13]) && (o_dac_drive_sat[13]!=o_dac_drive_raw[13]))?(o_dac_drive_raw):(o_dac_drive_raw+sinusoid_v_out);
+
+
 
 
   // AWG Block (type 5)

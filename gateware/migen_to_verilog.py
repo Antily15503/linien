@@ -15,6 +15,23 @@ MODULE_REGISTRY = {
         "SweepCSR",
         {"width": 14, "step_width": 30, "step_shift": 24},
     ),
+    "dummy_SweepCSR": (
+        "test.sweep_tb.dummy_SweepCSR",
+        "dummy_SweepCSR",
+        {"width": 14, "step_width": 30, "step_shift": 24},
+        {
+            "x",
+            "y",
+            "hold",
+            "clear",
+            "step",
+            "min",
+            "max",
+            "run",
+            "pause",
+            "sequence_stop",
+        },
+    ),
 }
 
 if __name__ == "__main__":
@@ -33,6 +50,6 @@ if __name__ == "__main__":
     io_list = {getattr(instance, io_name) for io_name in ios}
 
     # convert(instance).write(f"{name}.sv")
-    verilog.convert(instance, ios=io_list, name="sweep").write(f"{name}.sv")
+    verilog.convert(instance, ios=io_list, name=name).write(f"{name}.sv")
 
     pass

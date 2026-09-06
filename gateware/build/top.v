@@ -7208,12 +7208,12 @@ always @(posedge sys_clk) begin
 	linienmodule_sweep_sweep_trigger <= (linienmodule_sweep_sweep_turn & linienmodule_sweep_sweep_up);
 	linienmodule_sweep_sweep_turning <= linienmodule_sweep_sweep_turn;
 	if (linienmodule_sweep_sweep_sequence_stop) begin
-		linienmodule_sweep_sweep_dir <= 1'd1;
+		linienmodule_sweep_sweep_dir <= 1'd0;
 	end else begin
 		linienmodule_sweep_sweep_dir <= linienmodule_sweep_sweep_up;
 	end
 	if (linienmodule_sweep_sweep_sequence_stop) begin
-		linienmodule_sweep_sweep_y <= linienmodule_sweep_sweep_min;
+		linienmodule_sweep_sweep_y <= linienmodule_sweep_sweep_max;
 	end else begin
 		if ((~linienmodule_sweep_sweep_run)) begin
 			linienmodule_sweep_sweep_y <= 1'd0;

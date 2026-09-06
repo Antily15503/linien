@@ -72,9 +72,9 @@ client.connect(autostart_server=True, use_parameter_cache=False)
 ############## configure the carrier wave generation ###################
 client.parameters.sinusoid_params.value = [
     volts_to_bits(0),
-    volts_to_bits(2),
+    volts_to_bits(0.10),
     volts_to_bits(-2),
-    volts_to_bits(0.5),
+    volts_to_bits(2),
     freq_to_phase(6 * 10**2, CLOCK_FREQ),
 ]
 client.control.write_sinusoid_config()
@@ -91,36 +91,33 @@ client.parameters.sequence_blocks.value = [
     # {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(3)]},
     # {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
     {
-        "en_sin": 0,
+        "en_sin": 1,
         "type": 0,
         "params": [volts_to_bits(0.2), ms_to_clock(10)],
     },
     {
-        "en_sin": 0,
+        "en_sin": 1,
         "type": 2,
         "params": [volts_to_bits(0), ms_to_clock(10)],
     },
     {
-        "en_sin": 0,
+        "en_sin": 1,
         "type": 0,
         "params": [volts_to_bits(0.7), ms_to_clock(10)],
     },
     {
-        "en_sin": 0,
+        "en_sin": 1,
         "type": 2,
         "params": [volts_to_bits(1.0), ms_to_clock(20)],
     },
-    {"en_sin": 0, "type": 0, "params": [volts_to_bits(-0.5), ms_to_clock(20)]},
-    {"en_sin": 0, "type": 2, "params": [volts_to_bits(0), ms_to_clock(20)]},
+    {"en_sin": 1, "type": 0, "params": [volts_to_bits(-0.5), ms_to_clock(20)]},
+    {"en_sin": 1, "type": 2, "params": [volts_to_bits(0), ms_to_clock(20)]},
 ]
 
 # monitor values
 control_channel = 0
 sweep_channel = 0
 
-while True:
-    control_channel
-    pass
 client.control.write_sequence_config()
 print("==============================")
 print(" MOT Locking Sequence Written ")
