@@ -371,7 +371,7 @@ class LinienModule(Module, AutoCSR):
             If(
                 self.logic.autolock.lock_running.status,
                 self.i_init_v_mux_pad.eq(
-                    pid_out + self.logic.out_offset_signed + self.logic.sweep.sweep.y
+                    pid_out + self.logic.out_offset_signed + self.logic.sweep.y
                 ),
             )
             .Elif(

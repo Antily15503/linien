@@ -3449,7 +3449,7 @@ reg dummy_d_3;
 always @(*) begin
 	linienmodule_i_init_v_mux_pad <= 16'sd0;
 	if (linienmodule_autolock_status) begin
-		linienmodule_i_init_v_mux_pad <= ((linienmodule_pid_out + linienmodule_out_offset_signed) + linienmodule_sweep_sweep_y);
+		linienmodule_i_init_v_mux_pad <= ((linienmodule_pid_out + linienmodule_out_offset_signed) + linienmodule_sweep_y);
 	end else begin
 		if (linienmodule_sweep_sweep_run) begin
 			linienmodule_i_init_v_mux_pad <= linienmodule_out_offset_signed;

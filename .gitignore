@@ -1,5 +1,6 @@
 *vcd
 *cache*
+.last_deploy
 
 # --- Python ---
 .venv/

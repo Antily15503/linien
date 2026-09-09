@@ -14,6 +14,7 @@ fi
 PITAYA="root@rp-f0edf0.local"
 REMOTE="/usr/local/lib/python3.10/dist-packages/linien_server/"
 REMOTE_COMMON="/usr/local/lib/python3.10/dist-packages/linien_common/"
+DEPLOY_MARKER="$(dirname "$0")/.last_deploy"
 
 echo "deploying on to $PITAYA"
 
@@ -26,16 +27,32 @@ echo "Stopping server..."
 ssh $PITAYA "linien-server stop" || true
 
 echo "Copying Files ..."
-scp linien-server/linien_server/gateware.bin $PITAYA:$REMOTE/
-scp linien-server/linien_server/autolock/sequence_relock.py $PITAYA:$REMOTE/autolock/
-scp linien-server/linien_server/acquisition.py $PITAYA:$REMOTE/
-scp linien-server/linien_server/csrmap.py $PITAYA:$REMOTE/
-scp linien-server/linien_server/server.py $PITAYA:$REMOTE/
-scp linien-server/linien_server/registers.py $PITAYA:$REMOTE/
-scp linien-server/linien_server/parameters.py $PITAYA:$REMOTE/
-scp linien-common/linien_common/communication.py $PITAYA:$REMOTE_COMMON/
+
+FILES_TO_SYNC=(
+  "linien-server/linien_server/gateware.bin:$REMOTE/"
+  "linien-server/linien_server/autolock/sequence_relock.py:$REMOTE/autolock/"
+  "linien-server/linien_server/acquisition.py:$REMOTE/"
+  "linien-server/linien_server/csrmap.py:$REMOTE/"
+  "linien-server/linien_server/server.py:$REMOTE/"
+  "linien-server/linien_server/registers.py:$REMOTE/"
+  "linien-server/linien_server/parameters.py:$REMOTE/"
+  "linien-common/linien_common/communication.py:$REMOTE_COMMON/"
+)
+
+for entry in "${FILES_TO_SYNC[@]}"; do
+  local_path="${entry%%:*}"
+  remote_dir="${entry#*:}"
+  if [ ! -f "$DEPLOY_MARKER" ] || [ "$local_path" -nt "$DEPLOY_MARKER" ]; then
+    echo "  copying $local_path"
+    scp "$local_path" "$PITAYA:$remote_dir"
+  else
+    echo "  skipping $local_path (unchanged)"
+  fi
+done
 
 echo "starting server"
 ssh $PITAYA "linien-server start"
+
+touch "$DEPLOY_MARKER"
 
 echo "done"
