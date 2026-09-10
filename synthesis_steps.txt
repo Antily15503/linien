@@ -1,0 +1,10 @@
+change the target board in./gatewate/hw_platform
+
+below is the sequece to run in vivado TCL and git bash terminal.
+
+Then rebuild — all four steps
+python -m gateware.fpga_image_helper              (conda PowerShell ((linien)) — needs migen, misoc, linien_common)
+cd C:\UW-Madison\RA\linien\gateware\build 
+vivado -mode batch -source top.tcl                (vivado TCL)
+python gateware/bit2bin.py -f gateware/build/top.bit linien-server/linien_server/gateware.bin (git bash or PowerShell)
+bash deploy.sh (git bash)

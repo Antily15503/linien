@@ -1,4 +1,4 @@
-create_project -force -name top -part xc7z010-clg400-1
+create_project -force -name top -part xc7z020-clg400-1
 set_property XPM_LIBRARIES {XPM_CDC XPM_MEMORY} [current_project]
 add_files {imports\UW-Madison\RA\linien\gateware\verilog\axi_slave.v}
 set_property library work [get_files {imports\UW-Madison\RA\linien\gateware\verilog\axi_slave.v}]
@@ -39,7 +39,7 @@ set_property library work [get_files {top.v}]
 read_xdc top.xdc
 read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc
 add_files -norecurse ../../src/sin_lut.mem
-synth_design -top top -part xc7z010-clg400-1
+synth_design -top top -part xc7z020-clg400-1
 opt_design -directive ExploreWithRemap
 report_timing_summary -file top_timing_synth.rpt
 report_utilization -hierarchical -file top_utilization_hierarchical_synth.rpt

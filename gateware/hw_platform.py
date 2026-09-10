@@ -172,7 +172,7 @@ class Platform(XilinxPlatform):
         # clg400 package, so switching to "xc7z020-clg400-1" needs no _io
         # changes, only a rebuild. The 7010 is by far the tighter fit: the
         # design sits near 100% slice and DSP occupancy on it.
-        XilinxPlatform.__init__(self, "xc7z010-clg400-1", _io, toolchain="vivado")
+        XilinxPlatform.__init__(self, "xc7z020-clg400-1", _io, toolchain="vivado")
         self.toolchain.pre_synthesis_commands.append(
             "read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc",  # noqa: E501
         )
