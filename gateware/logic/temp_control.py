@@ -36,7 +36,30 @@ class TempControl(Module, AutoCSR):
         self.pid_active = Signal()               # linien is in the PID state
         self.pwm_o = Signal()                    # to the heater MOSFET gate
 
+        # Duty saturation indicators, for the top level to drive spare LEDs.
+        # Solid at the threshold, blinking at the rail, so "no authority left"
+        # reads differently from "nearly none" across the room.
+        #   led_o[0]  high: solid from 90%, blinking at full scale
+        #   led_o[1]  low:  solid below 5%, blinking at zero
+        self.led_o = Signal(2)
+
         ###
+
+        DUTY_HIGH = 3686  # 90% of the 4096-clock period
+        DUTY_LOW = 204    # 5%
+        DUTY_MAX = 4095   # the largest value 12 bits can express
+
+        # ~3.7 Hz: bit 24 toggles every 2**24 clocks = 134 ms at 125 MHz.
+        blink_cnt = Signal(25)
+        blink = Signal()
+        self.sync += blink_cnt.eq(blink_cnt + 1)
+        self.comb += blink.eq(blink_cnt[24])
+
+        duty = self.duty.storage
+        self.comb += [
+            self.led_o[0].eq((duty >= DUTY_HIGH) & ((duty != DUTY_MAX) | blink)),
+            self.led_o[1].eq((duty <= DUTY_LOW) & ((duty != 0) | blink)),
+        ]
 
         sample = Signal((18, True))
         count = Signal(8)
@@ -48,7 +71,7 @@ class TempControl(Module, AutoCSR):
             i_duty_i=self.duty.storage,
             o_pwm_o=self.pwm_o,
         )
-
+ 
         self.specials += Instance(
             "temp_sampler",
             p_DELAY_CLKS=250000,  # 2 ms at 125 MHz

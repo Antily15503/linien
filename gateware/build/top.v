@@ -1388,6 +1388,9 @@ wire [7:0] linienmodule_temp_control_sample_count_status;
 wire signed [13:0] linienmodule_temp_control_control_in;
 wire linienmodule_temp_control_pid_active;
 wire linienmodule_temp_control_pwm_o;
+reg [1:0] linienmodule_temp_control_led_o;
+reg [24:0] linienmodule_temp_control_blink_cnt = 25'd0;
+wire linienmodule_temp_control_blink;
 wire signed [17:0] linienmodule_temp_control_sample;
 wire [7:0] linienmodule_temp_control_count;
 wire [24:0] linienmodule_sig_status0;
@@ -3401,25 +3404,22 @@ assign pwm = linienmodule_deltasigma0_out;
 assign pwm_1 = linienmodule_deltasigma1_out;
 assign pwm_2 = linienmodule_deltasigma2_out;
 assign pwm_3 = linienmodule_deltasigma3_out;
+assign {user_led_7, user_led_6, user_led_5, user_led_4, user_led_3, user_led_2, user_led_1, user_led} = linienmodule_led_val;
 
 // synthesis translate_off
 reg dummy_d;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_led_val <= 8'd0;
-	linienmodule_led_val[0] <= linienmodule_sequenceexecutor_arm_storage[0];
-	linienmodule_led_val[2] <= linienmodule_sequenceexecutor_arm_storage[1];
-	linienmodule_led_val[4] <= linienmodule_sequenceexecutor_arm_storage[2];
-	linienmodule_led_val[6] <= linienmodule_sequenceexecutor_arm_storage[3];
-	linienmodule_led_val[1] <= linienmodule_sequenceexecutor_active[0];
-	linienmodule_led_val[3] <= linienmodule_sequenceexecutor_active[1];
-	linienmodule_led_val[5] <= linienmodule_sequenceexecutor_active[2];
-	linienmodule_led_val[7] <= linienmodule_sequenceexecutor_active[3];
+	linienmodule_led_val[0] <= (linienmodule_sequenceexecutor_arm_storage[0] | linienmodule_sequenceexecutor_active[0]);
+	linienmodule_led_val[1] <= (linienmodule_sequenceexecutor_arm_storage[1] | linienmodule_sequenceexecutor_active[1]);
+	linienmodule_led_val[2] <= (linienmodule_sequenceexecutor_arm_storage[2] | linienmodule_sequenceexecutor_active[2]);
+	linienmodule_led_val[3] <= (linienmodule_sequenceexecutor_arm_storage[3] | linienmodule_sequenceexecutor_active[3]);
+	linienmodule_led_val[5:4] <= linienmodule_temp_control_led_o;
 // synthesis translate_off
 	dummy_d <= dummy_s;
 // synthesis translate_on
 end
-assign {user_led_7, user_led_6, user_led_5, user_led_4, user_led_3, user_led_2, user_led_1, user_led} = linienmodule_led_val;
 assign linienmodule_sys_rstn = linienmodule_target_rstn;
 assign linienmodule_sys_clk = linienmodule_target_clk;
 assign linienmodule_sys_addr = linienmodule_target_addr;
@@ -4523,6 +4523,19 @@ assign linienmodule_scopegen_dac_a = (linienmodule_scopegen_asg_a <<< 4'd11);
 assign linienmodule_scopegen_dac_b = (linienmodule_scopegen_asg_b <<< 4'd11);
 assign linienmodule_sig_status7 = linienmodule_scopegen_dac_a;
 assign linienmodule_sig_status8 = linienmodule_scopegen_dac_b;
+assign linienmodule_temp_control_blink = linienmodule_temp_control_blink_cnt[24];
+
+// synthesis translate_off
+reg dummy_d_39;
+// synthesis translate_on
+always @(*) begin
+	linienmodule_temp_control_led_o <= 2'd0;
+	linienmodule_temp_control_led_o[0] <= ((linienmodule_temp_control_storage >= 12'd3686) & ((linienmodule_temp_control_storage != 12'd4095) | linienmodule_temp_control_blink));
+	linienmodule_temp_control_led_o[1] <= ((linienmodule_temp_control_storage <= 8'd204) & ((linienmodule_temp_control_storage != 1'd0) | linienmodule_temp_control_blink));
+// synthesis translate_off
+	dummy_d_39 <= dummy_s;
+// synthesis translate_on
+end
 assign linienmodule_temp_control_sample_data_status = linienmodule_temp_control_sample;
 assign linienmodule_temp_control_sample_count_status = linienmodule_temp_control_count;
 assign linienmodule_csrbank0_sel = (linienmodule_interface0_bank_bus_adr[13:9] == 5'd28);
@@ -6511,7 +6524,7 @@ assign slice_proxy2 = {xadc_n[4], {6{1'd0}}, xadc_n[3:2], {6{1'd0}}, xadc_n[1:0]
 assign slice_proxy3 = {xadc_p[4], {6{1'd0}}, xadc_p[3:2], {6{1'd0}}, xadc_p[1:0]};
 
 // synthesis translate_off
-reg dummy_d_39;
+reg dummy_d_40;
 // synthesis translate_on
 always @(*) begin
 	comb_self0 <= 14'sd0;
@@ -6524,12 +6537,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_39 <= dummy_s;
+	dummy_d_40 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_40;
+reg dummy_d_41;
 // synthesis translate_on
 always @(*) begin
 	comb_self1 <= 25'sd0;
@@ -6545,12 +6558,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_40 <= dummy_s;
+	dummy_d_41 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_41;
+reg dummy_d_42;
 // synthesis translate_on
 always @(*) begin
 	comb_self2 <= 25'sd0;
@@ -6566,12 +6579,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_41 <= dummy_s;
+	dummy_d_42 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_42;
+reg dummy_d_43;
 // synthesis translate_on
 always @(*) begin
 	comb_self3 <= 25'sd0;
@@ -6587,12 +6600,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_42 <= dummy_s;
+	dummy_d_43 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_43;
+reg dummy_d_44;
 // synthesis translate_on
 always @(*) begin
 	comb_self4 <= 25'sd0;
@@ -6608,12 +6621,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_43 <= dummy_s;
+	dummy_d_44 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_44;
+reg dummy_d_45;
 // synthesis translate_on
 always @(*) begin
 	sync_self0 <= 25'sd0;
@@ -6659,12 +6672,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_44 <= dummy_s;
+	dummy_d_45 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_45;
+reg dummy_d_46;
 // synthesis translate_on
 always @(*) begin
 	sync_self1 <= 25'sd0;
@@ -6710,12 +6723,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_45 <= dummy_s;
+	dummy_d_46 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_46;
+reg dummy_d_47;
 // synthesis translate_on
 always @(*) begin
 	sync_self2 <= 25'sd0;
@@ -6761,12 +6774,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_46 <= dummy_s;
+	dummy_d_47 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_47;
+reg dummy_d_48;
 // synthesis translate_on
 always @(*) begin
 	sync_self3 <= 25'sd0;
@@ -6812,12 +6825,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_47 <= dummy_s;
+	dummy_d_48 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_48;
+reg dummy_d_49;
 // synthesis translate_on
 always @(*) begin
 	sync_self4 <= 25'sd0;
@@ -6863,12 +6876,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_48 <= dummy_s;
+	dummy_d_49 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_49;
+reg dummy_d_50;
 // synthesis translate_on
 always @(*) begin
 	sync_self5 <= 25'sd0;
@@ -6914,12 +6927,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_49 <= dummy_s;
+	dummy_d_50 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_50;
+reg dummy_d_51;
 // synthesis translate_on
 always @(*) begin
 	sync_self6 <= 25'sd0;
@@ -6965,12 +6978,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_50 <= dummy_s;
+	dummy_d_51 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_51;
+reg dummy_d_52;
 // synthesis translate_on
 always @(*) begin
 	sync_self7 <= 25'sd0;
@@ -7016,12 +7029,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_51 <= dummy_s;
+	dummy_d_52 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_52;
+reg dummy_d_53;
 // synthesis translate_on
 always @(*) begin
 	sync_self8 <= 1'd0;
@@ -7076,12 +7089,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_52 <= dummy_s;
+	dummy_d_53 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_53;
+reg dummy_d_54;
 // synthesis translate_on
 always @(*) begin
 	self <= 1'd0;
@@ -7094,7 +7107,7 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_53 <= dummy_s;
+	dummy_d_54 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_gpio_n_i = xilinxmultiregimpl0_regs1;
@@ -7717,6 +7730,7 @@ always @(posedge sys_clk) begin
 	linienmodule_scopegen_adc_b <= sync_self5;
 	linienmodule_scopegen_adc_a_q <= sync_self6;
 	linienmodule_scopegen_adc_b_q <= sync_self7;
+	linienmodule_temp_control_blink_cnt <= (linienmodule_temp_control_blink_cnt + 1'd1);
 	linienmodule_interface0_bank_bus_dat_r <= 1'd0;
 	if (linienmodule_csrbank0_sel) begin
 		case (linienmodule_interface0_bank_bus_adr[2:0])
@@ -11611,6 +11625,7 @@ always @(posedge sys_clk) begin
 		linienmodule_scopegen_adc_b_q <= 25'sd0;
 		linienmodule_temp_control_storage_full <= 12'd0;
 		linienmodule_temp_control_re <= 1'd0;
+		linienmodule_temp_control_blink_cnt <= 25'd0;
 		linienmodule_max_status0 <= 25'd0;
 		linienmodule_min_status0 <= 25'd0;
 		linienmodule_max_status1 <= 25'd0;

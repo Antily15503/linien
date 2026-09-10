@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date         : Thu Sep  3 15:15:01 2026
+| Date         : Fri Sep  4 12:24:53 2026
 | Host         : TejaskumarBabel running 64-bit major release  (build 9200)
 | Command      : report_utilization -hierarchical -file top_utilization_hierarchical_synth.rpt
 | Design       : top
@@ -22,20 +22,20 @@ Table of Contents
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 |        Instance        |      Module      | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
-| top                    |            (top) |      15581 |      15581 |       0 |    0 | 11736 |     28 |      3 |         80 |
-|   (top)                |            (top) |      13123 |      13123 |       0 |    0 |  9752 |      0 |      0 |         80 |
-|   axi_slave            |        axi_slave |         92 |         92 |       0 |    0 |   148 |      0 |      0 |          0 |
-|   red_pitaya_scope     | red_pitaya_scope |       1224 |       1224 |       0 |    0 |   998 |     28 |      0 |          0 |
-|     (red_pitaya_scope) | red_pitaya_scope |        997 |        997 |       0 |    0 |   936 |     28 |      0 |          0 |
-|     i_bridge           | bus_clk_bridge_0 |        227 |        227 |       0 |    0 |    62 |      0 |      0 |          0 |
-|   sequence_top         |     sequence_top |       1001 |       1001 |       0 |    0 |   689 |      0 |      3 |          0 |
-|     u_sinusoid         |         sinusoid |        539 |        539 |       0 |    0 |   225 |      0 |      1 |          0 |
-|       (u_sinusoid)     |         sinusoid |        532 |        532 |       0 |    0 |   225 |      0 |      0 |          0 |
+| top                    |            (top) |      15677 |      15677 |       0 |    0 | 11789 |     28 |      3 |         80 |
+|   (top)                |            (top) |      13216 |      13216 |       0 |    0 |  9800 |      0 |      0 |         80 |
+|   axi_slave            |        axi_slave |        115 |        115 |       0 |    0 |   148 |      0 |      0 |          0 |
+|   red_pitaya_scope     | red_pitaya_scope |       1217 |       1217 |       0 |    0 |  1003 |     28 |      0 |          0 |
+|     (red_pitaya_scope) | red_pitaya_scope |       1002 |       1002 |       0 |    0 |   941 |     28 |      0 |          0 |
+|     i_bridge           | bus_clk_bridge_0 |        215 |        215 |       0 |    0 |    62 |      0 |      0 |          0 |
+|   sequence_top         |     sequence_top |        990 |        990 |       0 |    0 |   689 |      0 |      3 |          0 |
 |     u_arb_wave         |         arb_wave |         51 |         51 |       0 |    0 |    75 |      0 |      0 |          0 |
 |     u_chirp_gen        |        chirp_gen |         85 |         85 |       0 |    0 |   161 |      0 |      0 |          0 |
-|     u_control          |          control |        303 |        303 |       0 |    0 |    93 |      0 |      0 |          0 |
+|     u_control          |          control |        316 |        316 |       0 |    0 |    93 |      0 |      0 |          0 |
 |     u_linear_ramp      |      linear_ramp |         59 |         59 |       0 |    0 |   107 |      0 |      0 |          0 |
-|   temp_sampler         |     temp_sampler |        102 |        102 |       0 |    0 |    93 |      0 |      0 |          0 |
+|     u_sinusoid         |         sinusoid |        539 |        539 |       0 |    0 |   225 |      0 |      1 |          0 |
+|       (u_sinusoid)     |         sinusoid |        532 |        532 |       0 |    0 |   225 |      0 |      0 |          0 |
+|   temp_sampler         |     temp_sampler |         97 |         97 |       0 |    0 |    93 |      0 |      0 |          0 |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 
 

@@ -199,18 +199,19 @@ class LinienModule(Module, AutoCSR):
 
         leds = Cat(*(platform.request("user_led", i) for i in range(8)))
         # self.comb += leds.eq(self.gpio_n.o)
-        led_val = Signal(8)
+        # LEDs 0-3: one per sequence slot, lit while armed or executing.
+        # LEDs 4-5: heater duty saturation, driven from TempControl below.
+        # LEDs 6-7: unused, held low.
         # recall arm is now a 4 wide signal
         # recall that active is now a 4 wide signal
+        led_val = Signal(8)
+        arm = self.logic.sequence.arm.storage
+        active = self.logic.sequence.active
         self.comb += [
-            led_val[0].eq(self.logic.sequence.arm.storage[0]),
-            led_val[2].eq(self.logic.sequence.arm.storage[1]),
-            led_val[4].eq(self.logic.sequence.arm.storage[2]),
-            led_val[6].eq(self.logic.sequence.arm.storage[3]),
-            led_val[1].eq(self.logic.sequence.active[0]),
-            led_val[3].eq(self.logic.sequence.active[1]),
-            led_val[5].eq(self.logic.sequence.active[2]),
-            led_val[7].eq(self.logic.sequence.active[3]),
+            led_val[0].eq(arm[0] | active[0]),
+            led_val[1].eq(arm[1] | active[1]),
+            led_val[2].eq(arm[2] | active[2]),
+            led_val[3].eq(arm[3] | active[3]),
         ]
         self.comb += leds.eq(led_val)
 
@@ -244,6 +245,9 @@ class LinienModule(Module, AutoCSR):
         # Slow temperature loop: heater PWM + one averaged sample of the PZT
         # control signal per PID-state entry. Wired up in connect_everything().
         self.submodules.temp_control = TempControl(width=width)
+        # Upper LED nibble is owned by the temperature loop. Driving led_val
+        # here rather than `leds` keeps a single driver on the LED pins.
+        self.comb += led_val[4:6].eq(self.temp_control.led_o)
 
         self.state_names, self.signal_names = cross_connect(
             self.gpio_n,

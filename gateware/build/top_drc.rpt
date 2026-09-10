@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date         : Thu Sep  3 15:30:12 2026
+| Date         : Fri Sep  4 12:32:30 2026
 | Host         : TejaskumarBabel running 64-bit major release  (build 9200)
 | Command      : report_drc -file top_drc.rpt
 | Design       : top
@@ -603,12 +603,12 @@ Related violations: <none>
 
 DPOP-1#78 Warning
 PREG Output pipelining  
-DSP p_1_out__0 output p_1_out__0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+DSP p_1_out output p_1_out/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
 Related violations: <none>
 
 DPOP-1#79 Warning
 PREG Output pipelining  
-DSP p_1_out__1 output p_1_out__1/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+DSP p_1_out__0 output p_1_out__0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
 Related violations: <none>
 
 DPOP-2#1 Warning
@@ -973,12 +973,12 @@ Related violations: <none>
 
 DPREG-4#1 Warning
 DSP48E1_PregDynOpmodeZmuxP:  
-The DSP48E1 cell p_1_out__0 with the given dynamic OPMODE[6:0] connections may lead to an unregistered asynchronous feedback path without the PREG attribute enabled. Please refer to the user guide and if one of the internal P feedback opmodes is possible for this design the PREG attribute must be set to 1, currently set to 0
+The DSP48E1 cell p_1_out with the given dynamic OPMODE[6:0] connections may lead to an unregistered asynchronous feedback path without the PREG attribute enabled. Please refer to the user guide and if one of the internal P feedback opmodes is possible for this design the PREG attribute must be set to 1, currently set to 0
 Related violations: <none>
 
 DPREG-4#2 Warning
 DSP48E1_PregDynOpmodeZmuxP:  
-The DSP48E1 cell p_1_out__1 with the given dynamic OPMODE[6:0] connections may lead to an unregistered asynchronous feedback path without the PREG attribute enabled. Please refer to the user guide and if one of the internal P feedback opmodes is possible for this design the PREG attribute must be set to 1, currently set to 0
+The DSP48E1 cell p_1_out__0 with the given dynamic OPMODE[6:0] connections may lead to an unregistered asynchronous feedback path without the PREG attribute enabled. Please refer to the user guide and if one of the internal P feedback opmodes is possible for this design the PREG attribute must be set to 1, currently set to 0
 Related violations: <none>
 
 

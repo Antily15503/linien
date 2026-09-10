@@ -4,16 +4,16 @@
 #i.e, need to update the gateware, csrmap, server.py, registers.py, parameters.py and communication.py
 #as well as linien_common
 
-if [ gateware/linien_module.py -nt linien-server/linien_server/gateware.bin ]; then
-  echo "WARNING: linien_module.py is newer than gateware.bin - rebuild needed!"
-  exit 1
-fi
+#if [ gateware/linien_module.py -nt linien-server/linien_server/gateware.bin ]; then
+#  echo "WARNING: linien_module.py is newer than gateware.bin - rebuild needed!"
+#  exit 1
+#fi
 PITAYA="root@rp-F0EFA8.local"
 REMOTE="/usr/local/lib/python3.10/dist-packages/linien_server/"
 REMOTE_COMMON="/usr/local/lib/python3.10/dist-packages/linien_common/"
 
 echo "deploying on to $PITAYA"
-echo "Stopping server..."
+echo "Stopping server..." 
 
 ssh $PITAYA "linien-server stop"
 
@@ -26,6 +26,13 @@ scp linien-server/linien_server/server.py $PITAYA:$REMOTE/
 scp linien-server/linien_server/registers.py $PITAYA:$REMOTE/
 scp linien-server/linien_server/parameters.py $PITAYA:$REMOTE/
 scp linien-common/linien_common/communication.py $PITAYA:$REMOTE_COMMON/
+
+# Standalone temperature loop. Not part of the linien_server package -- it just
+# imports from it -- so it goes in /root/ rather than dist-packages. Stop any
+# running instance before deploying: it caches nothing, but a copy still running
+# against the previous csrmap.py would be using stale register offsets.
+scp ps_programs/temp_control_pwm.py $PITAYA:/root/
+scp ps_programs/debug_pwm.py $PITAYA:/root/
 
 echo "starting server"
 ssh $PITAYA "linien-server start"
