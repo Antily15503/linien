@@ -40,6 +40,7 @@ from .logic.limit import LimitCSR
 from .logic.modulate import Modulate
 from .logic.pid import PID
 from .logic.sweep import SweepCSR
+from .logic.temp_control import TempControl
 from .lowlevel.analog import PitayaAnalog
 from .lowlevel.crg import CRG
 from .lowlevel.dna import DNA
@@ -205,18 +206,19 @@ class LinienModule(Module, AutoCSR):
 
         leds = Cat(*(platform.request("user_led", i) for i in range(8)))
         # self.comb += leds.eq(self.gpio_n.o)
-        led_val = Signal(8)
+        # LEDs 0-3: one per sequence slot, lit while armed or executing.
+        # LEDs 4-5: heater duty saturation, driven from TempControl below.
+        # LEDs 6-7: unused, held low.
         # recall arm is now a 4 wide signal
         # recall that active is now a 4 wide signal
+        led_val = Signal(8)
+        arm = self.logic.sequence.arm.storage
+        active = self.logic.sequence.active
         self.comb += [
-            led_val[0].eq(self.logic.sequence.arm.storage[0]),
-            led_val[2].eq(self.logic.sequence.arm.storage[1]),
-            led_val[4].eq(self.logic.sequence.arm.storage[2]),
-            led_val[6].eq(self.logic.sequence.arm.storage[3]),
-            led_val[1].eq(self.logic.sequence.active[0]),
-            led_val[3].eq(self.logic.sequence.active[1]),
-            led_val[5].eq(self.logic.sequence.active[2]),
-            led_val[7].eq(self.logic.sequence.active[3]),
+            led_val[0].eq(arm[0] | active[0]),
+            led_val[1].eq(arm[1] | active[1]),
+            led_val[2].eq(arm[2] | active[2]),
+            led_val[3].eq(arm[3] | active[3]),
         ]
         self.comb += leds.eq(led_val)
 
@@ -247,6 +249,13 @@ class LinienModule(Module, AutoCSR):
 
         self.submodules.scopegen = ScopeGen(signal_width)
 
+        # Slow temperature loop: heater PWM + one averaged sample of the PZT
+        # control signal per PID-state entry. Wired up in connect_everything().
+        self.submodules.temp_control = TempControl(width=width)
+        # Upper LED nibble is owned by the temperature loop. Driving led_val
+        # here rather than `leds` keeps a single driver on the LED pins.
+        self.comb += led_val[4:6].eq(self.temp_control.led_o)
+
         self.state_names, self.signal_names = cross_connect(
             self.gpio_n,
             [
@@ -271,6 +280,7 @@ class LinienModule(Module, AutoCSR):
             "noise": 7,
             "logic": 8,
             "sequence": 9,
+            "temp_control": 10,
         }
 
         self.submodules.csrbanks = csr_bus.CSRBankArray(
@@ -450,9 +460,40 @@ class LinienModule(Module, AutoCSR):
         ]
         # NOTE: not sure why limit is used
         self.comb += self.slow_chain.limit.x.eq(analog_out)
-        # ds0 apparently has 16 bit, but only allowing positive  values --> "15 bit"?
+
+        # ANALOG OUT 0 mirrors the PZT control signal that OUT2 (dac_b) drives:
+        # the sequence FSM output while a sequence runs, otherwise the normal
+        # linien fast output. ds0 takes 15-bit unsigned, so the signed 14-bit
+        # value is shifted into [0, 2**15) -- 0 counts lands at mid-scale.
+        pzt_control = Signal((width, True))
+        self.comb += If(
+            self.logic.sequence.active != 0,
+            pzt_control.eq(self.logic.sequence.dac_out),
+        ).Else(
+            pzt_control.eq(self.logic.limit_fast2.y),
+        )
+
+        # Slow temperature loop. Sample the PZT control signal once per PID-state
+        # entry and drive the heater PWM on GPIO_P[5].
+        self.comb += [
+            self.temp_control.control_in.eq(pzt_control),
+            self.temp_control.pid_active.eq(
+                self.logic.autolock.lock_running.status
+                & ~self.logic.sequence.pid_pause
+                & (self.logic.sequence.active == 0)
+            ),
+            # NOTE: Gpio drives each pin from (outs.storage | o) -- see
+            # lowlevel/gpio.py. Bit 5 of the gpio_p_out parameter MUST stay
+            # clear: setting it latches the heater fully on regardless of the
+            # PWM, and the symptom (PWM apparently ignored) is baffling.
+            # gpio_p_oes already has bit 5 set in the server
+            # (registers.py: gpio_p_oes=0b11100000), so the output is enabled
+            # without any server-side change.
+            self.gpio_p.o[5].eq(self.temp_control.pwm_o),
+        ]
+
         slow_out_shifted = Signal(15)
-        self.sync += slow_out_shifted.eq((self.slow_chain.limit.y << 1) + (1 << 14))
+        self.sync += slow_out_shifted.eq((pzt_control << 1) + (1 << 14))
         self.comb += self.ds0.data.eq(slow_out_shifted)
 
         # connect other analog outputs

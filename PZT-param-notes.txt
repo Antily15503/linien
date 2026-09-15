@@ -1,0 +1,6 @@
+175.6 ohms or resistance in the PZT?
+
+2N7002K
+IRLI540
+MTP3N60E
+MIC4420

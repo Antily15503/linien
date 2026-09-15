@@ -50,6 +50,13 @@ for entry in "${FILES_TO_SYNC[@]}"; do
   fi
 done
 
+# Standalone temperature loop. Not part of the linien_server package -- it just
+# imports from it -- so it goes in /root/ rather than dist-packages. Stop any
+# running instance before deploying: it caches nothing, but a copy still running
+# against the previous csrmap.py would be using stale register offsets.
+scp ps_programs/temp_control_pwm.py $PITAYA:/root/
+scp ps_programs/debug_pwm.py $PITAYA:/root/
+
 echo "starting server"
 ssh $PITAYA "linien-server start"
 
