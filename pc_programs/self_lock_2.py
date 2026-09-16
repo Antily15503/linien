@@ -160,7 +160,6 @@ def linien_is_locked(rp):
         return False
     return bool(client.parameters.lock.value)
 
-
 def wait_for_lock(rp, poll_interval=0.002):
     """Block until linien's PID is engaged. Returns False if the user cancels.
 
@@ -185,6 +184,7 @@ def wait_for_lock(rp, poll_interval=0.002):
 
     print("  Lock acquired.")
     return True
+
 
 
 def read_float(prompt, allowed):
@@ -242,6 +242,8 @@ def main():
     lab.pulsebox.print_channels()
 
     #The main loop:
+
+    lab.red_pitaya.set_sweep(speed=0.1, amplitude=1, center=0.0)
 
     while True:
 

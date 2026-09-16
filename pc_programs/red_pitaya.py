@@ -270,6 +270,19 @@ class RedPitaya:
     def bits_to_volts(self, bits):
         return bits*self.gain*self.output_peak_voltage/self.dac_counts
 
+    def set_sweep(self, speed=None, amplitude=None, center=None):
+        """Set the sweep parameters on the Red Pitaya. including the speed 
+        and amplitude of the sweep, and the center voltage. If any of these are None,"""
+        if not self.is_connected:
+            self.connect()
+        p = self._client.parameters
+        if speed is not None:
+            p.sweep_speed.value = speed
+        if amplitude is not None:
+            p.sweep_amplitude.value = amplitude
+        if center is not None:
+            p.sweep_center.value = center
+
     @staticmethod
     def _sinusoid_phase_inc(f_hz, f_clk_hz):
         return int(round((f_hz/f_clk_hz)*(1<<32)))
