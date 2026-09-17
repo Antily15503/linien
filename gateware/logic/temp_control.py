@@ -8,8 +8,8 @@ class TempControl(Module, AutoCSR):
 
     Slow temperature loop for the PZT setup. The gateware does two things: it
     drives the heater MOSFET with a 30.5 kHz PWM whose duty comes from a CSR,
-    and it publishes one averaged sample of the PZT control signal per entry
-    into linien's PID state. The loop itself runs on the PS
+    and it publishes one averaged sample of the demodulated error signal per
+    entry into linien's PID state. The loop itself runs on the PS
     (ps_programs/temp_control_pwm.py), which polls the sample and writes duty.
     """
 
@@ -31,8 +31,9 @@ class TempControl(Module, AutoCSR):
         # count, read data, read count again, retry if it moved.
         self.sample_count = CSRStatus(8)
 
-        # fabric ports
-        self.control_in = Signal((width, True))  # PZT control signal
+        # fabric ports. control_in takes the demodulated error signal, already
+        # shifted down to `width` bits (ADC-count units) by the top level.
+        self.control_in = Signal((width, True))
         self.pid_active = Signal()               # linien is in the PID state
         self.pwm_o = Signal()                    # to the heater MOSFET gate
 

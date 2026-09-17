@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date         : Thu Sep 17 13:43:44 2026
+| Date         : Thu Sep 17 14:53:14 2026
 | Host         : TejaskumarBabel running 64-bit major release  (build 9200)
 | Command      : report_utilization -hierarchical -file top_utilization_hierarchical_synth.rpt
 | Design       : top
@@ -22,20 +22,20 @@ Table of Contents
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 |        Instance        |      Module      | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs  | RAMB36 | RAMB18 | DSP Blocks |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
-| top                    |            (top) |      11169 |      11169 |       0 |    0 | 11373 |     28 |      3 |         97 |
-|   (top)                |            (top) |       9047 |       9047 |       0 |    0 |  9513 |      0 |      0 |         95 |
+| top                    |            (top) |      11151 |      11151 |       0 |    0 | 11370 |     28 |      3 |         97 |
+|   (top)                |            (top) |       9047 |       9047 |       0 |    0 |  9511 |      0 |      0 |         95 |
 |   axi_slave            |        axi_slave |         92 |         92 |       0 |    0 |   148 |      0 |      0 |          0 |
-|   red_pitaya_scope     | red_pitaya_scope |       1225 |       1225 |       0 |    0 |   888 |     28 |      0 |          0 |
-|     (red_pitaya_scope) | red_pitaya_scope |        998 |        998 |       0 |    0 |   826 |     28 |      0 |          0 |
+|   red_pitaya_scope     | red_pitaya_scope |       1224 |       1224 |       0 |    0 |   887 |     28 |      0 |          0 |
+|     (red_pitaya_scope) | red_pitaya_scope |        997 |        997 |       0 |    0 |   825 |     28 |      0 |          0 |
 |     i_bridge           | bus_clk_bridge_0 |        227 |        227 |       0 |    0 |    62 |      0 |      0 |          0 |
-|   sequence_top         |     sequence_top |        669 |        669 |       0 |    0 |   675 |      0 |      3 |          2 |
+|   sequence_top         |     sequence_top |        637 |        637 |       0 |    0 |   675 |      0 |      3 |          2 |
 |     u_arb_wave         |         arb_wave |         52 |         52 |       0 |    0 |    75 |      0 |      0 |          0 |
-|     u_chirp_gen        |        chirp_gen |         86 |         86 |       0 |    0 |   161 |      0 |      0 |          0 |
-|     u_control          |          control |        318 |        318 |       0 |    0 |    94 |      0 |      0 |          0 |
+|     u_chirp_gen        |        chirp_gen |         87 |         87 |       0 |    0 |   161 |      0 |      0 |          0 |
+|     u_control          |          control |        272 |        272 |       0 |    0 |    94 |      0 |      0 |          0 |
 |     u_linear_ramp      |      linear_ramp |         59 |         59 |       0 |    0 |   107 |      0 |      0 |          0 |
 |     u_sinusoid         |         sinusoid |        152 |        152 |       0 |    0 |   210 |      0 |      1 |          2 |
 |       (u_sinusoid)     |         sinusoid |        138 |        138 |       0 |    0 |   210 |      0 |      0 |          2 |
-|   temp_sampler         |     temp_sampler |         97 |         97 |       0 |    0 |    93 |      0 |      0 |          0 |
+|   temp_sampler         |     temp_sampler |         99 |         99 |       0 |    0 |    93 |      0 |      0 |          0 |
 +------------------------+------------------+------------+------------+---------+------+-------+--------+--------+------------+
 
 

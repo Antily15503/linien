@@ -1,6 +1,6 @@
 // Temperature-control sampler.
 //
-// Produces one averaged sample of the PZT control signal per entry into
+// Produces one averaged sample of the demodulated error signal per entry into
 // linien's PID state:
 //
 //   PID state rises
@@ -23,7 +23,8 @@
 // state ends before the window closes -- the state runs ~8 ms and the window
 // closes at 2.52 ms.
 //
-// WIDTHS: control_i is signed 14-bit, so the sum over 65536 samples spans
+// WIDTHS: control_i is signed 14-bit -- the top level shifts the 25-bit error
+// signal down to that before it arrives here. So the sum over 65536 samples spans
 // [-8192*65536, 8191*65536] = [-2**29, 2**29 - 65536], which fits signed 30-bit
 // exactly. acc[29:12] then spans [-2**17, 2**17 - 16], which fits signed 18-bit
 // exactly. Both operands of the accumulate MUST be declared signed -- if either
@@ -38,7 +39,7 @@ module temp_sampler #(
     input  logic               clk_i,
     input  logic               rst_i,         // synchronous, ACTIVE HIGH
     input  logic               pid_active_i,  // linien is in the PID state
-    input  logic signed [13:0] control_i,     // PZT control signal
+    input  logic signed [13:0] control_i,     // demodulated error signal
     output logic signed [17:0] sample_o,      // 14 integer + 4 fractional bits
     output logic        [ 7:0] count_o        // ++ on every published sample
 );

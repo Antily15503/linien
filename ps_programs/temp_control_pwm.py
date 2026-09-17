@@ -1,9 +1,16 @@
 """Slow temperature-control loop for the linien PZT setup.
 
 Runs standalone on the Red Pitaya, alongside but independent of linien-server.
-Polls the FPGA for one averaged sample of the PZT control signal per PID-state
-entry (~3.3 Hz), runs a leaky PID, and writes a 12-bit duty cycle to the heater
-PWM on GPIO_P[5].
+Polls the FPGA for one averaged sample of the demodulated error signal per
+PID-state entry (~3.3 Hz), runs a leaky PID, and writes a 12-bit duty cycle to
+the heater PWM on GPIO_P[5].
+
+Samples are linien's combined_error_signal, shifted from 25 bits down to 14 in
+the gateware, so they arrive in ADC-count units. Note this is the signal linien's
+own fast PID is actively driving to zero: drift shows up here only to the extent
+the fast loop has finite gain, and it is the PZT control signal (what the fast
+PID must apply to hold the error at zero) that carries drift directly. The tap
+is deliberate -- see gateware/linien_module.py, connect_everything.
 
 Purpose is drift suppression over hours, not PZT range offloading: the setpoint
 is captured from the first samples after the lock forms, so the loop starts at
@@ -32,29 +39,25 @@ from pyrp3.board import RedPitaya
 # it will capture a setpoint, log samples, and hold the duty at DUTY_STARTUP.
 #
 # Before setting any gain, determine SIGN experimentally. Step the duty by hand
-# with the loop disabled and watch which way the PZT control signal moves; SIGN
-# is +1 if increasing duty increases the control signal, -1 otherwise. Getting
-# it backwards drives the heater to one rail and holds it there.
+# with the loop disabled and watch which way the error signal moves; SIGN is +1
+# if increasing duty increases the sample, -1 otherwise. Getting it backwards
+# drives the heater to one rail and holds it there.
 #
 # Then bring up KI alone, then KP. Leave KD at 0 until the rest is stable -- a
 # derivative term over a 1.2 s window against an unmeasured thermal plant is
 # the most likely thing to make this oscillate.
 #
-# KP is not a constant: it is specified relative to the lock point, so the same
-# number means the same thing whatever operating point the lock happens to form
-# at. The effective gain is KP_REL / |setpoint|, i.e. an error as large as the
-# lock point itself contributes KP_REL duty counts. |setpoint| is used rather
-# than setpoint so a negative lock point does not silently invert the loop --
-# direction is SIGN's job alone.
+# Gains are absolute: duty counts per ADC count of error. They were relative to
+# the lock point while the sample was the PZT control signal, which sits at a
+# large well-defined value; the error signal is held near zero by linien's fast
+# PID, so there is nothing meaningful to divide by. Size KP from the log instead
+# -- the duty line prints each term's contribution, so pick the gain that makes
+# P worth a few duty counts against the error you actually observe.
 # ---------------------------------------------------------------------------
 SIGN = +1
-KP_REL = 0.5
+KP = 0.0
 KI = 0.0
 KD = 0.0
-
-# A lock point near zero would blow the relative gain up. Below this magnitude
-# (in DAC counts) the P term is disabled rather than scaled by a huge number.
-MIN_SETPOINT_FOR_KP = 1.0
 
 # Integrator leak per update. At ~3.3 Hz, 0.99985 is a time constant of about
 # 34 minutes -- long compared with the loop response, as it should be.
@@ -149,7 +152,6 @@ def read_sample(csr):
 def run_loop(csr):
     history = deque(maxlen=HISTORY_LEN)  # fixed size, never grows
     setpoint = None
-    kp = 0.0  # derived from the lock point once it is captured
     capture_sum = 0.0
     capture_n = 0
     integrator = 0.0
@@ -239,23 +241,18 @@ def run_loop(csr):
             )
             if capture_n < SETPOINT_SAMPLES:
                 continue
+            # Near zero, as it should be for a signal the fast PID is holding
+            # there. It is still captured rather than assumed: whatever residual
+            # offset the lock forms with becomes the operating point, so the
+            # loop starts at zero correction exactly as it did before the retap.
             setpoint = capture_sum / capture_n
-            if abs(setpoint) < MIN_SETPOINT_FOR_KP:
-                kp = 0.0
-                logger.warning(
-                    "setpoint captured: %.4f counts -- too close to zero for a "
-                    "relative gain, P term disabled",
-                    setpoint,
-                )
-            else:
-                kp = KP_REL / abs(setpoint)
-                logger.info(
-                    "setpoint captured: %.4f counts, kp = %g / %.4f = %g",
-                    setpoint,
-                    KP_REL,
-                    abs(setpoint),
-                    kp,
-                )
+            logger.info(
+                "setpoint captured: %+.4f counts (gains KP %g KI %g KD %g)",
+                setpoint,
+                KP,
+                KI,
+                KD,
+            )
             continue
 
         if len(history) < HISTORY_LEN:
@@ -269,7 +266,7 @@ def run_loop(csr):
         # to the register width, and for a negative value the assertion that
         # guards it passes: -100 becomes 3996, i.e. 97.6% duty, silently. A small
         # undershoot would invert the control action with nothing in the log.
-        p_term = kp * error
+        p_term = KP * error
         i_term = integrator
         d_term = KD * derivative
         correction = SIGN * (p_term + i_term + d_term)

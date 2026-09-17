@@ -473,10 +473,21 @@ class LinienModule(Module, AutoCSR):
             pzt_control.eq(self.logic.limit_fast2.y),
         )
 
-        # Slow temperature loop. Sample the PZT control signal once per PID-state
-        # entry and drive the heater PWM on GPIO_P[5].
+        # Slow temperature loop. Sample the demodulated error signal once per
+        # PID-state entry and drive the heater PWM on GPIO_P[5].
+        #
+        # limit_error_signal.y is `combined_error_signal`: the in-phase
+        # demodulated output of both fast chains, mixed by the channel factors
+        # with the combined offset applied and limited -- the same node that
+        # feeds the fast PID as `mixed_limited`. It is signal_width (25) bits
+        # while temp_sampler's control_i port is signed 14-bit, so it is shifted
+        # down by s, the same conversion slow_chain.input uses above. That shift
+        # puts it in ADC-count units and cannot overflow the port: 25 bits >> 11
+        # is exactly 14. A narrower slice would keep more resolution near zero
+        # but wrap on a large transient, which for a heater is not a trade worth
+        # making.
         self.comb += [
-            self.temp_control.control_in.eq(pzt_control),
+            self.temp_control.control_in.eq(self.logic.limit_error_signal.y >> s),
             self.temp_control.pid_active.eq(
                 self.logic.autolock.lock_running.status
                 & ~self.logic.sequence.pid_pause
