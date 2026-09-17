@@ -39,11 +39,22 @@ from pyrp3.board import RedPitaya
 # Then bring up KI alone, then KP. Leave KD at 0 until the rest is stable -- a
 # derivative term over a 1.2 s window against an unmeasured thermal plant is
 # the most likely thing to make this oscillate.
+#
+# KP is not a constant: it is specified relative to the lock point, so the same
+# number means the same thing whatever operating point the lock happens to form
+# at. The effective gain is KP_REL / |setpoint|, i.e. an error as large as the
+# lock point itself contributes KP_REL duty counts. |setpoint| is used rather
+# than setpoint so a negative lock point does not silently invert the loop --
+# direction is SIGN's job alone.
 # ---------------------------------------------------------------------------
 SIGN = +1
-KP = 0.0
+KP_REL = 0.5
 KI = 0.0
 KD = 0.0
+
+# A lock point near zero would blow the relative gain up. Below this magnitude
+# (in DAC counts) the P term is disabled rather than scaled by a huge number.
+MIN_SETPOINT_FOR_KP = 1.0
 
 # Integrator leak per update. At ~3.3 Hz, 0.99985 is a time constant of about
 # 34 minutes -- long compared with the loop response, as it should be.
@@ -91,7 +102,14 @@ SEQLOCK_RETRIES = 5
 # Saturation warnings, replacing the LED indicators.
 DUTY_WARN_HIGH = int(0.90 * DUTY_MAX)
 DUTY_WARN_LOW = int(0.05 * DUTY_MAX)
-LOG_EVERY = 10  # log a duty line every N updates (~3 s)
+
+# Log a duty line every N updates. 1 logs every write (~3.3 lines/s), which is
+# what you want while bringing the loop up; raise it for long unattended runs.
+LOG_EVERY = 1
+
+# While holding at 50% there is no update counter to pace the log, so rate-limit
+# the hold line by wall-clock instead -- the poll loop runs at 20 Hz.
+HOLD_LOG_INTERVAL = 5.0  # seconds
 
 logger = logging.getLogger("temp_control")
 
@@ -131,6 +149,7 @@ def read_sample(csr):
 def run_loop(csr):
     history = deque(maxlen=HISTORY_LEN)  # fixed size, never grows
     setpoint = None
+    kp = 0.0  # derived from the lock point once it is captured
     capture_sum = 0.0
     capture_n = 0
     integrator = 0.0
@@ -138,6 +157,7 @@ def run_loop(csr):
     last_sample_time = None
     updates = 0
     was_locked = False
+    last_hold_log = 0.0  # 0 so the first hold line goes out immediately
 
     if REQUIRE_LOCK:
         logger.info("waiting for lock ...")
@@ -147,6 +167,26 @@ def run_loop(csr):
         )
 
     while True:
+        if setpoint is None:
+            # Until the lock point is known there is nothing to correct against,
+            # so hold the heater at the 50% bias the PID will later correct
+            # around. Rewritten every poll rather than once at startup: this
+            # phase can span an arbitrarily long wait for the lock, and the
+            # register should read 50% throughout it whatever a previous run
+            # left behind.
+            csr.set(REG_DUTY, DUTY_STARTUP)
+
+            now = time.monotonic()
+            if now - last_hold_log >= HOLD_LOG_INTERVAL:
+                last_hold_log = now
+                logger.info(
+                    "holding duty %d (%.1f%%) -- no setpoint yet (%d/%d samples)",
+                    DUTY_STARTUP,
+                    100.0 * DUTY_STARTUP / DUTY_MAX,
+                    capture_n,
+                    SETPOINT_SAMPLES,
+                )
+
         if REQUIRE_LOCK:
             locked = bool(csr.get(REG_LOCK_RUNNING))
 
@@ -190,10 +230,32 @@ def run_loop(csr):
         if setpoint is None:
             capture_sum += value
             capture_n += 1
+            logger.info(
+                "setpoint sample %d/%d: %+.4f counts (running mean %+.4f)",
+                capture_n,
+                SETPOINT_SAMPLES,
+                value,
+                capture_sum / capture_n,
+            )
             if capture_n < SETPOINT_SAMPLES:
                 continue
             setpoint = capture_sum / capture_n
-            logger.info("setpoint captured: %.4f counts", setpoint)
+            if abs(setpoint) < MIN_SETPOINT_FOR_KP:
+                kp = 0.0
+                logger.warning(
+                    "setpoint captured: %.4f counts -- too close to zero for a "
+                    "relative gain, P term disabled",
+                    setpoint,
+                )
+            else:
+                kp = KP_REL / abs(setpoint)
+                logger.info(
+                    "setpoint captured: %.4f counts, kp = %g / %.4f = %g",
+                    setpoint,
+                    KP_REL,
+                    abs(setpoint),
+                    kp,
+                )
             continue
 
         if len(history) < HISTORY_LEN:
@@ -207,31 +269,49 @@ def run_loop(csr):
         # to the register width, and for a negative value the assertion that
         # guards it passes: -100 becomes 3996, i.e. 97.6% duty, silently. A small
         # undershoot would invert the control action with nothing in the log.
-        duty = DUTY_STARTUP + SIGN * (KP * error + integrator + KD * derivative)
-        duty = int(round(duty))
+        p_term = kp * error
+        i_term = integrator
+        d_term = KD * derivative
+        correction = SIGN * (p_term + i_term + d_term)
+
+        duty_raw = DUTY_STARTUP + correction
+        duty = int(round(duty_raw))
         duty = max(DUTY_MIN, min(DUTY_MAX, duty))
 
         csr.set(REG_DUTY, duty)
         updates += 1
 
-        pct = 100.0 * duty / DUTY_MAX
-        if duty >= DUTY_WARN_HIGH or duty <= DUTY_WARN_LOW:
+        if duty != int(round(duty_raw)):
             logger.warning(
-                "duty %d (%.1f%%) at the edge of authority | err %+.4f int %+.2f",
+                "duty clamped: wanted %.1f, wrote %d -- the loop is out of "
+                "authority in this direction",
+                duty_raw,
                 duty,
-                pct,
-                error,
-                integrator,
             )
+
+        pct = 100.0 * duty / DUTY_MAX
+        # Every duty line carries the full term breakdown, so a run's log alone
+        # says which term moved the heater and by how much: the terms sum to
+        # `corr`, and DUTY_STARTUP + corr is the duty before clamping.
+        detail = (
+            "duty %4d (%5.1f%%) | corr %+8.2f = P %+8.2f I %+8.2f D %+8.2f "
+            "| x %+9.4f sp %+9.4f err %+9.4f"
+        )
+        args = (
+            duty,
+            pct,
+            correction,
+            SIGN * p_term,
+            SIGN * i_term,
+            SIGN * d_term,
+            value,
+            setpoint,
+            error,
+        )
+        if duty >= DUTY_WARN_HIGH or duty <= DUTY_WARN_LOW:
+            logger.warning(detail + " <- at the edge of authority", *args)
         elif updates % LOG_EVERY == 0:
-            logger.info(
-                "duty %d (%.1f%%) | err %+.4f int %+.2f deriv %+.4f",
-                duty,
-                pct,
-                error,
-                integrator,
-                derivative,
-            )
+            logger.info(detail, *args)
 
 
 def main():
