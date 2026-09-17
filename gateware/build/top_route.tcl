@@ -38,11 +38,7 @@ add_files {top.v}
 set_property library work [get_files {top.v}]
 read_xdc top.xdc
 read_xdc -ref processing_system7_v5_4_processing_system7 ../verilog/system_processing_system7_0_0.xdc
-<<<<<<< HEAD
-add_files -norecurse /home/vedaant/school/quantum_work/linien/src/sin_lut.mem
-=======
 add_files -norecurse ../../src/sin_lut.mem
->>>>>>> pwm
 synth_design -top top -part xc7z020-clg400-1
 opt_design -directive ExploreWithRemap
 report_timing_summary -file top_timing_synth.rpt

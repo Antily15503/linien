@@ -20,6 +20,8 @@ module sequence_top #(
 ) (
     input wire clk,
     input wire rst_n,
+    // if in sweep, i_init_v should be the midpoint of the ramp
+    // if in PID, i_init_v should be pid_out (IGNORING mod.y)
 
     //Signals from Regfile_Adapter for FSM (PS write to reg_file)
     input wire [FSM_REGFILE_ADDR_WIDTH-1:0] i_fsm_reg_w_addr,
@@ -220,7 +222,15 @@ module sequence_top #(
       .i_en_dac_b(en_dac_b)
   );
 
-  assign o_dac_drive = o_dac_drive_raw + sinusoid_v_out;
+
+  //overfow in 2's complement occurs when 2 positives yield a negative, or
+  //2 negatives yield a positive.
+  logic [13:0] o_dac_drive_sat;
+  assign o_dac_drive_sat = o_dac_drive_raw + sinusoid_v_out;
+
+  assign o_dac_drive=((o_dac_drive_raw[13]==sinusoid_v_out[13]) && (o_dac_drive_sat[13]!=o_dac_drive_raw[13]))?(o_dac_drive_raw):(o_dac_drive_raw+sinusoid_v_out);
+
+
 
 
   // AWG Block (type 5)

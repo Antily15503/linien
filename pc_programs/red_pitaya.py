@@ -282,6 +282,8 @@ class RedPitaya:
             p.sweep_amplitude.value = amplitude
         if center is not None:
             p.sweep_center.value = center
+        self._client.control.write_registers()
+
 
     @staticmethod
     def _sinusoid_phase_inc(f_hz, f_clk_hz):

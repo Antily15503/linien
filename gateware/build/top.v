@@ -3476,7 +3476,6 @@ assign linienmodule_slowchain_input0 = (linienmodule_control_signal >>> 4'd11);
 assign linienmodule_decimate_decimation = linienmodule_slow_decimation_storage;
 assign decimated_clock_clk = linienmodule_decimate_output;
 assign linienmodule_slow_value_status = linienmodule_slowchain_output;
-<<<<<<< HEAD
 
 // synthesis translate_off
 reg dummy_d_3;
@@ -3515,17 +3514,13 @@ always @(*) begin
 	dummy_d_4 <= dummy_s;
 // synthesis translate_on
 end
-assign linienmodule = ((((((linienmodule_control_channel_storage == 1'd0) ? linienmodule_pid_out : $signed({1'd0, 1'd0})) + ((linienmodule_mod_channel_storage == 1'd0) ? linienmodule_mod_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd0) ? linienmodule_sweep_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd0) ? linienmodule_out_offset_signed : $signed({1'd0, 1'd0}))) + ((linienmodule_slow_control_channel_storage == 1'd0) ? linienmodule_slowchain_output : $signed({1'd0, 1'd0})));
-assign linienmodule_fast_outs = ((((((linienmodule_control_channel_storage == 1'd1) ? linienmodule_pid_out : $signed({1'd0, 1'd0})) + ((linienmodule_mod_channel_storage == 1'd1) ? linienmodule_mod_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd1) ? linienmodule_sweep_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd1) ? linienmodule_out_offset_signed : $signed({1'd0, 1'd0}))) + ((linienmodule_slow_control_channel_storage == 1'd1) ? linienmodule_slowchain_output : $signed({1'd0, 1'd0})));
-=======
 assign linienmodule = ((((((linienmodule_control_channel_storage == 1'd0) ? linienmodule_pid_out : $signed({1'd0, 1'd0})) + ((linienmodule_mod_channel_storage == 1'd0) ? linienmodule_mod_modulate_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd0) ? linienmodule_sweep_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd0) ? linienmodule_out_offset_signed : $signed({1'd0, 1'd0}))) + ((linienmodule_slow_control_channel_storage == 1'd0) ? linienmodule_slowchain_output : $signed({1'd0, 1'd0})));
 assign linienmodule_fast_outs = ((((((linienmodule_control_channel_storage == 1'd1) ? linienmodule_pid_out : $signed({1'd0, 1'd0})) + ((linienmodule_mod_channel_storage == 1'd1) ? linienmodule_mod_modulate_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd1) ? linienmodule_sweep_y : $signed({1'd0, 1'd0}))) + ((linienmodule_sweep_channel_storage == 1'd1) ? linienmodule_out_offset_signed : $signed({1'd0, 1'd0}))) + ((linienmodule_slow_control_channel_storage == 1'd1) ? linienmodule_slowchain_output : $signed({1'd0, 1'd0})));
->>>>>>> pwm
 assign linienmodule_analog_out = ((((linienmodule_sweep_channel_storage == 2'd2) ? linienmodule_sweep_y : $signed({1'd0, 1'd0})) + ((linienmodule_sweep_channel_storage == 2'd2) ? linienmodule_out_offset_signed : $signed({1'd0, 1'd0}))) + ((linienmodule_slow_control_channel_storage == 2'd2) ? linienmodule_slowchain_output : $signed({1'd0, 1'd0})));
 assign linienmodule_slowchain_x = linienmodule_analog_out;
 
 // synthesis translate_off
-reg dummy_d_3;
+reg dummy_d_5;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_pzt_control <= 14'sd0;
@@ -3535,7 +3530,7 @@ always @(*) begin
 		linienmodule_pzt_control <= linienmodule_limit_fast2_limitcsr_y;
 	end
 // synthesis translate_off
-	dummy_d_3 <= dummy_s;
+	dummy_d_5 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_temp_control_control_in = linienmodule_pzt_control;
@@ -3551,11 +3546,7 @@ assign linienmodule_scopegen_automatically_rearm = (linienmodule_autolock_reques
 assign linienmodule_scopegen_automatically_trigger = linienmodule_autolock_status;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_5;
-=======
-reg dummy_d_4;
->>>>>>> pwm
+reg dummy_d_6;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_analog_dac_b <= 14'sd0;
@@ -3565,21 +3556,13 @@ always @(*) begin
 		linienmodule_analog_dac_b <= linienmodule_limit_fast2_limitcsr_y;
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_5 <= dummy_s;
-=======
-	dummy_d_4 <= dummy_s;
->>>>>>> pwm
+	dummy_d_6 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_analog_dac_a = linienmodule_sequenceexecutor_o_ref;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_6;
-=======
-reg dummy_d_5;
->>>>>>> pwm
+reg dummy_d_7;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_self <= 4'd0;
@@ -3588,11 +3571,7 @@ always @(*) begin
 	linienmodule_self[2] <= linienmodule_gpio_p_i[3];
 	linienmodule_self[3] <= linienmodule_gpio_p_i[4];
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_6 <= dummy_s;
-=======
-	dummy_d_5 <= dummy_s;
->>>>>>> pwm
+	dummy_d_7 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sequenceexecutor_ttl_in = linienmodule_self;
@@ -3646,11 +3625,7 @@ assign linienmodule_mod_cordic_dir14 = (linienmodule_mod_cordic_z14 < $signed({1
 assign linienmodule_mod_cordic_q = (linienmodule_mod_cordic_zi1[13] ^ linienmodule_mod_cordic_zi1[14]);
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_7;
-=======
-reg dummy_d_6;
->>>>>>> pwm
+reg dummy_d_8;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_mod_cordic_xi0 <= 15'sd0;
@@ -3662,11 +3637,7 @@ always @(*) begin
 		{linienmodule_mod_cordic_zi0, linienmodule_mod_cordic_yi0, linienmodule_mod_cordic_xi0} <= {linienmodule_mod_cordic_zi1, linienmodule_mod_cordic_yi1, linienmodule_mod_cordic_xi1};
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_7 <= dummy_s;
-=======
-	dummy_d_6 <= dummy_s;
->>>>>>> pwm
+	dummy_d_8 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sweep_sweep_run = ((~linienmodule_sweep_clear) & linienmodule_sweep_run_storage);
@@ -3677,11 +3648,7 @@ assign linienmodule_sweep_sweep_max = (linienmodule_sweep_max_storage <<< 5'd24)
 assign linienmodule_sweep_sweep_min = (linienmodule_sweep_min_storage <<< 5'd24);
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_8;
-=======
-reg dummy_d_7;
->>>>>>> pwm
+reg dummy_d_9;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sweep_sweep_up <= 1'd0;
@@ -3695,20 +3662,12 @@ always @(*) begin
 		linienmodule_sweep_sweep_up <= 1'd1;
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_8 <= dummy_s;
-=======
-	dummy_d_7 <= dummy_s;
->>>>>>> pwm
+	dummy_d_9 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_9;
-=======
-reg dummy_d_8;
->>>>>>> pwm
+reg dummy_d_10;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sweep_limit_y <= 15'sd0;
@@ -3726,21 +3685,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_9 <= dummy_s;
-=======
-	dummy_d_8 <= dummy_s;
->>>>>>> pwm
+	dummy_d_10 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_limit_error_signal_limit_x = linienmodule_limit_error_signal_x;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_10;
-=======
-reg dummy_d_9;
->>>>>>> pwm
+reg dummy_d_11;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_limit_error_signal_limit_y <= 29'sd0;
@@ -3758,21 +3709,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_10 <= dummy_s;
-=======
-	dummy_d_9 <= dummy_s;
->>>>>>> pwm
+	dummy_d_11 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_limit_fast1_limit_x = linienmodule_limit_fast1_x;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_11;
-=======
-reg dummy_d_10;
->>>>>>> pwm
+reg dummy_d_12;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_limit_fast1_limit_y <= 19'sd0;
@@ -3790,21 +3733,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_11 <= dummy_s;
-=======
-	dummy_d_10 <= dummy_s;
->>>>>>> pwm
+	dummy_d_12 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_limit_fast2_limit_x = linienmodule_limit_fast2_x;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_12;
-=======
-reg dummy_d_11;
->>>>>>> pwm
+reg dummy_d_13;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_limit_fast2_limit_y <= 19'sd0;
@@ -3822,21 +3757,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_12 <= dummy_s;
-=======
-	dummy_d_11 <= dummy_s;
->>>>>>> pwm
+	dummy_d_13 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_pid_setpoint_signed = linienmodule_pid_setpoint_storage;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_13;
-=======
-reg dummy_d_12;
->>>>>>> pwm
+reg dummy_d_14;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_pid_error <= 26'sd0;
@@ -3846,11 +3773,7 @@ always @(*) begin
 		linienmodule_pid_error <= 1'd0;
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_13 <= dummy_s;
-=======
-	dummy_d_12 <= dummy_s;
->>>>>>> pwm
+	dummy_d_14 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_pid_kp_signed = linienmodule_pid_kp_storage;
@@ -3864,11 +3787,7 @@ assign linienmodule_pid_kd_signed = linienmodule_pid_kd_storage;
 assign linienmodule_pid_kd_mult = (linienmodule_pid_error * linienmodule_pid_kd_signed);
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_14;
-=======
-reg dummy_d_13;
->>>>>>> pwm
+reg dummy_d_15;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_pid_pid_out <= 25'sd0;
@@ -3882,11 +3801,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_14 <= dummy_s;
-=======
-	dummy_d_13 <= dummy_s;
->>>>>>> pwm
+	dummy_d_15 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_autolock_fast_request_lock = linienmodule_autolock_request_lock_storage;
@@ -3911,11 +3826,7 @@ assign linienmodule_sequenceexecutor_saved_sweep_pos_status = linienmodule_seque
 assign linienmodule_sequenceexecutor_saved_dac_out_status = linienmodule_sequenceexecutor_o_saved_dac_out;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_15;
-=======
-reg dummy_d_14;
->>>>>>> pwm
+reg dummy_d_16;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sequenceexecutor_num_blocks <= 4'd0;
@@ -3937,22 +3848,14 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_15 <= dummy_s;
-=======
-	dummy_d_14 <= dummy_s;
->>>>>>> pwm
+	dummy_d_16 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sequenceexecutor_rising_edge = (linienmodule_sequenceexecutor_ttl_sync1 & (~linienmodule_sequenceexecutor_ttl_prev));
 assign linienmodule_sequenceexecutor_armed = (linienmodule_sequenceexecutor_i_enable & (~linienmodule_sequenceexecutor_o_active));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_16;
-=======
-reg dummy_d_15;
->>>>>>> pwm
+reg dummy_d_17;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sequenceexecutor_priority_rising_edge <= 4'd0;
@@ -3973,11 +3876,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_16 <= dummy_s;
-=======
-	dummy_d_15 <= dummy_s;
->>>>>>> pwm
+	dummy_d_17 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_sequenceexecutor_o_status0 = {linienmodule_sequenceexecutor_armed[0], linienmodule_sequenceexecutor_o_active_offset[0]};
@@ -3986,11 +3885,7 @@ assign linienmodule_sequenceexecutor_o_status2 = {linienmodule_sequenceexecutor_
 assign linienmodule_sequenceexecutor_o_status3 = {linienmodule_sequenceexecutor_armed[3], linienmodule_sequenceexecutor_o_active_offset[3]};
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_17;
-=======
-reg dummy_d_16;
->>>>>>> pwm
+reg dummy_d_18;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_sequenceexecutor_o_fsm_start <= 1'd0;
@@ -4046,21 +3941,13 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_17 <= dummy_s;
-=======
-	dummy_d_16 <= dummy_s;
->>>>>>> pwm
+	dummy_d_18 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_raw_acquisition_iir_railed = (~((linienmodule_raw_acquisition_iir_y_next[49:47] == $signed({1'd0, linienmodule_raw_acquisition_iir_y_pat})) | (linienmodule_raw_acquisition_iir_y_next[49:47] == $signed({1'd0, (~linienmodule_raw_acquisition_iir_y_pat)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_18;
-=======
-reg dummy_d_17;
->>>>>>> pwm
+reg dummy_d_19;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_raw_acquisition_iir_y_lim <= 25'sd0;
@@ -4070,11 +3957,7 @@ always @(*) begin
 		linienmodule_raw_acquisition_iir_y_lim <= linienmodule_raw_acquisition_iir_y_next[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_18 <= dummy_s;
-=======
-	dummy_d_17 <= dummy_s;
->>>>>>> pwm
+	dummy_d_19 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_raw_acquisition_iir_z0 = (linienmodule_raw_acquisition_iir_zr0 + (linienmodule_raw_acquisition_iir_x * linienmodule_raw_acquisition_iir_b5));
@@ -4167,11 +4050,7 @@ assign linienmodule_fast_a_dir14 = (linienmodule_fast_a_z14 < $signed({1'd0, 1'd
 assign linienmodule_fast_a_q1 = (linienmodule_fast_a_zi1[13] ^ linienmodule_fast_a_zi1[14]);
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_19;
-=======
-reg dummy_d_18;
->>>>>>> pwm
+reg dummy_d_20;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_xi0 <= 15'sd0;
@@ -4183,21 +4062,13 @@ always @(*) begin
 		{linienmodule_fast_a_zi0, linienmodule_fast_a_yi0, linienmodule_fast_a_xi0} <= {linienmodule_fast_a_zi1, linienmodule_fast_a_yi1, linienmodule_fast_a_xi1};
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_19 <= dummy_s;
-=======
-	dummy_d_18 <= dummy_s;
->>>>>>> pwm
+	dummy_d_20 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_limitcsr0_limit_x0 = linienmodule_fast_a_limitcsr0_x0;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_20;
-=======
-reg dummy_d_19;
->>>>>>> pwm
+reg dummy_d_21;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr0_limit_y0 <= 26'sd0;
@@ -4215,21 +4086,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_20 <= dummy_s;
-=======
-	dummy_d_19 <= dummy_s;
->>>>>>> pwm
+	dummy_d_21 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir0_railed0 = (~((linienmodule_fast_a_iir0_y_next0[49:47] == $signed({1'd0, linienmodule_fast_a_iir0_y_pat0})) | (linienmodule_fast_a_iir0_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir0_y_pat0)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_21;
-=======
-reg dummy_d_20;
->>>>>>> pwm
+reg dummy_d_22;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir0_y_lim0 <= 25'sd0;
@@ -4239,11 +4102,7 @@ always @(*) begin
 		linienmodule_fast_a_iir0_y_lim0 <= linienmodule_fast_a_iir0_y_next0[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_21 <= dummy_s;
-=======
-	dummy_d_20 <= dummy_s;
->>>>>>> pwm
+	dummy_d_22 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir0_z0 = (linienmodule_fast_a_iir0_zr0 + (linienmodule_fast_a_iir0_x0 * linienmodule_fast_a_iir0_b10));
@@ -4253,11 +4112,7 @@ assign linienmodule_fast_a_iir0_y_next0 = linienmodule_fast_a_iir0_z2;
 assign linienmodule_fast_a_iir0_railed1 = (~((linienmodule_fast_a_iir0_y_next1[49:47] == $signed({1'd0, linienmodule_fast_a_iir0_y_pat1})) | (linienmodule_fast_a_iir0_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir0_y_pat1)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_22;
-=======
-reg dummy_d_21;
->>>>>>> pwm
+reg dummy_d_23;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir0_y_lim1 <= 25'sd0;
@@ -4267,11 +4122,7 @@ always @(*) begin
 		linienmodule_fast_a_iir0_y_lim1 <= linienmodule_fast_a_iir0_y_next1[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_22 <= dummy_s;
-=======
-	dummy_d_21 <= dummy_s;
->>>>>>> pwm
+	dummy_d_23 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir0_z3 = (linienmodule_fast_a_iir0_zr3 + (linienmodule_fast_a_iir0_x1 * linienmodule_fast_a_iir0_b2));
@@ -4283,11 +4134,7 @@ assign linienmodule_fast_a_iir0_y_next1 = linienmodule_fast_a_iir0_z7;
 assign linienmodule_fast_a_limitcsr0_limit_x1 = linienmodule_fast_a_limitcsr0_x1;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_23;
-=======
-reg dummy_d_22;
->>>>>>> pwm
+reg dummy_d_24;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr0_limit_y1 <= 28'sd0;
@@ -4305,21 +4152,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_23 <= dummy_s;
-=======
-	dummy_d_22 <= dummy_s;
->>>>>>> pwm
+	dummy_d_24 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_limitcsr1_limit_x0 = linienmodule_fast_a_limitcsr1_x0;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_24;
-=======
-reg dummy_d_23;
->>>>>>> pwm
+reg dummy_d_25;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr1_limit_y0 <= 26'sd0;
@@ -4337,21 +4176,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_24 <= dummy_s;
-=======
-	dummy_d_23 <= dummy_s;
->>>>>>> pwm
+	dummy_d_25 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir1_railed0 = (~((linienmodule_fast_a_iir1_y_next0[49:47] == $signed({1'd0, linienmodule_fast_a_iir1_y_pat0})) | (linienmodule_fast_a_iir1_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir1_y_pat0)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_25;
-=======
-reg dummy_d_24;
->>>>>>> pwm
+reg dummy_d_26;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir1_y_lim0 <= 25'sd0;
@@ -4361,11 +4192,7 @@ always @(*) begin
 		linienmodule_fast_a_iir1_y_lim0 <= linienmodule_fast_a_iir1_y_next0[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_25 <= dummy_s;
-=======
-	dummy_d_24 <= dummy_s;
->>>>>>> pwm
+	dummy_d_26 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir1_z0 = (linienmodule_fast_a_iir1_zr0 + (linienmodule_fast_a_iir1_x0 * linienmodule_fast_a_iir1_b10));
@@ -4375,11 +4202,7 @@ assign linienmodule_fast_a_iir1_y_next0 = linienmodule_fast_a_iir1_z2;
 assign linienmodule_fast_a_iir1_railed1 = (~((linienmodule_fast_a_iir1_y_next1[49:47] == $signed({1'd0, linienmodule_fast_a_iir1_y_pat1})) | (linienmodule_fast_a_iir1_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_a_iir1_y_pat1)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_26;
-=======
-reg dummy_d_25;
->>>>>>> pwm
+reg dummy_d_27;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_iir1_y_lim1 <= 25'sd0;
@@ -4389,11 +4212,7 @@ always @(*) begin
 		linienmodule_fast_a_iir1_y_lim1 <= linienmodule_fast_a_iir1_y_next1[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_26 <= dummy_s;
-=======
-	dummy_d_25 <= dummy_s;
->>>>>>> pwm
+	dummy_d_27 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_a_iir1_z3 = (linienmodule_fast_a_iir1_zr3 + (linienmodule_fast_a_iir1_x1 * linienmodule_fast_a_iir1_b2));
@@ -4405,11 +4224,7 @@ assign linienmodule_fast_a_iir1_y_next1 = linienmodule_fast_a_iir1_z7;
 assign linienmodule_fast_a_limitcsr1_limit_x1 = linienmodule_fast_a_limitcsr1_x1;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_27;
-=======
-reg dummy_d_26;
->>>>>>> pwm
+reg dummy_d_28;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_a_limitcsr1_limit_y1 <= 28'sd0;
@@ -4427,11 +4242,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_27 <= dummy_s;
-=======
-	dummy_d_26 <= dummy_s;
->>>>>>> pwm
+	dummy_d_28 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_x0 = (linienmodule_fast_b_adc <<< 4'd11);
@@ -4488,11 +4299,7 @@ assign linienmodule_fast_b_dir14 = (linienmodule_fast_b_z14 < $signed({1'd0, 1'd
 assign linienmodule_fast_b_q1 = (linienmodule_fast_b_zi1[13] ^ linienmodule_fast_b_zi1[14]);
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_28;
-=======
-reg dummy_d_27;
->>>>>>> pwm
+reg dummy_d_29;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_xi0 <= 15'sd0;
@@ -4504,21 +4311,13 @@ always @(*) begin
 		{linienmodule_fast_b_zi0, linienmodule_fast_b_yi0, linienmodule_fast_b_xi0} <= {linienmodule_fast_b_zi1, linienmodule_fast_b_yi1, linienmodule_fast_b_xi1};
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_28 <= dummy_s;
-=======
-	dummy_d_27 <= dummy_s;
->>>>>>> pwm
+	dummy_d_29 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_limitcsr0_limit_x0 = linienmodule_fast_b_limitcsr0_x0;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_29;
-=======
-reg dummy_d_28;
->>>>>>> pwm
+reg dummy_d_30;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr0_limit_y0 <= 26'sd0;
@@ -4536,21 +4335,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_29 <= dummy_s;
-=======
-	dummy_d_28 <= dummy_s;
->>>>>>> pwm
+	dummy_d_30 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir0_railed0 = (~((linienmodule_fast_b_iir0_y_next0[49:47] == $signed({1'd0, linienmodule_fast_b_iir0_y_pat0})) | (linienmodule_fast_b_iir0_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir0_y_pat0)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_30;
-=======
-reg dummy_d_29;
->>>>>>> pwm
+reg dummy_d_31;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir0_y_lim0 <= 25'sd0;
@@ -4560,11 +4351,7 @@ always @(*) begin
 		linienmodule_fast_b_iir0_y_lim0 <= linienmodule_fast_b_iir0_y_next0[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_30 <= dummy_s;
-=======
-	dummy_d_29 <= dummy_s;
->>>>>>> pwm
+	dummy_d_31 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir0_z0 = (linienmodule_fast_b_iir0_zr0 + (linienmodule_fast_b_iir0_x0 * linienmodule_fast_b_iir0_b10));
@@ -4574,11 +4361,7 @@ assign linienmodule_fast_b_iir0_y_next0 = linienmodule_fast_b_iir0_z2;
 assign linienmodule_fast_b_iir0_railed1 = (~((linienmodule_fast_b_iir0_y_next1[49:47] == $signed({1'd0, linienmodule_fast_b_iir0_y_pat1})) | (linienmodule_fast_b_iir0_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir0_y_pat1)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_31;
-=======
-reg dummy_d_30;
->>>>>>> pwm
+reg dummy_d_32;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir0_y_lim1 <= 25'sd0;
@@ -4588,11 +4371,7 @@ always @(*) begin
 		linienmodule_fast_b_iir0_y_lim1 <= linienmodule_fast_b_iir0_y_next1[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_31 <= dummy_s;
-=======
-	dummy_d_30 <= dummy_s;
->>>>>>> pwm
+	dummy_d_32 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir0_z3 = (linienmodule_fast_b_iir0_zr3 + (linienmodule_fast_b_iir0_x1 * linienmodule_fast_b_iir0_b2));
@@ -4604,11 +4383,7 @@ assign linienmodule_fast_b_iir0_y_next1 = linienmodule_fast_b_iir0_z7;
 assign linienmodule_fast_b_limitcsr0_limit_x1 = linienmodule_fast_b_limitcsr0_x1;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_32;
-=======
-reg dummy_d_31;
->>>>>>> pwm
+reg dummy_d_33;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr0_limit_y1 <= 28'sd0;
@@ -4626,21 +4401,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_32 <= dummy_s;
-=======
-	dummy_d_31 <= dummy_s;
->>>>>>> pwm
+	dummy_d_33 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_limitcsr1_limit_x0 = linienmodule_fast_b_limitcsr1_x0;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_33;
-=======
-reg dummy_d_32;
->>>>>>> pwm
+reg dummy_d_34;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr1_limit_y0 <= 26'sd0;
@@ -4658,21 +4425,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_33 <= dummy_s;
-=======
-	dummy_d_32 <= dummy_s;
->>>>>>> pwm
+	dummy_d_34 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir1_railed0 = (~((linienmodule_fast_b_iir1_y_next0[49:47] == $signed({1'd0, linienmodule_fast_b_iir1_y_pat0})) | (linienmodule_fast_b_iir1_y_next0[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir1_y_pat0)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_34;
-=======
-reg dummy_d_33;
->>>>>>> pwm
+reg dummy_d_35;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir1_y_lim0 <= 25'sd0;
@@ -4682,11 +4441,7 @@ always @(*) begin
 		linienmodule_fast_b_iir1_y_lim0 <= linienmodule_fast_b_iir1_y_next0[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_34 <= dummy_s;
-=======
-	dummy_d_33 <= dummy_s;
->>>>>>> pwm
+	dummy_d_35 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir1_z0 = (linienmodule_fast_b_iir1_zr0 + (linienmodule_fast_b_iir1_x0 * linienmodule_fast_b_iir1_b10));
@@ -4696,11 +4451,7 @@ assign linienmodule_fast_b_iir1_y_next0 = linienmodule_fast_b_iir1_z2;
 assign linienmodule_fast_b_iir1_railed1 = (~((linienmodule_fast_b_iir1_y_next1[49:47] == $signed({1'd0, linienmodule_fast_b_iir1_y_pat1})) | (linienmodule_fast_b_iir1_y_next1[49:47] == $signed({1'd0, (~linienmodule_fast_b_iir1_y_pat1)}))));
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_35;
-=======
-reg dummy_d_34;
->>>>>>> pwm
+reg dummy_d_36;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_iir1_y_lim1 <= 25'sd0;
@@ -4710,11 +4461,7 @@ always @(*) begin
 		linienmodule_fast_b_iir1_y_lim1 <= linienmodule_fast_b_iir1_y_next1[49:23];
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_35 <= dummy_s;
-=======
-	dummy_d_34 <= dummy_s;
->>>>>>> pwm
+	dummy_d_36 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_fast_b_iir1_z3 = (linienmodule_fast_b_iir1_zr3 + (linienmodule_fast_b_iir1_x1 * linienmodule_fast_b_iir1_b2));
@@ -4726,11 +4473,7 @@ assign linienmodule_fast_b_iir1_y_next1 = linienmodule_fast_b_iir1_z7;
 assign linienmodule_fast_b_limitcsr1_limit_x1 = linienmodule_fast_b_limitcsr1_x1;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_36;
-=======
-reg dummy_d_35;
->>>>>>> pwm
+reg dummy_d_37;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_fast_b_limitcsr1_limit_y1 <= 28'sd0;
@@ -4748,11 +4491,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_36 <= dummy_s;
-=======
-	dummy_d_35 <= dummy_s;
->>>>>>> pwm
+	dummy_d_37 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_slowchain_input1 = linienmodule_slowchain_input0;
@@ -4762,11 +4501,7 @@ assign linienmodule_sig_status6 = linienmodule_slowchain_out;
 assign linienmodule_slowchain_setpoint_signed = linienmodule_slowchain_setpoint_storage;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_37;
-=======
-reg dummy_d_36;
->>>>>>> pwm
+reg dummy_d_38;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_slowchain_error <= 15'sd0;
@@ -4776,11 +4511,7 @@ always @(*) begin
 		linienmodule_slowchain_error <= 1'd0;
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_37 <= dummy_s;
-=======
-	dummy_d_36 <= dummy_s;
->>>>>>> pwm
+	dummy_d_38 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_slowchain_kp_signed = linienmodule_slowchain_kp_storage;
@@ -4794,11 +4525,7 @@ assign linienmodule_slowchain_kd_signed = linienmodule_slowchain_kd_storage;
 assign linienmodule_slowchain_kd_mult = (linienmodule_slowchain_error * linienmodule_slowchain_kd_signed);
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_38;
-=======
-reg dummy_d_37;
->>>>>>> pwm
+reg dummy_d_39;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_slowchain_pid_out <= 14'sd0;
@@ -4812,21 +4539,13 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_38 <= dummy_s;
-=======
-	dummy_d_37 <= dummy_s;
->>>>>>> pwm
+	dummy_d_39 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_slowchain_limit_x = linienmodule_slowchain_x;
 
 // synthesis translate_off
-<<<<<<< HEAD
-reg dummy_d_39;
-=======
-reg dummy_d_38;
->>>>>>> pwm
+reg dummy_d_40;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_slowchain_limit_y <= 19'sd0;
@@ -4844,11 +4563,7 @@ always @(*) begin
 		end
 	end
 // synthesis translate_off
-<<<<<<< HEAD
-	dummy_d_39 <= dummy_s;
-=======
-	dummy_d_38 <= dummy_s;
->>>>>>> pwm
+	dummy_d_40 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_scopegen_dac_a = (linienmodule_scopegen_asg_a <<< 4'd11);
@@ -4858,14 +4573,14 @@ assign linienmodule_sig_status8 = linienmodule_scopegen_dac_b;
 assign linienmodule_temp_control_blink = linienmodule_temp_control_blink_cnt[24];
 
 // synthesis translate_off
-reg dummy_d_39;
+reg dummy_d_41;
 // synthesis translate_on
 always @(*) begin
 	linienmodule_temp_control_led_o <= 2'd0;
 	linienmodule_temp_control_led_o[0] <= ((linienmodule_temp_control_storage >= 12'd3686) & ((linienmodule_temp_control_storage != 12'd4095) | linienmodule_temp_control_blink));
 	linienmodule_temp_control_led_o[1] <= ((linienmodule_temp_control_storage <= 8'd204) & ((linienmodule_temp_control_storage != 1'd0) | linienmodule_temp_control_blink));
 // synthesis translate_off
-	dummy_d_39 <= dummy_s;
+	dummy_d_41 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_temp_control_sample_data_status = linienmodule_temp_control_sample;
@@ -6856,7 +6571,7 @@ assign slice_proxy2 = {xadc_n[4], {6{1'd0}}, xadc_n[3:2], {6{1'd0}}, xadc_n[1:0]
 assign slice_proxy3 = {xadc_p[4], {6{1'd0}}, xadc_p[3:2], {6{1'd0}}, xadc_p[1:0]};
 
 // synthesis translate_off
-reg dummy_d_40;
+reg dummy_d_42;
 // synthesis translate_on
 always @(*) begin
 	comb_self0 <= 14'sd0;
@@ -6869,12 +6584,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_40 <= dummy_s;
+	dummy_d_42 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_41;
+reg dummy_d_43;
 // synthesis translate_on
 always @(*) begin
 	comb_self1 <= 25'sd0;
@@ -6886,53 +6601,7 @@ always @(*) begin
 			comb_self1 <= linienmodule_fast_a_iir0_y0;
 		end
 		default: begin
-<<<<<<< HEAD
-			comb_self1 <= linienmodule_fast_a_iir0_y2;
-		end
-	endcase
-// synthesis translate_off
-	dummy_d_41 <= dummy_s;
-// synthesis translate_on
-end
-
-// synthesis translate_off
-reg dummy_d_42;
-// synthesis translate_on
-always @(*) begin
-	comb_self2 <= 25'sd0;
-	case (linienmodule_fast_a_y_tap_storage)
-		1'd0: begin
-			comb_self2 <= linienmodule_fast_a_iir1_x0;
-		end
-		1'd1: begin
-			comb_self2 <= linienmodule_fast_a_iir1_y0;
-		end
-		default: begin
-			comb_self2 <= linienmodule_fast_a_iir1_y2;
-		end
-	endcase
-// synthesis translate_off
-	dummy_d_42 <= dummy_s;
-// synthesis translate_on
-end
-
-// synthesis translate_off
-reg dummy_d_43;
-// synthesis translate_on
-always @(*) begin
-	comb_self3 <= 25'sd0;
-	case (linienmodule_fast_b_y_tap_storage)
-		1'd0: begin
-			comb_self3 <= linienmodule_fast_b_iir0_x0;
-		end
-		1'd1: begin
-			comb_self3 <= linienmodule_fast_b_iir0_y0;
-		end
-		default: begin
-			comb_self3 <= linienmodule_fast_b_iir0_y2;
-=======
 			comb_self1 <= linienmodule_fast_a_iir0_y1;
->>>>>>> pwm
 		end
 	endcase
 // synthesis translate_off
@@ -6978,12 +6647,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_43 <= dummy_s;
+	dummy_d_45 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_44;
+reg dummy_d_46;
 // synthesis translate_on
 always @(*) begin
 	comb_self4 <= 25'sd0;
@@ -6999,12 +6668,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_44 <= dummy_s;
+	dummy_d_46 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_45;
+reg dummy_d_47;
 // synthesis translate_on
 always @(*) begin
 	sync_self0 <= 25'sd0;
@@ -7050,12 +6719,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_45 <= dummy_s;
+	dummy_d_47 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_46;
+reg dummy_d_48;
 // synthesis translate_on
 always @(*) begin
 	sync_self1 <= 25'sd0;
@@ -7101,12 +6770,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_46 <= dummy_s;
+	dummy_d_48 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_47;
+reg dummy_d_49;
 // synthesis translate_on
 always @(*) begin
 	sync_self2 <= 25'sd0;
@@ -7152,12 +6821,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_47 <= dummy_s;
+	dummy_d_49 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_48;
+reg dummy_d_50;
 // synthesis translate_on
 always @(*) begin
 	sync_self3 <= 25'sd0;
@@ -7203,12 +6872,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_48 <= dummy_s;
+	dummy_d_50 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_49;
+reg dummy_d_51;
 // synthesis translate_on
 always @(*) begin
 	sync_self4 <= 25'sd0;
@@ -7254,12 +6923,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_49 <= dummy_s;
+	dummy_d_51 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_50;
+reg dummy_d_52;
 // synthesis translate_on
 always @(*) begin
 	sync_self5 <= 25'sd0;
@@ -7305,12 +6974,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_50 <= dummy_s;
+	dummy_d_52 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_51;
+reg dummy_d_53;
 // synthesis translate_on
 always @(*) begin
 	sync_self6 <= 25'sd0;
@@ -7356,12 +7025,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_51 <= dummy_s;
+	dummy_d_53 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_52;
+reg dummy_d_54;
 // synthesis translate_on
 always @(*) begin
 	sync_self7 <= 25'sd0;
@@ -7407,12 +7076,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_52 <= dummy_s;
+	dummy_d_54 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_53;
+reg dummy_d_55;
 // synthesis translate_on
 always @(*) begin
 	sync_self8 <= 1'd0;
@@ -7467,12 +7136,12 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_53 <= dummy_s;
+	dummy_d_55 <= dummy_s;
 // synthesis translate_on
 end
 
 // synthesis translate_off
-reg dummy_d_54;
+reg dummy_d_56;
 // synthesis translate_on
 always @(*) begin
 	self <= 1'd0;
@@ -7485,7 +7154,7 @@ always @(*) begin
 		end
 	endcase
 // synthesis translate_off
-	dummy_d_54 <= dummy_s;
+	dummy_d_56 <= dummy_s;
 // synthesis translate_on
 end
 assign linienmodule_gpio_n_i = xilinxmultiregimpl0_regs1;

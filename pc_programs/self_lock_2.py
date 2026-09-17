@@ -243,7 +243,7 @@ def main():
 
     #The main loop:
 
-    lab.red_pitaya.set_sweep(speed=0.1, amplitude=1, center=0.0)
+    
 
     while True:
 
@@ -255,6 +255,10 @@ def main():
 
         
         value = read_float("setup > ", allowed={"proceed", "quit"})
+
+        
+
+        lab.red_pitaya.set_sweep(speed=0.1, amplitude=1, center=0.0)
 
         if value == "quit":
             print("Quitting.")
