@@ -43,13 +43,6 @@ class Registers:
     ) -> None:
         self.control = control
         self.parameters = parameters
-        self._armed_sequence = 0
-        # on upload, reset all armed signals
-        # TODO:
-        # list that maintains the most recently written sequence to each index.
-        # each entry corresponds to the type of instruction, from which parameter length can e inferred.
-        # this should allow the calculation of start and end indexes, allowing for wiping.
-        self._sequence_length = [[], [], [], []]
 
         if host is None:
             # AcquisitionService is imported only on the Red Pitaya since pyrp3 is not
@@ -72,11 +65,6 @@ class Registers:
         self.parameters.dual_channel.add_callback(
             self.acquisition.exposed_set_dual_channel, call_immediately=True
         )
-        self.set("logic_sequence_arm", 0b0000)
-        # and send reset signal
-        self.set("logic_sequence_reset_seq", 0)
-        self.set("logic_sequence_reset_seq", 1)
-        self.set("logic_sequence_reset_seq", 0)
 
     # method used to write to the AWG; expects a 1024 long sequence of values, 14 bits in size.
     def write_awg(self, arr_vals):
@@ -100,65 +88,24 @@ class Registers:
         # AWG is given to be 1024 lines long
         # TODO: define this constant in linien_common so it can be changed/accessed later?
 
-    # method to send reset signal to the device
-    def reset_device(self):
-        self.set("logic_sequence_reset_seq", 0)
-        self.set("logic_sequence_reset_seq", 1)
-        self.set("logic_sequence_reset_seq", 0)
-        pass
+    # method used to write the sequence of configs from parameters.sequence_blocks
+    # when called, should iterate over the parameter parameters.sequence_blocks and...
+    # 1)
 
-    # convenience function to disarm/wipe certain sequences.
-    def disarm_sequence(self, index):
-        if index not in range(1, 5):
-            raise ValueError(f"sequence index must be 1-4, got {index}")
-        # step 1: disarm the sequence.
-        one_hot = ~(1 << (index - 1)) & 0b1111
-        self._armed_sequence = self._armed_sequence & one_hot
-        self.set("logic_sequence_arm", self._armed_sequence)
-
-        # step 2: wipe the series of instructions(?)
-
-    # MULTIPLE TTL_SEQUENCE CHANGE
-    # write_sequence should now have the index of which instruction its writing to as its first argument.
-    # use _sequence_length to maintain length of each sequence.
     def write_sequence_config(self):
         # maintain a local key-value dictionary for type of nistruction and number of parameters
+        base_addr = 0
         self.set("logic_sequence_fsm_reg_wen", 0)
         stride = 8
         # set the arm to 0
-        # CHANGES:
-        # recall arm was changed to be a 4 bit wide signal.
-        # one hot encoded. Initially set to 0000
-        # WAIT, note that this means *each time* a seqeunce is writte,
-        # it "dearms" all the others!
-        # instead, disarm only the signal being written to right now.
+        self.set("logic_sequence_arm", 0)
         sequence_blocks = self.parameters.sequence_blocks.value
-        index = sequence_blocks[0]
-        if index not in range(1, 5):
-            raise ValueError(f"sequence index must be 1-4, got {index}")
-        # de-arm the signal being written to
-        self._armed_sequence = self._armed_sequence & (~(1 << (index - 1)))
-        self.set("logic_sequence_arm", self._armed_sequence)
-        # first vlaue in sequence_blocks will be the index/offset being used.
-        # rest of the values will be the actual instructions.
-        instructions = sequence_blocks[1:]
 
-        # recall that the base_addr is the 2 MSB of the reg addr.
-        # dicatates where the intructions are being read from.
-        # ASSUMES THAT THE PROVIDED INDEX IS 1-4, INDEX 1
-        base_addr = (index - 1) << 7
         # iterate over the instructions in sequence_blocks.start (list)
-        # base address should be determined by the index selected
-        # index can be 1,2,3,4
-        # this sets the
-        for inst in instructions:
-            # first, write the sin_en to the base address
+        i = 1
+        for inst in sequence_blocks:
+            # first, write the type of instruction to the base address
             self.set("logic_sequence_fsm_reg_addr", base_addr)
-            self.set("logic_sequence_fsm_reg_data", inst["en_sin"])
-            self.set("logic_sequence_fsm_reg_wen", 1)
-            self.set("logic_sequence_fsm_reg_wen", 0)
-            # second, write the type of instruction to the base address offset by 1
-            self.set("logic_sequence_fsm_reg_addr", base_addr + 1)
             self.set("logic_sequence_fsm_reg_data", inst["type"])
             # pulse the w_en to load it into the BRAM
             self.set("logic_sequence_fsm_reg_wen", 1)
@@ -166,39 +113,16 @@ class Registers:
 
             # iterate equal to the number of parameters
             for i, params in enumerate(inst["params"]):
-                self.set("logic_sequence_fsm_reg_addr", base_addr + 2 + i)
+                self.set("logic_sequence_fsm_reg_addr", base_addr + 1 + i)
                 self.set("logic_sequence_fsm_reg_data", params)
                 self.set("logic_sequence_fsm_reg_wen", 1)
                 self.set("logic_sequence_fsm_reg_wen", 0)
 
             # increment the base_addr by the stride
             base_addr += stride
-        # re-arm the sequence
-        self._armed_sequence = self._armed_sequence | (1 << (index - 1))
-        self.set("logic_sequence_arm", self._armed_sequence)
-        # CHANGES: now num_blocks has to be specified for each sequence.
-        self.set(f"logic_sequence_num_blocks_{index}", len(instructions) - 1)
-
-    def write_sinusoid_config(self):
-        self.set("logic_sequence_sinusoid_reg_addr", 0000)
-        self.set("logic_sequence_sinusoid_reg_data", 0x0000)
-        self.set("logic_sequence_sinusoid_en", 1)
-        self.set("logic_sequence_sinusoid_active", 0)
-        sinusoid_params = self.parameters.sinusoid_params.value
-        for i in range(0, 5):
-            self.set("logic_sequence_sinusoid_reg_addr", i)
-            self.set("logic_sequence_sinusoid_reg_data", sinusoid_params[i])
-            self.set("logic_sequence_sinusoid_en", 0b1)
-            self.set("logic_sequence_sinusoid_en", 0b0)
-
-        pass
-        self.set("logic_sequence_sinusoid_active", 0b1)
-
-    def activate_sinusoid(self):
-        self.set("logic_sequence_sinusoid_active", 0b1)
-
-    def deactivate_sinusoid(self):
-        self.set("logic_sequence_sinusoid_active", 0b0)
+        # after finishing this loop, set the other parameters
+        self.set("logic_sequence_arm", 1)
+        self.set("logic_sequence_num_blocks", len(sequence_blocks) - 1)
 
     def write_registers(self):
         """Writes data from `parameters` to the FPGA."""
@@ -300,7 +224,7 @@ class Registers:
             fast_b_invert=int(self.parameters.invert_b.value),
             # trigger on sweep
             scopegen_external_trigger=1,
-            gpio_p_oes=0b11100000,
+            gpio_p_oes=0b11111111,
             gpio_n_oes=0b11111111,
             gpio_p_outs=self.parameters.gpio_p_out.value,
             gpio_n_outs=self.parameters.gpio_n_out.value,
@@ -317,35 +241,29 @@ class Registers:
 
         if self.parameters.lock.value:
             # display combined error signal and control signal
-            new.update(
-                {
-                    "scopegen_adc_a_sel": csrmap.signals.index(
-                        "logic_combined_error_signal"
-                        if not self.parameters.acquisition_raw_filter_enabled.value
-                        else "logic_combined_error_signal_filtered"
-                    ),
-                    "scopegen_adc_a_q_sel": csrmap.signals.index("fast_b_x"),
-                    "scopegen_adc_b_sel": csrmap.signals.index("logic_control_signal"),
-                    "scopegen_adc_b_q_sel": csrmap.signals.index("zero"),
-                }
-            )
+            new.update({
+                "scopegen_adc_a_sel": csrmap.signals.index(
+                    "logic_combined_error_signal"
+                    if not self.parameters.acquisition_raw_filter_enabled.value
+                    else "logic_combined_error_signal_filtered"
+                ),
+                "scopegen_adc_a_q_sel": csrmap.signals.index("fast_b_x"),
+                "scopegen_adc_b_sel": csrmap.signals.index("logic_control_signal"),
+                "scopegen_adc_b_q_sel": csrmap.signals.index("zero"),
+            })
         else:
             # display both demodulated error signals (if dual channel mode) OR: display
             # demodulated error signal 1 + monitor signal
-            new.update(
-                {
-                    "scopegen_adc_a_sel": csrmap.signals.index("fast_a_out_i"),
-                    "scopegen_adc_a_q_sel": csrmap.signals.index("fast_a_out_q"),
-                    "scopegen_adc_b_sel": csrmap.signals.index(
-                        "fast_b_out_i"
-                        if self.parameters.dual_channel.value
-                        else "fast_b_x"
-                    ),
-                    "scopegen_adc_b_q_sel": csrmap.signals.index(
-                        "fast_b_out_q" if self.parameters.dual_channel.value else "zero"
-                    ),
-                }
-            )
+            new.update({
+                "scopegen_adc_a_sel": csrmap.signals.index("fast_a_out_i"),
+                "scopegen_adc_a_q_sel": csrmap.signals.index("fast_a_out_q"),
+                "scopegen_adc_b_sel": csrmap.signals.index(
+                    "fast_b_out_i" if self.parameters.dual_channel.value else "fast_b_x"
+                ),
+                "scopegen_adc_b_q_sel": csrmap.signals.index(
+                    "fast_b_out_q" if self.parameters.dual_channel.value else "zero"
+                ),
+            })
 
         # filter out values that did not change
         new = dict(

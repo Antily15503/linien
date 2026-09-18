@@ -69,19 +69,31 @@ class PID(Module, AutoCSR):
         ki_signed = Signal((self.coeff_width, True))
         self.comb += [ki_signed.eq(self.ki.storage)]
 
+        # 1+25+14=40
         self.ki_mult = Signal((1 + self.width + self.coeff_width, True))
 
+        # error = 26 bits (25+1)
+        # ki_signed = 14 bits
+        # ki_mult max bit width = 40
+        # right shifted 4, 36 bit value
         self.comb += [self.ki_mult.eq((self.error * ki_signed) >> 4)]
 
+        # 25+14+4=43
         int_reg_width = self.width + self.coeff_width + 4
+        # 43-25=18
         extra_width = int_reg_width - self.width
+        # 43
         self.int_reg = Signal((int_reg_width, True))
+        # 44
         self.int_sum = Signal((int_reg_width + 1, True))
 
+        # 25
         self.int_out = Signal((self.width, True))
 
         self.comb += [
+            # 36 bit value + 43 bit value, max 44 bit value?
             self.int_sum.eq(self.ki_mult + self.int_reg),
+            # 43>>18=26 bit value
             self.int_out.eq(self.int_reg >> extra_width),
         ]
 

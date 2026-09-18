@@ -1,7 +1,9 @@
 from linien_client.device import Device
 from linien_client.connection import LinienClient
+from linien_common import misc_func
 import time
 import random
+
 
 CLOCK_FREQ = 125e6
 CLOCK_PER = 1 / CLOCK_FREQ
