@@ -16,6 +16,8 @@ GAIN = 1
 V_MAX = VPP / 2
 V_MIN = -VPP / 2
 
+# how often to ask the server whether the PID is engaged
+LOCK_POLL_INTERVAL = 0.2
 
 # FUNCTIONS TO TRANSLATE FROM TIME TO CYCLES
 def us_to_clock(time):
@@ -44,7 +46,7 @@ def freq_to_phase(f_hz, f_clk_hz):
 print(bin(volts_to_bits(-1)))
 
 
-device = Device(host="rp-f0edf0.local", username="root", password="root")
+device = Device(host="rp-F0EFA8.local", username="root", password="root")
 client = LinienClient(device)
 client.connect(autostart_server=True, use_parameter_cache=False)
 
@@ -83,44 +85,66 @@ client.control.write_sinusoid_config()
 client.control.activate_sinusoid()
 client.control.activate_sinusoid()
 
-print("==============================")
-print("Writing MOT lock sequence...")
-print("==============================")
-
 # NOTE: testing to see difference between relative and absolute jumps.
-client.parameters.sequence_blocks.value = [
-    1,
-    # {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(3)]},
-    # {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
-    {
-        "en_sin": 1,
-        "type": 0,
-        "params": [volts_to_bits(0.2), ms_to_clock(10)],
-    },
-    {
-        "en_sin": 1,
-        "type": 2,
-        "params": [volts_to_bits(0), ms_to_clock(10)],
-    },
-    {
-        "en_sin": 1,
-        "type": 0,
-        "params": [volts_to_bits(0.7), ms_to_clock(10)],
-    },
-    {
-        "en_sin": 1,
-        "type": 2,
-        "params": [volts_to_bits(1.0), ms_to_clock(20)],
-    },
-    {"en_sin": 1, "type": 0, "params": [volts_to_bits(-0.5), ms_to_clock(20)]},
-    {"en_sin": 1, "type": 2, "params": [volts_to_bits(0), ms_to_clock(20)]},
-]
+def write_mot_sequence():
+    """Push the MOT sequence to the FSM registers. Only call while the PID is on."""
+    client.parameters.sequence_blocks.value = [
+        1,
+        # {"en_sin": 1, "type": 0, "params": [0, ms_to_clock(3)]},
+        # {"en_sin": 1, "type": 0, "params": [volts_to_bits(jump_1), ms_to_clock(5)]},
+        {
+            "en_sin": 1,
+            "type": 0,
+            "params": [volts_to_bits(0.2), ms_to_clock(10)],
+        },
+        {
+            "en_sin": 1,
+            "type": 2,
+            "params": [volts_to_bits(0), ms_to_clock(10)],
+        },
+        {
+            "en_sin": 1,
+            "type": 0,
+            "params": [volts_to_bits(0.7), ms_to_clock(10)],
+        },
+        {
+            "en_sin": 1,
+            "type": 2,
+            "params": [volts_to_bits(1.0), ms_to_clock(20)],
+        },
+        {"en_sin": 1, "type": 0, "params": [volts_to_bits(-0.5), ms_to_clock(20)]},
+        {"en_sin": 1, "type": 2, "params": [volts_to_bits(0), ms_to_clock(20)]},
+    ]
 
-# monitor values
-control_channel = 0
-sweep_channel = 0
+    # monitor values
+    control_channel = 0
+    sweep_channel = 0
 
-client.control.write_sequence_config()
+    client.control.write_sequence_config()
+
+
+# `parameters.lock` is True exactly when the sweep is off and the PID is running.
+# Poll it and (re)write the sequence on every unlocked -> locked transition, so the
+# registers are only touched while the PID is engaged.
 print("==============================")
-print(" MOT Locking Sequence Written ")
+print("Waiting for lock to write MOT sequence...")
 print("==============================")
+
+was_locked = False
+try:
+    while True:
+        locked = bool(client.parameters.lock.value)
+
+        if locked and not was_locked:
+            print("MOT is locked, writing sequence for next AWG cycle...")
+            write_mot_sequence()
+            print("==============================")
+            print(" MOT Locking Sequence Written ")
+            print("==============================")
+        elif was_locked and not locked:
+            print("Lock lost -- holding off on sequence writes until it returns.")
+
+        was_locked = locked
+        time.sleep(LOCK_POLL_INTERVAL)
+except KeyboardInterrupt:
+    print("\nStopped watching the lock.")
