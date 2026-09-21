@@ -1,7 +1,7 @@
 -------------------------------------
 | Tool Version : Vivado v.2025.2
-| Date         : Thu Sep 17 14:54:02 2026
-| Host         : TejaskumarBabel
+| Date         : Mon Sep 21 16:31:01 2026
+| Host         : cachyos-x8664
 | Design       : design_1
 | Device       : xc7z020-clg400-1--
 -------------------------------------

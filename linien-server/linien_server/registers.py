@@ -193,11 +193,11 @@ class Registers:
             logic_analog_out_3=self.parameters.analog_out_3.value,
             logic_autolock_fast_target_position=self.parameters.autolock_target_position.value,  # noqa: E501
             logic_autolock_autolock_mode=self.parameters.autolock_mode.value,
-            # logic_autolock_robust_N_instructions=len(
-            #    self.parameters.autolock_instructions.value
-            # ),
-            # logic_autolock_robust_time_scale=self.parameters.autolock_time_scale.value,
-            # logic_autolock_robust_final_wait_time=self.parameters.autolock_final_wait_time.value,  # noqa: E501
+            logic_autolock_robust_N_instructions=len(
+                self.parameters.autolock_instructions.value
+            ),
+            logic_autolock_robust_time_scale=self.parameters.autolock_time_scale.value,
+            logic_autolock_robust_final_wait_time=self.parameters.autolock_final_wait_time.value,  # noqa: E501
             # channel A
             fast_a_demod_delay=(
                 phase_to_delay(self.parameters.demodulation_phase_a.value)
@@ -233,37 +233,43 @@ class Registers:
             logic_slow_decimation=16,
         )
 
-        #        for instruction_idx, [wait_for, peak_height] in enumerate(
-        #            self.parameters.autolock_instructions.value
-        #        ):
-        #            new[f"logic_autolock_robust_peak_height_{instruction_idx}"] = peak_height
-        #            new[f"logic_autolock_robust_wait_for_{instruction_idx}"] = wait_for
+        for instruction_idx, [wait_for, peak_height] in enumerate(
+            self.parameters.autolock_instructions.value
+        ):
+            new[f"logic_autolock_robust_peak_height_{instruction_idx}"] = peak_height
+            new[f"logic_autolock_robust_wait_for_{instruction_idx}"] = wait_for
 
         if self.parameters.lock.value:
             # display combined error signal and control signal
-            new.update({
-                "scopegen_adc_a_sel": csrmap.signals.index(
-                    "logic_combined_error_signal"
-                    if not self.parameters.acquisition_raw_filter_enabled.value
-                    else "logic_combined_error_signal_filtered"
-                ),
-                "scopegen_adc_a_q_sel": csrmap.signals.index("fast_b_x"),
-                "scopegen_adc_b_sel": csrmap.signals.index("logic_control_signal"),
-                "scopegen_adc_b_q_sel": csrmap.signals.index("zero"),
-            })
+            new.update(
+                {
+                    "scopegen_adc_a_sel": csrmap.signals.index(
+                        "logic_combined_error_signal"
+                        if not self.parameters.acquisition_raw_filter_enabled.value
+                        else "logic_combined_error_signal_filtered"
+                    ),
+                    "scopegen_adc_a_q_sel": csrmap.signals.index("fast_b_x"),
+                    "scopegen_adc_b_sel": csrmap.signals.index("logic_control_signal"),
+                    "scopegen_adc_b_q_sel": csrmap.signals.index("zero"),
+                }
+            )
         else:
             # display both demodulated error signals (if dual channel mode) OR: display
             # demodulated error signal 1 + monitor signal
-            new.update({
-                "scopegen_adc_a_sel": csrmap.signals.index("fast_a_out_i"),
-                "scopegen_adc_a_q_sel": csrmap.signals.index("fast_a_out_q"),
-                "scopegen_adc_b_sel": csrmap.signals.index(
-                    "fast_b_out_i" if self.parameters.dual_channel.value else "fast_b_x"
-                ),
-                "scopegen_adc_b_q_sel": csrmap.signals.index(
-                    "fast_b_out_q" if self.parameters.dual_channel.value else "zero"
-                ),
-            })
+            new.update(
+                {
+                    "scopegen_adc_a_sel": csrmap.signals.index("fast_a_out_i"),
+                    "scopegen_adc_a_q_sel": csrmap.signals.index("fast_a_out_q"),
+                    "scopegen_adc_b_sel": csrmap.signals.index(
+                        "fast_b_out_i"
+                        if self.parameters.dual_channel.value
+                        else "fast_b_x"
+                    ),
+                    "scopegen_adc_b_q_sel": csrmap.signals.index(
+                        "fast_b_out_q" if self.parameters.dual_channel.value else "zero"
+                    ),
+                }
+            )
 
         # filter out values that did not change
         new = dict(

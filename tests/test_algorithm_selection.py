@@ -140,13 +140,13 @@ def test_automatic_algorithm_selection():
                 "error_signal_2": [],
             })
 
-        # assert autolock.autolock_mode_detector.done
-        # if jitter == LOW_JITTER:
-        #    assert parameters.autolock_mode.value == AutolockMode.SIMPLE
-        #    assert isinstance(autolock.algorithm, SimpleAutolock)
-        # else:
-        #    assert parameters.autolock_mode.value == AutolockMode.ROBUST
-        #    assert isinstance(autolock.algorithm, RobustAutolock)
+        assert autolock.autolock_mode_detector.done
+        if jitter == LOW_JITTER:
+            assert parameters.autolock_mode.value == AutolockMode.SIMPLE
+            assert isinstance(autolock.algorithm, SimpleAutolock)
+        else:
+            assert parameters.autolock_mode.value == AutolockMode.ROBUST
+            assert isinstance(autolock.algorithm, RobustAutolock)
 
 
 if __name__ == "__main__":

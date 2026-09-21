@@ -145,6 +145,7 @@ steps:
     - when csr "mot_lock" is high, keeps a rolling window of values from the DAC. 
     - once o_seq_done is asserted by sequence_executor, stop, update CSR "peak_brightness"
 6) once "sequence_done" is asserted by sequence_executor, update a csr with the detected peak value
+    - expose sequence_done via csr so that once seen by orchestrator, can construct stage 2
 7) using this value from the csr, construct stage 2 centered around this, with fractional range.
 8) once this new peak is detected... use it as the starting point for stage 3 and... collect the data?
 

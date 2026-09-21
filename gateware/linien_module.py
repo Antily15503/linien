@@ -116,7 +116,7 @@ class LinienLogic(Module, AutoCSR):
             self.autolock.fast.sweep_step.eq(
                 self.sweep.step.storage >> self.sweep.step_shift
             ),
-            # self.autolock.robust.sweep_up.eq(self.sweep.sweep.up),
+            self.autolock.robust.sweep_up.eq(self.sweep.sweep.up),
         ]
 
     def connect_everything(self, width, signal_width, coeff_width):
@@ -264,7 +264,7 @@ class LinienModule(Module, AutoCSR):
                 ("slow_chain", self.slow_chain),
                 ("scopegen", self.scopegen),
                 ("logic", self.logic),
-                # ("robust", self.logic.autolock.robust),
+                ("robust", self.logic.autolock.robust),
             ],
         )
 
@@ -516,19 +516,19 @@ class LinienModule(Module, AutoCSR):
 
         # ------------------------------------------------------------------------------
 
-        # self.sync += [
-        #    #self.logic.autolock.robust.input.eq(self.scopegen.scope_written_data),
-        #    # `writing_data_now` is intentionally delayed by one cycle here in order to
-        #    # prevent glitches
-        #    #self.logic.autolock.robust.writing_data_now.eq(
-        #    #    self.scopegen.writing_data_now
-        #    #),
-        # ]
+        self.sync += [
+            self.logic.autolock.robust.input.eq(self.scopegen.scope_written_data),
+            # `writing_data_now` is intentionally delayed by one cycle here in order to
+            # prevent glitches
+            self.logic.autolock.robust.writing_data_now.eq(
+                self.scopegen.writing_data_now
+            ),
+        ]
 
         # NOTE: look at the array of values instead of just gpio_p.i[0]
         # i.e, ttl_pins
         self.comb += [
-            # self.logic.autolock.robust.at_start.eq(self.logic.sweep.sweep.trigger),
+            self.logic.autolock.robust.at_start.eq(self.logic.sweep.sweep.trigger),
             self.scopegen.gpio_trigger.eq(self.gpio_p.i[0]),
             self.scopegen.sweep_trigger.eq(self.logic.sweep.sweep.trigger),
             self.scopegen.automatically_rearm.eq(
