@@ -201,6 +201,32 @@ def read_float(prompt, allowed):
             allowed_str = ", ".join(f"'{a}'" for a in allowed)
             print(f"  Invalid input. Enter a number or {allowed_str}.")
 
+
+def save_error_signal_csv(rp, path="error_signal.csv"):
+    """Save the swept error signal to a CSV: sweep voltage vs. error signal."""
+    p = rp._client.parameters
+
+    if p.lock.value:
+        print("  Linien is locked -- no sweep spectrum to save.")
+        return None
+
+    data = pickle.loads(p.to_plot.value)
+    error = np.asarray(data["error_signal_1"]) / 8192          # counts -> volts
+    sweep = np.linspace(
+        p.sweep_center.value - p.sweep_amplitude.value,
+        p.sweep_center.value + p.sweep_amplitude.value,
+        len(error),
+    )
+
+    with open(path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["sweep_voltage_V", "error_signal_V"])
+        writer.writerows(zip(sweep, error))
+
+    print(f"  Saved {len(error)} points to {path}")
+    return path
+
+
 def main():
 
     default_tof = 5 #default time-of-flight in ms
@@ -248,41 +274,45 @@ def main():
     while True:
 
     
-        print("Enter relative jump voltage. Recommended: 0.07-0.09 V. "
-                "Type 'proceed' to begin the TOF sequence. "
-                "Type 'quit' to end experiment")
+        #print("Enter relative jump voltage. Recommended: 0.07-0.09 V. "
+        #        "Type 'proceed' to begin the TOF sequence. "
+        #        "Type 'quit' to end experiment")
          
 
         
-        value = read_float("setup > ", allowed={"proceed", "quit"})
+        #value = read_float("setup > ", allowed={"proceed", "quit"})
 
         
 
         lab.red_pitaya.set_sweep(speed=0.1, amplitude=1, center=0.0)
 
-        if value == "quit":
-            print("Quitting.")
-            return
+        time.sleep(0.2)# let one fresh frame land
+        save_error_signal_csv(lab.red_pitaya)
 
-        if value == "proceed":
-            raise RuntimeError("Did not add full auto_TOF yet")
+        #if value == "quit":
+        #    print("Quitting.")
+        #    return
+
+        #if value == "proceed":
+        #    raise RuntimeError("Did not add full auto_TOF yet")
 
         # A number: build the jump appropriate to the current phase, then hold
         # it until linien is locked before writing. Every block voltage is an
         # offset from v_lock -- the linien DAC value the gateware snapshots at
         # TTL time -- so the sequence only means anything once the PID holds.
-        lab.red_pitaya.clear_sequence()
-        self_lock = build_SL_TOF_sequence(
-                lab.red_pitaya,
-                experiment,
-                value,
-            )
+        #lab.red_pitaya.clear_sequence()
+        #self_lock = build_SL_TOF_sequence(
+        #        lab.red_pitaya,
+        #        experiment,
+        #        value,
+        #    )
         
-        if not wait_for_lock(lab.red_pitaya):
-            print(" Cancelled -- sequence not uploaded.")
-            continue
+        #if not wait_for_lock(lab.red_pitaya):
+        #    print(" Cancelled -- sequence not uploaded.")
+        #    continue
 
-        lab.red_pitaya.upload_sequence()
+
+        #lab.red_pitaya.upload_sequence()
 
 
 if __name__ == "__main__":

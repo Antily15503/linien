@@ -3533,7 +3533,7 @@ always @(*) begin
 	dummy_d_5 <= dummy_s;
 // synthesis translate_on
 end
-assign linienmodule_temp_control_control_in = linienmodule_pzt_control;
+assign linienmodule_temp_control_control_in = linienmodule_pid_out;
 assign linienmodule_temp_control_pid_active = ((linienmodule_autolock_status & (~linienmodule_sequenceexecutor_pid_pause)) & (linienmodule_sequenceexecutor_active == 1'd0));
 assign linienmodule_gpio_p_o[5] = linienmodule_temp_control_pwm_o;
 assign linienmodule_deltasigma0_data = linienmodule_slow_out_shifted;

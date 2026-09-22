@@ -342,7 +342,7 @@ class LinienModule(Module, AutoCSR):
             ).Else(
                 self.logic.pid.input.eq(mixed_limited),
             ),
-            pid_out.eq(self.logic.pid.pid_out >> s),
+            pid_out.eq(self.logic.pid.pid_out >> s), 
         ]
 
         # SLOW PID ---------------------------------------------------------------------
@@ -476,7 +476,7 @@ class LinienModule(Module, AutoCSR):
         # Slow temperature loop. Sample the PZT control signal once per PID-state
         # entry and drive the heater PWM on GPIO_P[5].
         self.comb += [
-            self.temp_control.control_in.eq(pzt_control),
+            self.temp_control.control_in.eq(pid_out),
             self.temp_control.pid_active.eq(
                 self.logic.autolock.lock_running.status
                 & ~self.logic.sequence.pid_pause

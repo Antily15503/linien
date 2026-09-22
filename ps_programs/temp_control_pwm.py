@@ -49,13 +49,12 @@ from pyrp3.board import RedPitaya
 # ---------------------------------------------------------------------------
 SIGN = +1
 KP_REL = 0.5
-KI = 0.0
-KD = 0.0
+KI = 0.4
+KD = 0.3
 
 # A lock point near zero would blow the relative gain up. Below this magnitude
 # (in DAC counts) the P term is disabled rather than scaled by a huge number.
-MIN_SETPOINT_FOR_KP = 1.0
-
+MIN_SETPOINT_FOR_KP = 0.0
 # Integrator leak per update. At ~3.3 Hz, 0.99985 is a time constant of about
 # 34 minutes -- long compared with the loop response, as it should be.
 LEAK = 0.99985
