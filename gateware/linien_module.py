@@ -342,7 +342,7 @@ class LinienModule(Module, AutoCSR):
             ).Else(
                 self.logic.pid.input.eq(mixed_limited),
             ),
-            pid_out.eq(self.logic.pid.pid_out >> s),
+            pid_out.eq(self.logic.pid.pid_out >> s), 
         ]
 
         # SLOW PID ---------------------------------------------------------------------
@@ -487,7 +487,7 @@ class LinienModule(Module, AutoCSR):
         # but wrap on a large transient, which for a heater is not a trade worth
         # making.
         self.comb += [
-            self.temp_control.control_in.eq(self.logic.limit_error_signal.y >> s),
+            self.temp_control.control_in.eq(self.i_init_v_mux),
             self.temp_control.pid_active.eq(
                 self.logic.autolock.lock_running.status
                 & ~self.logic.sequence.pid_pause
