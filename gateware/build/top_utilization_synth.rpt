@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Mon Sep 21 16:30:48 2026
+| Date         : Wed Sep 30 15:34:09 2026
 | Host         : cachyos-x8664 running 64-bit CachyOS
 | Command      : report_utilization -file top_utilization_synth.rpt
 | Design       : top
@@ -31,15 +31,15 @@ Table of Contents
 +-------------------------+-------+-------+------------+-----------+-------+
 |        Site Type        |  Used | Fixed | Prohibited | Available | Util% |
 +-------------------------+-------+-------+------------+-----------+-------+
-| Slice LUTs*             | 11784 |     0 |          0 |     53200 | 22.15 |
-|   LUT as Logic          | 11784 |     0 |          0 |     53200 | 22.15 |
+| Slice LUTs*             | 11778 |     0 |          0 |     53200 | 22.14 |
+|   LUT as Logic          | 11778 |     0 |          0 |     53200 | 22.14 |
 |   LUT as Memory         |     0 |     0 |          0 |     17400 |  0.00 |
-| Slice Registers         | 11923 |     0 |          0 |    106400 | 11.21 |
-|   Register as Flip Flop | 11923 |     0 |          0 |    106400 | 11.21 |
+| Slice Registers         | 11913 |     0 |          0 |    106400 | 11.20 |
+|   Register as Flip Flop | 11913 |     0 |          0 |    106400 | 11.20 |
 |   Register as Latch     |     0 |     0 |          0 |    106400 |  0.00 |
-| F7 Muxes                |   517 |     0 |          0 |     26600 |  1.94 |
-| F8 Muxes                |   138 |     0 |          0 |     13300 |  1.04 |
-| Unique Control Sets     |   512 |       |          0 |     13300 |  3.85 |
+| F7 Muxes                |   362 |     0 |          0 |     26600 |  1.36 |
+| F8 Muxes                |   129 |     0 |          0 |     13300 |  0.97 |
+| Unique Control Sets     |   515 |       |          0 |     13300 |  3.87 |
 +-------------------------+-------+-------+------------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
 Warning! LUT value is adjusted to account for LUT combining.
@@ -62,7 +62,7 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
 | 371   |          Yes |         Set |            - |
-| 11552 |          Yes |       Reset |            - |
+| 11542 |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -157,18 +157,18 @@ Warning! For any ECO changes, please run place_design if there are unplaced inst
 +-----------+-------+----------------------+
 |  Ref Name |  Used |  Functional Category |
 +-----------+-------+----------------------+
-| FDRE      | 11552 |         Flop & Latch |
-| LUT2      |  3954 |                  LUT |
-| LUT6      |  2537 |                  LUT |
-| LUT3      |  2466 |                  LUT |
-| LUT4      |  2240 |                  LUT |
-| LUT5      |  1885 |                  LUT |
-| CARRY4    |  1867 |           CarryLogic |
-| MUXF7     |   517 |                MuxFx |
-| LUT1      |   437 |                  LUT |
+| FDRE      | 11542 |         Flop & Latch |
+| LUT2      |  3806 |                  LUT |
+| LUT6      |  2785 |                  LUT |
+| LUT3      |  2450 |                  LUT |
+| LUT4      |  2247 |                  LUT |
+| CARRY4    |  1868 |           CarryLogic |
+| LUT5      |  1831 |                  LUT |
+| LUT1      |   411 |                  LUT |
 | FDSE      |   371 |         Flop & Latch |
-| MUXF8     |   138 |                MuxFx |
+| MUXF7     |   362 |                MuxFx |
 | BIBUF     |   130 |                   IO |
+| MUXF8     |   129 |                MuxFx |
 | DSP48E1   |    97 |     Block Arithmetic |
 | IBUF      |    54 |                   IO |
 | RAMB36E1  |    35 |         Block Memory |
